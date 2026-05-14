@@ -1,0 +1,564 @@
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+IVI version 2.0  
+Guideline document 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Version number: 
+1.1 
+Version date: 
+ 
+2025-05-11 
+ 
+ 
+ 
+
+ 
+ 
+Revision history 
+VersionNr. 
+VersionDate 
+Author(s) 
+Description 
+1.1 
+2025-05-11 
+P. Oude Weernink 
+Option to use a Seal for signing added. 
+1.0 
+2025-01-19 
+P. Oude Weernink 
+Final version. 
+0.99 
+2024-11-17 
+P. Oude Weernink 
+Several text corrections and additional information 
+added. 
+0.91 
+2024-10-15 
+P. Oude Weernink 
+Several text corrections and additional information 
+added. 
+0.9 
+2024-08-24 
+P. Oude Weernink 
+Several text corrections and additional information 
+added. 
+0.6 
+25-4-2024 
+P. Oude Weernink 
+Usage of Range values and Minimum/Maximum 
+values added 
+0.5 
+09-04-2024 
+P. Oude Weernink 
+Several remarks added 
+0.4 
+12-02-2024 
+P. Oude Weernink 
+Several remarks added 
+0.3 
+14-01-2023 
+P. Oude Weernink 
+Remarks KBA 
+How to deal with corrections 
+0.2 
+10-11-2023 
+P. Oude Weernink 
+Remarks NorType 
+0.1 
+31-10-2023 
+P. Oude Weernink 
+Initial draft version 
+ 
+ 
+ 
+
+ 
+ 
+Content 
+Revision history ............................................................................................................................... 2 
+1. 
+General principles ........................................................................................................................... 4 
+1.1 
+SIGNATURE ............................................................................................................................................... 4 
+1.2 
+NEW FIELDS SHOULD ONLY BE ADDED AFTER PUBLICATION OF THE REGULATION .................................... 5 
+1.3 
+USAGE OF REMARKS ................................................................................................................................. 5 
+1.4 
+ADDITIONAL FIELDS NOT PART OF COC DATASET ..................................................................................... 5 
+1.5 
+RESTRICT FIELDS TO LATEST REGULATIONS AND ONWARDS ..................................................................... 5 
+1.6 
+FIELDS NOT MENTIONED IN COC RELATED REGULATIONS WILL NOT BE PART OF IVI 2.0 .......................... 6 
+1.7 
+ALL COC FILES SHALL CONTAIN A VERSION NUMBER ............................................................................... 6 
+1.8 
+BACKWARDS COMPATIBLE ........................................................................................................................ 6 
+1.9 
+CHECK IVI VERSION RELATED TO DATEOFMANUFACTURE ...................................................................... 6 
+1.10 
+LIMITATION IN TIME ............................................................................................................................. 6 
+1.11 
+MOVE NON COC FIELDS TO HEADER ..................................................................................................... 6 
+1.12 
+CORRECTIONS OF IVI MESSAGES .......................................................................................................... 7 
+1.13 
+HOW TO USE INDICATOR FIELDS ........................................................................................................... 7 
+1.14 
+FIELD TYPES DEFINITIONS .................................................................................................................... 7 
+2. 
+Naming conventions ....................................................................................................................... 9 
+2.1 
+INTRODUCTION ......................................................................................................................................... 9 
+2.2 
+KEEP TAG NAMES CONSISTENT .................................................................................................................. 9 
+2.3 
+KEEP TAG NAMES UNIQUE ......................................................................................................................... 9 
+2.4 
+USAGE OF RANGE VALUES AND MINIMUM/MAXIMUM VALUES ................................................................ 9 
+2.5 
+TABLE- AND GROUP NAMES ...................................................................................................................... 9 
+2.6 
+KEEP TAG NAMES LIMITED TO 128 CHARACTER ...................................................................................... 10 
+2.7 
+PASCAL CASE START WITH CAPITAL ....................................................................................................... 10 
+2.8 
+USAGE OF SYMBOLS. ............................................................................................................................... 10 
+2.9 
+STANDARDISE ABBREVIATIONS ............................................................................................................... 10 
+2.10 
+UNITS ................................................................................................................................................. 10 
+2.11 
+USE DOMAIN TYPES ............................................................................................................................ 10 
+2.12 
+RE-USE OF OUTDATED ELEMENT NAMES............................................................................................. 10 
+2.13 
+HARMONIZATION BETWEEN BASE DIRECTIVES. .................................................................................. 10 
+ 
+ 
+ 
+
+ 
+ 
+1. General principles 
+1.1 
+Signature 
+In version 2.0 a digital signature will be made mandatory. 
+Version 1.9:   <xs:element ref="sig:Signature" minOccurs="0" maxOccurs="1"/> 
+Version 2.0: <xs:element ref="sig:Signature"/> 
+ 
+Each eCoC file has to be signed according to: 
+2024-1061: Article 1 Requirements for secure data exchange 
+3. The exchange of messages between manufacturers and national access points of 
+EUCARIS and within EUCARIS shall be  
+secured using an electronic signature within the meaning of Regulation (EU) No 
+910/2014 and data encryption protocols. 
+4. The national access points of EUCARIS and the EUCARIS nominated body for 
+operation shall provide for validation  
+of the electronic signatures by verifying and confirming that the requirements 
+provided for in Article 26 of Regulation 
+ 
+(EU) No 910/2014 were met at the time of signing. 
+Regulation (EU) No 910/2014 (hereafter the eIDAS Regulation or eIDAS),  
+on electronic identification and trust services for electronic transactions in the 
+internal market,  
+provides a regulatory environment for electronic identification of natural and legal 
+persons and for trust services. 
+ 
+Article 26 Requirements for advanced electronic signatures 
+In general, using an advanced signature is easier and more cost efficient then using 
+qualified signatures. For IVI the requirement is to use an advanced signature  
+which is in compliance with the eIDAS regulation. Also a qualified signature is 
+allowed to use. 
+ 
+Through the eIDAS dashboard a list of Trusted Service Provider is available:  eIDAS 
+Dashboard (europa.eu) 
+ 
+Note: 
+although not mentioned in the implementing act it has been decided that next to a 
+electronic signature also a Seal will be allowed. 
+ 
+ 
+
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+With effect from: 5th July 2026: it’s mandatory to sign all IVI files using at least 
+eIDAS compliant advanced seals certificates. 
+ 
+The eCoC file can only be signed by : 
+The manufacturer 
+The EU representative of the manufacturer 
+Both parties have to be compliant and stated in the WVTA. 
+1.2 
+New fields should only be added after publication of the regulation 
+The consequence of this will probably be that the time to implement the changes will be too short. 
+Until a process with the Commission (Forum) is in place the preparation of the IVI file has to be ready 
+before the actual publication. Until a new update process is in place we will maintain the current 
+process. 
+1.3 
+Usage of Remarks 
+In some cases regulations refer to adding information in the Remarks field before the CoC regulations 
+has been changed an de new field has been added there. A current example is “Additional mass due 
+to batteries: …… kg”  (*1) mentioned in 2024/883. 
+ 
+In these cases the field can already be added to the IVI version before the actual legislation is in 
+place. However it cannot be mandatory for the manufacturer to use this field instead of the Remarks 
+before the actual CoC legislation has been updated. 
+1.4 
+Additional fields not part of CoC dataset 
+No fields should be entered which are not part of the CoC dataset for the specified vehicle category. 
+For instance do not enter Colour for the vehicle category M2. 
+1.5 
+Restrict fields to latest Regulations and onwards 
+Limit the fields in IVI 2.0 to the fields mentioned in : 
+• 
+2018/858 
+• 
+167/2013 
+
+ 
+ 
+• 
+168/2013 
+Consequence:  
+CoC’s for vehicles produced on or after July 5th 2026 have to be send in using IVI version 2.0. This 
+implies that if vehicles which have been produced after this date using other Type approval numbers 
+then the three mentioned above, the CoC data in the IVI message also has to comply with IVI version 
+2.0. 
+1.6 
+Fields not mentioned in CoC related regulations will not be part of IVI 2.0 
+Consequences: 
+• 
+Removal of TechnicalDataGroup. 
+• 
+Removal of NationalDataGroup. 
+• 
+Removal of Individual Approval Certificate fields. 
+• 
+Removal of CoC fields which are not in use anymore. 
+• 
+Removal of CoC fields for other framework directives then mentioned. 
+1.7 
+All CoC files shall contain a version number 
+The field will be mandatory in version 2.0. 
+Version 1.9: <xs:element name="VersionNumberXsd" minOccurs="0" type="VersionNumberXsd"/> 
+Version 2.0: <xs:element name="VersionNumberXsd" type="VersionNumberXsd"/> 
+• 
+The first IVI message published shall always contain VersionCoC = 1 
+• 
+Corrections on this IVI message will have a subsequent version number 
+1.8 
+Backwards compatible 
+Within the main versions (1.0 – 2.0 etc.) IVI shall be backwards compatible.  
+Consequence: 
+• 
+A new enumeration for an already existing field breaks the backwards compatibility. This 
+means enumerations have to be added immediately when adding new fields. 
+1.9 
+Check IVI version related to DateOfManufacture 
+All IVI files with a DateManufacture after July 5th 2026 have to comply to version 2.0. This will also be 
+the case for the 168/2013 and 167/2013 IVI files, for these guidelines this cannot be checked as the 
+DateManufacture is not part of the CoC dataset in this case. 
+1.10 
+Limitation in time 
+Older versions of the IVI will always be relevant: 
+ 
+Sending in corrections in the same version as the original version; 
+ 
+For purpose of re-registration (if the vehicle hasn’t been modified). 
+It’s not possible to set a limitation in time on accepting previous IVI versions. 
+1.11 
+Move non CoC fields to header 
+Fields which are not part of the CoC file but needed as meta data will be part of the Header group. 
+IviReferenceId 
+IviVersionNumberXsd 
+IviVersionNumber 
+IviVersionDateTime 
+IntendedCountryRegistration 
+DesignatedTypeApprovalCountry 
+ 
+What we need to know to check versioning and make error handling easier: 
+• 
+A unique reference to the XML file (IVIReferenceId).  
+Reason: technical purposes for unique referencing. 
+
+ 
+ 
+• 
+Which version of the XSD has been used to generate the XML file (IviVersionNumberXsd).  
+Reason: handle the ICM correctly and to check the XML against the correct XSD file.  
+• 
+If the CoC XML file is a correction of a previously send in version(IviVersionNumber). 
+Reason: corrections are handled differently in the registration process. 
+• 
+Date and Time of the issuing of the IVI message (IviVersionDateTime). 
+Reason: technical purposes and error handling. 
+1.12 
+Corrections of IVI messages 
+It’s possible to send a corrected version of an IVI xml message. A correction always has to be send in 
+using the same IVI XSD version as the original version. 
+General rules for handling corrections: 
+• 
+the IVIReferenceId will have a new Id 
+• 
+the IviVersionNumberXsd will be the same as the original version 
+• 
+the IviVersionNumber will have to be the previous version + 1 
+• 
+the IviVersionDateTime has to be changed to the date the correction has been set up  
+1.13 
+How to use Indicator fields 
+In case of an indicator field or a field with a code that indicates not applicable (i.e None), the field 
+must always be included in the eCoC xml when it is mentioned in the CoC regulations. This will be 
+checked in the new version of the ICM. 
+1.14 
+Field types definitions 
+Field Type 
+Definition 
+Text 
+Text and the length behind the element states the possible maximum 
+length for the specified attribute. 
+Date 
+Stated as: YYYY-MM-DD (2023-08-13) 
+DateTime 
+Stated as: 2015-03-17T09:55:21.351+01:00 
+..Code 
+Enumeration of Codes which limits the data entered in the tag. 
+Indicator 
+Can have value Y or N. If not relevant no tag to be added in the XML file. 
+Decimal32 
+Three numbers in total, 2 positions behind the separator. (9.99) 
+Decimal52 
+Five numbers in total, 2 positions behind the separator. (999.99) 
+Decimal53 
+Five numbers in total, 3 positions behind the separator. (99.999) 
+Decimal62 
+Six numbers in total, 2 positions behind the separator. (9999.99) 
+Decimal63 
+Six numbers in total, 3 positions behind the separator. (999.999) 
+Decimal64 
+Six numbers in total, 4 positions behind the separator. (99.9999) 
+Decimal72 
+Seven numbers in total, 2 positions behind the separator. (99999.99) 
+Decimal75 
+Seven numbers in total, 5 positions behind the separator. (99.99999) 
+Decimal82 
+Eight numbers in total, 2 positions behind the separator. (999999.99) 
+Decimal86 
+Eight numbers in total, 6 positions behind the separator. (99.999999) 
+Decimal95 
+Nine numbers in total, 5 positions behind the separator. (9999.99999) 
+Decimal106 
+Four numbers in total, 6 positions behind the separator. (9999.999999) 
+Integer 
+xs:nonNegativeInteger 
+States that the field has to contain a positive numeric value. The length 
+behind the element states the length for the numeric value. 
+Negative values 
+If negative values should be possible, a field type to allow the entry for 
+these values has been added. For instance: 
+ 
+<xs:simpleType name="RoadLoadCoef"> 
+ 
+ 
+<xs:restriction base="xs:decimal"> 
+ 
+ 
+ 
+<xs:totalDigits value="9"/> 
+ 
+ 
+ 
+<xs:fractionDigits value="6"/> 
+ 
+ 
+ 
+<xs:minInclusive value="-999.999999"/> 
+ 
+ 
+ 
+<xs:maxInclusive value="999.999999"/> 
+ 
+ 
+</xs:restriction> 
+
+ 
+ 
+ 
+</xs:simpleType> 
+ 
+ 
+ 
+
+ 
+ 
+2. Naming conventions 
+2.1 
+Introduction 
+The current version of the Initial Vehicle Information (IVI) message has been set up and implemented 
+as of 1st of January 2016. During the years up until the current version a lot of changes have been 
+implemented. These changes have been implemented without guidelines on naming conventions of 
+the tags within the IVI message. As the set-up of a completely new version, which will not be 
+backwards compatible anymore, now is the time to set up guidelines for naming conventions to 
+make sure future versions can be set up with these guidelines in mind. 
+This document describes the guidelines for the definition of new tag names and will have an impact 
+on current tag names and grouping of attributes. 
+2.2 
+Keep tag names consistent 
+Make sure the tag name can be easily related to the naming in the regulation. If in different 
+regulations different names are used select the name which is the most meaningful or add additional 
+information to the tag name. 
+For instance if for some vehicle category the field types are different use the vehicle definition in the 
+tag name: LocationStatutoryPlate23Wheel. 
+2.3 
+Keep tag names unique 
+Do not use the same tag names within the IVI message. These should always be unique even when 
+they occur in separate groups or tables. 
+2.4 
+Usage of Range values and Minimum/Maximum values 
+ 
+Always use “Min”/”Max“ if the value is a range value 
+ 
+ 
+example: 
+AllowedActualMass 
+ 
+ 
+ 
+AllowedActualMassMin 
+ 
+ 
+ 
+AllowedActualMassMax 
+ 
+Always use “Adjustable” if the value is a min/max and can be adjusted 
+ 
+ 
+example: 
+AxleTrack 
+ 
+ 
+ 
+AxleTrackAdjustableMin 
+ 
+ 
+ 
+AxleTrackAdjustableMax 
+Always use minimum of maximum if this is the exact value 
+ 
+example: 
+AxleSpacing 
+ 
+ 
+AxleSpacingMinimum 
+ 
+ 
+AxleSpacingMaximum 
+ 
+Use “Variable” in stead of “Adjustable” for Masses which aren’t adjustable: 
+example: MassInRunningOrderVariableMin 
+ 
+2.5 
+Table- and Group names 
+The table - and group names may contain more context then the underlying tag names. However the 
+tag names should be self-explanatory. 
+Example: 
+<xs:complexType name="TestWltpCO2Group"> 
+  <xs:all> 
+   <xs:element name="WltpCo2Low" minOccurs="0" type="Decimal52"/> 
+   <xs:element name="WltpCo2Medium" minOccurs="0" type="Decimal52"/> 
+   <xs:element name="WltpCo2High" minOccurs="0" type="Decimal52"/> 
+   <xs:element name="WltpCo2ExtraHigh" minOccurs="0" type="Decimal52"/> 
+   <xs:element name="WltpCo2Combined" minOccurs="0" type="Decimal52"/> 
+
+ 
+ 
+   <xs:element name="WltpCo2WeightedCombined" minOccurs="0" type="Decimal52"/> 
+  </xs:all> 
+ </xs:complexType> 
+2.6 
+Keep tag names limited to 128 character 
+The limit to the length of a tag name is set to 128 characters. 
+2.7 
+Pascal Case start with Capital 
+Use Pascal Case starting with a Capital. Within the tag names switch to Capitals when it’s not one 
+whole word anymore. 
+2.8 
+Usage of symbols. 
+Never use symbols in the structure or in the element names. Only use letters or numbers. 
+2.9 
+Standardise abbreviations 
+If abbreviations have to be used, always use the same abbreviation in the tag names. 
+Example: For Vehicle always use Veh if an abbreviation is needed. Avoid abbreviations if possible, and 
+do not use abbreviations in Table or Group names. 
+2.10 
+Units 
+Other units for already existing fields 
+When for an existing field the unit changes, always add the unit to the tag name for the changed 
+field. 
+2.11 
+Use domain types 
+In the current version every field has its own type definition. This will be optimized by using more 
+general type definitions where possible. An example is: 
+Version 1.9:  <xs:element name="WltpType1Co" minOccurs="0" type=" WltpType1Co"/> 
+Version 2.0:  <xs:element name="WltpType1Co" minOccurs="0" type=" Decimal82"/> 
+ 
+The fields with standard enumerations will still have a unique type definition: 
+ <xs:element name="VehicleClass" minOccurs="0" type="VehicleClassCode"/> 
+2.12 
+Re-use of outdated element names. 
+When an element becomes outdated it should not be possible to re-use the name later for another 
+meaning. For example the re-use of MaximumNetPowerElectricEngine and 
+MaximumContinuousRatedPowerVeh (consolidated power). 
+2.13 
+Harmonization between base directives. 
+It is important to harmonize the element names between the base directives. Try to use the same 
+elements for all category vehicles if the information is the same. 

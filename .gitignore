@@ -1,0 +1,23 @@
+data/
+node_modules/
+.DS_Store
+.env
+.env.*
+!.env.example
+*.log
+coverage/
+dist/
+
+# Keep public release documentation focused on the runnable workbench.
+docs/01-system-blueprint.md
+docs/02-roadmap-and-acceptance.md
+docs/03-background-verification.md
+docs/04-getting-started.md
+docs/05-managed-service-model.md
+docs/06-compliance-path.md
+docs/07-nap-landscape.md
+docs/08-kba-rdw-parallel-onboarding.md
+
+# Do not publish downloaded executable/tool bundles.
+ecoc_eucaris_download/tools/
+ecoc_eucaris_download/tools_manifest.json

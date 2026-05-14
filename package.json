@@ -1,0 +1,14 @@
+{
+  "name": "ecoc-ivi2-workbench",
+  "version": "0.1.0",
+  "private": false,
+  "license": "MIT",
+  "description": "eCoC/IVI2 workbench for manufacturer-side CoC intake, validation, signing orchestration, and NAP upload workflow prototyping.",
+  "scripts": {
+    "start": "node src/server.js",
+    "smoke": "node scripts/smoke-test.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

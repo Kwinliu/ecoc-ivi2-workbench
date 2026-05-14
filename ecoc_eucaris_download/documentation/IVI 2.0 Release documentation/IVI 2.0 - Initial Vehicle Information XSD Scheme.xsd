@@ -1,0 +1,3098 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema" xmlns:sig="http://www.w3.org/2000/09/xmldsig#" xmlns="http://eu.ereg.initialvehicleinformation.v2" targetNamespace="http://eu.ereg.initialvehicleinformation.v2" elementFormDefault="qualified">
+    <xs:annotation>
+        <xs:documentation>Message:   Initial Vehicle Information</xs:documentation>
+        <xs:documentation>Version:   2.0</xs:documentation>
+        <xs:documentation>Generated: 2026-02-26 12:00</xs:documentation>
+    </xs:annotation>
+    <xs:import namespace="http://www.w3.org/2000/09/xmldsig#" schemaLocation="xmldsig-core-schema.xsd"/>
+    <xs:element name="InitialVehicleInformation" type="InitialVehicleInformation"/>
+    <xs:complexType name="InitialVehicleInformation">
+        <xs:all>
+            <xs:element name="Header" type="Header"/>
+            <xs:element name="CocDataGroup" type="CocDataGroup"/>
+            <xs:element ref="sig:Signature"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="Header">
+        <xs:all>
+            <xs:element name="IviReferenceId" type="IviReferenceId"/>
+            <xs:element name="IviVersionNumberXsd" type="IviVersionNumberXsd"/>
+            <xs:element name="IviVersionNumber" type="Integer2"/>
+            <xs:element name="IviVersionDateTime" type="DateTime"/>
+            <xs:element name="IntendedCountryRegistration" minOccurs="0" type="ViennaCountryCode"/>
+            <xs:element name="DesignatedTypeApprovalCountry" type="TypeApprovalCountryCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="CocDataGroup">
+        <xs:all>
+            <xs:element name="VehicleIdentificationNumber" type="VehicleIdentificationNumber"/>
+            <xs:element name="TypeApprovalType" type="TypeApprovalTypeCode"/>
+            <xs:element name="ProvisionalTypeApprovalIndicator" type="Indicator"/>
+            <xs:element name="StageOfCompletion" type="StageOfCompletionCode"/>
+            <xs:element name="ProductionYearSmallSeries" minOccurs="0" type="Integer4"/>
+            <xs:element name="ProductionSequentialNumberSmallSeries" minOccurs="0" type="Integer4"/>
+            <xs:element name="Type" type="Text15"/>
+            <xs:element name="Variant" type="Text25"/>
+            <xs:element name="Version" type="Text35"/>
+            <xs:element name="VehicleCategory" type="VehicleCategoryCode"/>
+            <xs:element name="LocationStatutoryPlate23Wheel" minOccurs="0" type="Text50"/>
+            <xs:element name="MethodAttachmentStatutoryPlate" type="MethodAttachmentStatutoryPlateCode"/>
+            <xs:element name="LocationVin23Wheel" minOccurs="0" type="Text50"/>
+            <xs:element name="DateManufactureVehicle" minOccurs="0" type="Date"/>
+            <xs:element name="CompletedAltered" minOccurs="0" type="CompletedAlteredCode"/>
+            <xs:element name="DescriptionCompletedAltered" minOccurs="0" type="Text500"/>
+            <xs:element name="TypeApprovalNumber" type="Text35"/>
+            <xs:element name="TypeApprovalIssueDate" type="Date"/>
+            <xs:element name="ConvertingPerformanceIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="RightLeftHandTraffic" minOccurs="0" type="RightLeftHandTrafficCode"/>
+            <xs:element name="MetricImperialSpeedometer" minOccurs="0" type="MetricImperialSpeedometerCode"/>
+            <xs:element name="MetricImperialOdometer" minOccurs="0" type="MetricImperialOdometerCode"/>
+            <xs:element name="MaximumSpeed" minOccurs="0" type="Decimal52"/>
+            <xs:element name="DeclaredMaximumSpeedForward" minOccurs="0" type="Decimal52"/>
+            <xs:element name="DeclaredMaximumSpeedRearward" minOccurs="0" type="Decimal52"/>
+            <xs:element name="MaximumAssistanceFactor" minOccurs="0" type="Decimal32"/>
+            <xs:element name="MaximumAssistanceSpeed" minOccurs="0" type="Decimal52"/>
+            <xs:element name="TypeApprovalTransportDangerousGoodsIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="EcoInnovationsFittedIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="CategoryHybridElectricVehicle" minOccurs="0" type="CategoryHybridElectricVehicleCode"/>
+            <xs:element name="ThreePointLiftingMechanism" minOccurs="0" type="ThreePointLiftingMechanismCode"/>
+            <xs:element name="AdditionalCouplingPoints" minOccurs="0" type="OptionalCode"/>
+            <xs:element name="ElectronicBrakingSystem" minOccurs="0" type="OptionalCode"/>
+            <xs:element name="ElectricalControlLineIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="Iso7638ConnectorIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="DescriptionServiceAndMaintenance" minOccurs="0" type="Text4000"/>
+            <xs:element name="VehicleCertified155Indicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="VehicleCertified156Indicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="ConsolidatedMaximum30MinutesPower" minOccurs="0" type="Decimal62"/>
+            <xs:element name="ConsolidatedMaximumNetPowerElectric" minOccurs="0" type="Decimal62"/>
+            <xs:element name="PureElectricVehicleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="ExhaustEmissionLevel" minOccurs="0" type="ExhaustEmissionLevel"/>
+            <xs:element name="ExhaustEmissionLatestRegulationNumber" minOccurs="0" type="Text35"/>
+            <xs:element name="WltpTotalCo2EmissionSavedDueEcoInnovation" minOccurs="0" type="Decimal52"/>
+            <xs:element name="ManufacturerHybridApplication" minOccurs="0" type="Text150"/>
+            <xs:element name="HybridApplicationCode" minOccurs="0" type="Text40"/>
+            <xs:element name="ClassHybridVehicle" minOccurs="0" type="ClassHybridVehicleCode"/>
+            <xs:element name="FuelType" minOccurs="0" type="FuelTypeCode"/>
+            <xs:element name="SubFuelType" minOccurs="0" type="SubFuelTypeCode"/>
+            <xs:element name="FuellingArrangement" minOccurs="0" type="FuellingArrangementCode"/>
+            <xs:element name="DualFuelType" minOccurs="0" type="DualFuelTypeCode"/>
+            <xs:element name="ElectricVehicleConfiguration" minOccurs="0" type="ElectricVehicleConfigurationCode"/>
+            <xs:element name="SigningAuthorityTable" type="SigningAuthorityTable"/>
+            <xs:element name="MakeTable" type="MakeTable"/>
+            <xs:element name="CommercialNameTable" minOccurs="0" type="CommercialNameTable"/>
+            <xs:element name="AllowedParameterValuesMultistageGroup" minOccurs="0" type="AllowedParameterValuesMultistageGroup"/>
+            <xs:element name="ManufacturerTable" type="ManufacturerTable"/>
+            <xs:element name="EURepresentativeGroup" minOccurs="0" type="EURepresentativeGroup"/>
+            <xs:element name="LocationMarkingsTable" minOccurs="0" type="LocationMarkingsTable"/>
+            <xs:element name="GeneralConstructionGroup" minOccurs="0" type="GeneralConstructionGroup"/>
+            <xs:element name="DimensionGroup" minOccurs="0" type="DimensionGroup"/>
+            <xs:element name="MassGroup" minOccurs="0" type="MassGroup"/>
+            <xs:element name="TowingBrakedTypeTrailTable" minOccurs="0" type="TowingBrakedTypeTrailTable"/>
+            <xs:element name="InServiceMaximumMassTable" minOccurs="0" type="InServiceMaximumMassTable"/>
+            <xs:element name="GearGroup" minOccurs="0" type="GearGroup"/>
+            <xs:element name="FinalDriveVehicleTable" minOccurs="0" type="FinalDriveVehicleTable"/>
+            <xs:element name="AxleTable" minOccurs="0" type="AxleTable"/>
+            <xs:element name="TyreAxleMassCombinationTable" minOccurs="0" type="TyreAxleMassCombinationTable"/>
+            <xs:element name="AxleGroupTable" minOccurs="0" type="AxleGroupTable"/>
+            <xs:element name="ColourTable" minOccurs="0" type="ColourTable"/>
+            <xs:element name="BodyworkTable" minOccurs="0" type="BodyworkTable"/>
+            <xs:element name="ConfigurationDoorsGroup" minOccurs="0" type="ConfigurationDoorsGroup"/>
+            <xs:element name="WltpEmissionTestParametersGroup" minOccurs="0" type="WltpEmissionTestParametersGroup"/>
+            <xs:element name="MechanicalCouplingTable" minOccurs="0" type="MechanicalCouplingTable"/>
+            <xs:element name="MechanicalCouplingCanBeFittedTable" minOccurs="0" type="MechanicalCouplingCanBeFittedTable"/>
+            <xs:element name="EnergyConvertorTable" minOccurs="0" type="EnergyConvertorTable"/>
+            <xs:element name="EcoInnovationsTable" minOccurs="0" type="EcoInnovationsTable"/>
+            <xs:element name="VectoGroup" minOccurs="0" type="VectoGroup"/>
+            <xs:element name="TypeApprovalTransportDangerousGoodsTable" minOccurs="0" type="TypeApprovalTransportDangerousGoodsTable"/>
+            <xs:element name="AdvancedSafetySystemsTable" minOccurs="0" type="AdvancedSafetySystemsTable"/>
+            <xs:element name="TrackTrainGroup" minOccurs="0" type="TrackTrainGroup"/>
+            <xs:element name="SpecialPurposesConstructionCharacteristicsGroup" minOccurs="0" type="SpecialPurposesConstructionCharacteristicsGroup"/>
+            <xs:element name="TrailerBrakeTable" minOccurs="0" type="TrailerBrakeTable"/>
+            <xs:element name="BrakingTransmissionTable" minOccurs="0" type="BrakingTransmissionTable"/>
+            <xs:element name="BallastSetTable" minOccurs="0" type="BallastSetTable"/>
+            <xs:element name="DriverSeatTypeCategoryTable" minOccurs="0" type="DriverSeatTypeCategoryTable"/>
+            <xs:element name="LoadPlatformTable" minOccurs="0" type="LoadPlatformTable"/>
+            <xs:element name="RollOverProtectiveStructureTable" minOccurs="0" type="RollOverProtectiveStructureTable"/>
+            <xs:element name="PowerTakeOffTable" minOccurs="0" type="PowerTakeOffTable"/>
+            <xs:element name="TrackSetTable" minOccurs="0" type="TrackSetTable"/>
+            <xs:element name="ProvisionalApprovalTerritoryTable" minOccurs="0" type="ProvisionalApprovalTerritoryTable"/>
+            <xs:element name="RemarkTable" minOccurs="0" type="RemarkTable"/>
+            <xs:element name="SubjectApprovalTable" minOccurs="0" type="SubjectApprovalTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="SigningAuthorityTable">
+        <xs:sequence>
+            <xs:element name="SigningAuthorityGroup" maxOccurs="unbounded" type="SigningAuthorityGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SigningAuthorityGroup">
+        <xs:all>
+            <xs:element name="SignerName" type="Text150"/>
+            <xs:element name="SignerPosition" type="Text80"/>
+            <xs:element name="SignatureLocation" type="Text80"/>
+            <xs:element name="SignatureDate" type="Date"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MakeTable">
+        <xs:sequence>
+            <xs:element name="MakeGroup" maxOccurs="unbounded" type="MakeGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MakeGroup">
+        <xs:all>
+            <xs:element name="Make" type="Text52"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="CommercialNameTable">
+        <xs:sequence>
+            <xs:element name="CommercialNameGroup" maxOccurs="unbounded" type="CommercialNameGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CommercialNameGroup">
+        <xs:all>
+            <xs:element name="CommercialName" type="Text50"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AllowedParameterValuesMultistageGroup">
+        <xs:all>
+            <xs:element name="AllowedActualMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedActualMassMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedActualMassMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedTechnicallyPermissibleMaximumLadenMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedTechnicallyPermissibleMaximumLadenMassMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedTechnicallyPermissibleMaximumLadenMassMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedFrontalArea" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedFrontalAreaMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedFrontalAreaMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedRollingResistance" minOccurs="0" type="Decimal63"/>
+            <xs:element name="AllowedRollingResistanceMin" minOccurs="0" type="Decimal63"/>
+            <xs:element name="AllowedRollingResistanceMax" minOccurs="0" type="Decimal63"/>
+            <xs:element name="AllowedCrossSectionalAreaAirFrontGrill" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedCrossSectionalAreaAirFrontGrillMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="AllowedCrossSectionalAreaAirFrontGrillMax" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="ManufacturerTable">
+        <xs:sequence>
+            <xs:element name="ManufacturerGroup" maxOccurs="unbounded" type="ManufacturerGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ManufacturerGroup">
+        <xs:all>
+            <xs:element name="ManufacturerStageNumber" type="Integer2"/>
+            <xs:element name="ManufacturerName" type="Text150"/>
+            <xs:element name="ManufacturerAddressLine1" type="Text150"/>
+            <xs:element name="ManufacturerAddressLine2" minOccurs="0" type="Text150"/>
+            <xs:element name="ManufacturerAddressLine3" minOccurs="0" type="Text150"/>
+            <xs:element name="ManufacturerPlaceOfResidence" type="Text80"/>
+            <xs:element name="ManufacturerCountryOfResidence" type="Text80"/>
+            <xs:element name="PreviousStageTypeApprovalNumber" minOccurs="0" type="Text35"/>
+            <xs:element name="PreviousStageType" minOccurs="0" type="Text15"/>
+            <xs:element name="PreviousStageVariant" minOccurs="0" type="Text25"/>
+            <xs:element name="PreviousStageVersion" minOccurs="0" type="Text35"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="EURepresentativeGroup">
+        <xs:all>
+            <xs:element name="EURepresentativeName" type="Text150"/>
+            <xs:element name="EURepresentativeAddressLine1" type="Text150"/>
+            <xs:element name="EURepresentativeAddressLine2" minOccurs="0" type="Text150"/>
+            <xs:element name="EURepresentativeAddressLine3" minOccurs="0" type="Text150"/>
+            <xs:element name="EURepresentativePlaceOfResidence" type="Text80"/>
+            <xs:element name="EURepresentativeCountryOfResidence" type="Text80"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="LocationMarkingsTable">
+        <xs:sequence>
+            <xs:element name="LocationMarkingsGroup" maxOccurs="unbounded" type="LocationMarkingsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LocationMarkingsGroup">
+        <xs:all>
+            <xs:element name="LocationMarkingsSubject" type="LocationMarkingsSubjectCode"/>
+            <xs:element name="LocationMarkingsVehiclePart" type="LocationMarkingsVehiclePartCode"/>
+            <xs:element name="LocationMarkingsVehiclePartSide" minOccurs="0" type="LocationMarkingsVehiclePartSideCode"/>
+            <xs:element name="LocationMarkingsVehiclePartSideSection" minOccurs="0" type="LocationMarkingsVehiclePartSideSectionCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="GeneralConstructionGroup">
+        <xs:all>
+            <xs:element name="NumberOfAxles" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfWheels" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfAxlesWithTwinWheels" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfSteeredAxles" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfPoweredAxles" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfBrakedAxles" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfDoors" minOccurs="0" type="Integer2"/>
+            <xs:element name="AutomatedVehicle" minOccurs="0" type="AutomatedVehicleCode"/>
+            <xs:element name="NumberOfSeatingPositionsIncludingDriver" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfSeatingPositionsExcludingDriver" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfSeatsStationaryUseOnly" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfSeatingPositionsLowerDeck" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfSeatingPositionsUpperDeck" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfWheelchairUserAccessiblePositions" minOccurs="0" type="Integer3"/>
+            <xs:element name="NumberOfStandingPlaces" minOccurs="0" type="Integer3"/>
+            <xs:element name="SeatingPositionConfiguration" minOccurs="0" type="SeatingPositionConfigurationCode"/>
+            <xs:element name="ReversibleDrivingPositionIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="LocationArrangementSeats" minOccurs="0" type="Text40"/>
+            <xs:element name="SteeringCategory" minOccurs="0" type="SteeringCategoryCode"/>
+            <xs:element name="NumberOfSetsBallastMasses" minOccurs="0" type="Integer2"/>
+            <xs:element name="AdvancedBrakingSystem" minOccurs="0" type="AdvancedBrakingSystemCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="DimensionGroup">
+        <xs:all>
+            <xs:element name="Wheelbase" minOccurs="0" type="Integer5"/>
+            <xs:element name="WheelbaseAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="WheelbaseAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="WheelBaseSideCar" minOccurs="0" type="Integer5"/>
+            <xs:element name="WheelBaseGroundRatio" minOccurs="0" type="Decimal32"/>
+            <xs:element name="Length" minOccurs="0" type="Integer5"/>
+            <xs:element name="LengthAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="LengthAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="Width" minOccurs="0" type="Integer4"/>
+            <xs:element name="WidthAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="WidthAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="Height" minOccurs="0" type="Integer4"/>
+            <xs:element name="HeightAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="HeightAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="SeatingHeight" minOccurs="0" type="Integer4"/>
+            <xs:element name="RearOverhang" minOccurs="0" type="Integer4"/>
+            <xs:element name="RearOverhangAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="RearOverhangAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleRearOverhang" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleLength" minOccurs="0" type="Integer5"/>
+            <xs:element name="MaximumPermissibleLengthMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="MaximumPermissibleLengthMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="MaximumPermissibleWidth" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleWidthMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleWidthMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleHeight" minOccurs="0" type="Integer4"/>
+            <xs:element name="MaximumPermissibleHeightMin" minOccurs="0" type="Integer4"/>			
+            <xs:element name="MaximumPermissibleHeightMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="LengthLoadingArea" minOccurs="0" type="Integer5"/>
+            <xs:element name="LengthLoadingAreaAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="LengthLoadingAreaAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="ElongatedCabIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="AerodynamicDeviceEquipped" minOccurs="0" type="AerodynamicDeviceEquippedCode"/>
+            <xs:element name="MaximumAuthorisedDimensionsDerogationIndicator" minOccurs="0" type="Indicator"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MassGroup">
+        <xs:all>
+            <xs:element name="MassInRunningOrder" minOccurs="0" type="Integer6"/>
+            <xs:element name="MassInRunningOrderVariableMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="MassInRunningOrderVariableMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="ActualMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="MassInRunningOrderIncomplete" minOccurs="0" type="Integer6"/>
+            <xs:element name="TechnicallyPermissibleMaximumLadenMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="TechnicallyPermissibleMaximumLadenMassVariableMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="TechnicallyPermissibleMaximumLadenMassVariableMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="MinimumMassCompleted" minOccurs="0" type="Integer6"/>
+            <xs:element name="AdditionalMassAlternativePropulsion" minOccurs="0" type="Integer5"/>
+            <xs:element name="AdditionalMassDueToBatteries" minOccurs="0" type="Integer4"/>
+            <xs:element name="BallastMassTotal" minOccurs="0" type="Integer6"/>
+            <xs:element name="ThreePointLiftingMechanismMaximumTowableMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="MaximumStaticVerticalMassCouplingPointTable" minOccurs="0" type="MaximumStaticVerticalMassCouplingPointTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MaximumStaticVerticalMassCouplingPointTable">
+        <xs:sequence>
+            <xs:element name="MaximumStaticVerticalMassCouplingPointGroup" maxOccurs="unbounded" type="MaximumStaticVerticalMassCouplingPointGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MaximumStaticVerticalMassCouplingPointGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingNumberVerticalMass" minOccurs="0" type="Integer3"/>
+            <xs:element name="TechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TowingBrakedTypeTrailTable">
+        <xs:sequence>
+            <xs:element name="TowingBrakedTypeTrailGroup" maxOccurs="unbounded" type="TowingBrakedTypeTrailGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TowingBrakedTypeTrailGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingNumberTowingMasses" minOccurs="0" type="Integer3"/>
+            <xs:element name="BrakedTypeTrail" minOccurs="0" type="BrakedTypeTrailCode"/>
+            <xs:element name="BodyworkTypeTable" minOccurs="0" type="BodyworkTypeTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="BodyworkTypeTable">
+        <xs:sequence>
+            <xs:element name="BodyworkTypeGroup" maxOccurs="unbounded" type="BodyworkTypeGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BodyworkTypeGroup">
+        <xs:all>
+            <xs:element name="BodyworkTypeTrailer" minOccurs="0" type="BodyworkTypeTrailerCode"/>
+            <xs:element name="TechnicallyPermissibleMaximumCombinationMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="TechnicallyPermissibleMaximumTowableMass" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumMassTable">
+        <xs:sequence>
+            <xs:element name="InServiceMaximumMassGroup" maxOccurs="unbounded" type="InServiceMaximumMassGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumMassGroup">
+        <xs:all>
+            <xs:element name="InServiceMaximumPermissibleMassCountry" minOccurs="0" type="EuCountryCode"/>
+            <xs:element name="InServiceMaximumPermissibleMassTrafficRegulation" minOccurs="0" type="Text40"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="InServiceMaximumPermissibleMassCombination" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="GearGroup">
+        <xs:all>
+            <xs:element name="GearboxType" type="GearboxTypeCode"/>
+            <xs:element name="GearRatioTable" minOccurs="0" type="GearRatioTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="GearRatioTable">
+        <xs:sequence>
+            <xs:element name="GearRatioGroup" maxOccurs="unbounded" type="GearRatioGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="GearRatioGroup">
+        <xs:all>
+            <xs:element name="GearNumber" type="Integer2"/>
+            <xs:element name="GearRatio" minOccurs="0" type="Decimal106"/>
+            <xs:element name="FinalDriveTable" minOccurs="0" type="FinalDriveTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="FinalDriveTable">
+        <xs:sequence>
+            <xs:element name="FinalDriveGroup" minOccurs="0" maxOccurs="unbounded" type="FinalDriveGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="FinalDriveGroup">
+        <xs:all>
+            <xs:element name="FinalDriveNumber" type="Integer2"/>
+            <xs:element name="FinalDriveRatio" minOccurs="0" type="Decimal75"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="FinalDriveVehicleTable">
+        <xs:sequence>
+            <xs:element name="FinalDriveVehicleGroup" maxOccurs="unbounded" type="FinalDriveVehicleGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="FinalDriveVehicleGroup">
+        <xs:all>
+            <xs:element name="FinalDriveVehicleNumber" type="Integer2"/>
+            <xs:element name="OverallGearRatioHighestGear" minOccurs="0" type="Decimal75"/>
+            <xs:element name="FinalDriveVehicleRatio" minOccurs="0" type="Decimal75"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AxleTable">
+        <xs:sequence>
+            <xs:element name="AxleGroup" maxOccurs="unbounded" type="AxleGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AxleGroup">
+        <xs:all>
+            <xs:element name="AxleNumber" type="Integer2"/>
+            <xs:element name="TwinWheelsAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="SteeredAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="PoweredAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="BrakedAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="AxleTrack" minOccurs="0" type="Integer4"/>
+            <xs:element name="AxleTrackAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="AxleTrackAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="LiftAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="LoadableAxleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="DriveAxleAirSuspensionOrEquivalentIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="AxleAirSuspensionOrEquivalentIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="AxleSpacing" minOccurs="0" type="Integer5"/>
+            <xs:element name="AxleSpacingAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="AxleSpacingAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistributionMassRunningOrderAxle" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistributionMassIncompleteAxle" minOccurs="0" type="Integer5"/>
+            <xs:element name="MinimalPermissibleDistributionMassCompletedAxle" minOccurs="0" type="Integer5"/>
+            <xs:element name="TechnicallyPermissibleMassAxle" minOccurs="0" type="Integer5"/>
+            <xs:element name="TechnicallyPermissibleMassAxleAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="TechnicallyPermissibleMassAxleAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="GroundClearanceBetweenAxles" minOccurs="0" type="Integer4"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleTable" minOccurs="0" type="InServiceMaximumPermissibleLadenMassAxleTable"/>
+            <xs:element name="InterconnectionWithPoweredAxleTable" minOccurs="0" type="InterconnectionWithPoweredAxleTable"/>
+            <xs:element name="TyreAxleTable" minOccurs="0" type="TyreAxleTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumPermissibleLadenMassAxleTable">
+        <xs:sequence>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleGroup" maxOccurs="unbounded" type="InServiceMaximumPermissibleLadenMassAxleGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumPermissibleLadenMassAxleGroup">
+        <xs:all>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleCountry" minOccurs="0" type="EuCountryCode"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleTrafficRegulation" minOccurs="0" type="Text40"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxle" minOccurs="0" type="Integer5"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="InterconnectionWithPoweredAxleTable">
+        <xs:sequence>
+            <xs:element name="InterconnectionWithPoweredAxleGroup" maxOccurs="unbounded" type="InterconnectionWithPoweredAxleGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InterconnectionWithPoweredAxleGroup">
+        <xs:all>
+            <xs:element name="InterconnectionWithPoweredAxleNumber" type="Integer2"/>
+            <xs:element name="InterconnectionWithPoweredAxleConnection" minOccurs="0" type="InterconnectionWithPoweredAxleConnectionCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleTable">
+        <xs:sequence>
+            <xs:element name="TyreAxleGroup" maxOccurs="unbounded" type="TyreAxleGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleGroup">
+        <xs:all>
+            <xs:element name="TyreNumber" type="Integer3"/>
+            <xs:element name="TechnicallyPermissibleMaximumMassAxleTyre" minOccurs="0" type="Integer6"/>
+            <xs:element name="TyreSize" minOccurs="0" type="Text20"/>
+            <xs:element name="LoadCapacityIndexSingleWheel" minOccurs="0" type="LoadCapacityIndex"/>
+            <xs:element name="LoadCapacityIndexTwinWheel" minOccurs="0" type="LoadCapacityIndex"/>
+            <xs:element name="SpeedCategorySymbol" minOccurs="0" type="SpeedCategorySymbolCode"/>
+            <xs:element name="RimSize" minOccurs="0" type="Text20"/>
+            <xs:element name="RimOffSet" minOccurs="0" type="RimOffSet"/>
+            <xs:element name="TyreTubeType" minOccurs="0" type="TyreTubeTypeCode"/>
+            <xs:element name="TyreMaximumSpeedIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TyrePlyRatingNumber" minOccurs="0" type="TyrePlyRatingNumber"/>
+            <xs:element name="TyreClassification" minOccurs="0" type="TyreClassificationCode"/>
+            <xs:element name="TyreRollingRadius" minOccurs="0" type="Decimal72"/>
+            <xs:element name="TyreLoadRating" minOccurs="0" type="Integer5"/>
+            <xs:element name="TyreAxleTrack" minOccurs="0" type="Integer4"/>
+            <xs:element name="TyreAxleTrackAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="TyreAxleTrackAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="RollingResistanceClass" minOccurs="0" type="RollingResistanceClassCode"/>
+            <xs:element name="TyreFittedProductionIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TyreCategory" minOccurs="0" type="TyreCategoryCode"/>
+            <xs:element name="RecommendedTyrePressure" minOccurs="0" type="Decimal72"/>
+            <xs:element name="TyreTypeTable" minOccurs="0" type="TyreTypeTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TyreTypeTable">
+        <xs:sequence>
+            <xs:element name="TyreTypeGroup" maxOccurs="unbounded" type="TyreTypeGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TyreTypeGroup">
+        <xs:all>
+            <xs:element name="TyreType" type="TyreTypeCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleMassCombinationTable">
+        <xs:sequence>
+            <xs:element name="TyreAxleMassCombinationGroup" maxOccurs="unbounded" type="TyreAxleMassCombinationGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleMassCombinationGroup">
+        <xs:all>
+            <xs:element name="TyreAxleCombinationNumber" type="Integer3"/>
+            <xs:element name="MaximumPermissibleMassTyreAxleCombination" minOccurs="0" type="Integer6"/>
+            <xs:element name="MaximumPermissibleVerticalLoadOnCouplingPointTyreCombination" minOccurs="0" type="Integer6"/>
+            <xs:element name="TyreAxleCouplingPointTyreCombinationTable" minOccurs="0" type="TyreAxleCouplingPointTyreCombinationTable"/>
+            <xs:element name="TyreAxleCombinationTable" minOccurs="0" type="TyreAxleCombinationTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleCouplingPointTyreCombinationTable">
+        <xs:sequence>
+            <xs:element name="TyreAxleCouplingPointTyreCombinationGroup" maxOccurs="unbounded" type="TyreAxleCouplingPointTyreCombinationGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleCouplingPointTyreCombinationGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingNumberOfTyreAxleCouplingPointTyreCombination" type="Integer3"/>
+            <xs:element name="MaximumPermissibleVerticalLoadOnCouplingPointTyreCombinationCoupling" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleCombinationTable">
+        <xs:sequence>
+            <xs:element name="TyreAxleCombinationGroup" maxOccurs="unbounded" type="TyreAxleCombinationGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TyreAxleCombinationGroup">
+        <xs:all>
+            <xs:element name="AxleNumberCombination" type="Integer2"/>
+            <xs:element name="TyreNumberCombination" type="Integer3"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AxleGroupTable">
+        <xs:sequence>
+            <xs:element name="AxleGroupGroup" maxOccurs="unbounded" type="AxleGroupGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AxleGroupGroup">
+        <xs:all>
+            <xs:element name="AxleGroupNumber" type="Integer2"/>
+            <xs:element name="TechnicallyPermissibleMassAxleGroup" type="Integer6"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleGroupTable" minOccurs="0" type="InServiceMaximumPermissibleLadenMassAxleGroupTable"/>
+            <xs:element name="AxleGroupMemberTable" minOccurs="0" type="AxleGroupMemberTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumPermissibleLadenMassAxleGroupTable">
+        <xs:sequence>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleGroupGroup" maxOccurs="unbounded" type="InServiceMaximumPermissibleLadenMassAxleGroupGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="InServiceMaximumPermissibleLadenMassAxleGroupGroup">
+        <xs:all>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleGroupCountry" minOccurs="0" type="EuCountryCode"/>
+            <xs:element name="InServiceMaximumPermissibleLadenMassAxleGroupTrafficRegulation" minOccurs="0" type="Text40"/>
+            <xs:element name="InServiceMaximumPermissibleAxleGroupLadenMass" minOccurs="0" type="Integer5"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AxleGroupMemberTable">
+        <xs:sequence>
+            <xs:element name="AxleGroupMemberGroup" maxOccurs="unbounded" minOccurs="2" type="AxleGroupMemberGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AxleGroupMemberGroup">
+        <xs:all>
+            <xs:element name="MemberAxleNumber" type="Integer2"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="BrakingTransmissionTable">
+        <xs:sequence>
+            <xs:element name="BrakingTransmissionGroup" maxOccurs="unbounded" type="BrakingTransmissionGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BrakingTransmissionGroup">
+        <xs:all>
+            <xs:element name="BrakingTransmissionPrincipal" minOccurs="0" type="BrakingTransmissionPrincipalCode"/>
+            <xs:element name="BrakingTransmissionPowerAssist" minOccurs="0" type="BrakingTransmissionPowerAssistCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="ColourTable">
+        <xs:sequence>
+            <xs:element name="ColourGroup" maxOccurs="unbounded" type="ColourGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ColourGroup">
+        <xs:all>
+            <xs:element name="Colour" type="ColourCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="BodyworkTable">
+        <xs:sequence>
+            <xs:element name="BodyworkGroup" maxOccurs="unbounded" type="BodyworkGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BodyworkGroup">
+        <xs:all>
+            <xs:element name="CodeForBodywork" minOccurs="0" type="BodyworkCode"/>
+            <xs:element name="SpecialPurposeDesignation" minOccurs="0" type="SpecialPurposeDesignationCode"/>
+            <xs:element name="OtherBodywork" minOccurs="0" type="Text200"/>
+            <xs:element name="CodeForBodyworkSupplementTable" minOccurs="0" type="CodeForBodyworkSupplementTable"/>
+            <xs:element name="VehicleClassTable" minOccurs="0" type="VehicleClassTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="CodeForBodyworkSupplementTable">
+        <xs:sequence>
+            <xs:element name="CodeForBodyworkSupplementGroup" maxOccurs="unbounded" type="CodeForBodyworkSupplementGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="CodeForBodyworkSupplementGroup">
+        <xs:all>
+            <xs:element name="CodeForBodyworkSupplement" type="CodeForBodyworkSupplementCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="VehicleClassTable">
+        <xs:sequence>
+            <xs:element name="VehicleClassGroup" maxOccurs="unbounded" type="VehicleClassGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="VehicleClassGroup">
+        <xs:all>
+            <xs:element name="VehicleClass" type="VehicleClassCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="ConfigurationDoorsGroup">
+        <xs:all>
+            <xs:element name="NumberOfDoorsFront" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfDoorsLeft" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfDoorsRight" minOccurs="0" type="Integer2"/>
+            <xs:element name="NumberOfDoorsBack" minOccurs="0" type="Integer2"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="WltpEmissionTestParametersGroup">
+        <xs:all>
+            <xs:element name="WltpEmissionTestMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="WltpFrontalArea" minOccurs="0" type="Decimal86"/>
+            <xs:element name="WltpRoadLoadCoefficientF0" minOccurs="0" type="RoadLoadCoefficient"/>
+            <xs:element name="WltpRoadLoadCoefficientF1" minOccurs="0" type="RoadLoadCoefficient"/>
+            <xs:element name="WltpRoadLoadCoefficientF2" minOccurs="0" type="RoadLoadCoefficient"/>
+            <xs:element name="ProjectedFrontalAreaAirEntranceFrontGrill" minOccurs="0" type="Integer6"/>
+            <xs:element name="DrivingCycleClass" minOccurs="0" type="DrivingCycleClassCode"/>
+            <xs:element name="DrivingCycleDownscalingFactor" minOccurs="0" type="DrivingCycleDownscalingFactor"/>
+            <xs:element name="DrivingCycleCappedSpeedIndicator" minOccurs="0" type="Indicator"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingTable">
+        <xs:sequence>
+            <xs:element name="MechanicalCouplingGroup" maxOccurs="unbounded" type="MechanicalCouplingGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingNumber" type="Integer3"/>
+            <xs:element name="MechanicalCouplingLocation" minOccurs="0" type="MechanicalCouplingLocationCode"/>
+            <xs:element name="MechanicalCouplingTypeAccordingAppendixEU" minOccurs="0" type="Text120"/>
+            <xs:element name="MechanicalCouplingMake" minOccurs="0" type="Text52"/>
+            <xs:element name="MechanicalCouplingManufacturersTypeDesignation" minOccurs="0" type="Text40"/>
+            <xs:element name="MechanicalCouplingApprovalMark" minOccurs="0" type="Text80"/>
+            <xs:element name="MechanicalCouplingApprovalNumber" minOccurs="0" type="Text50"/>
+            <xs:element name="MechanicalCouplingValueD" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingValueDc" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingValueV" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingValueS" minOccurs="0" type="Integer6"/>
+            <xs:element name="MechanicalCouplingValueU" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingValueHorizontalLoad" minOccurs="0" type="Integer6"/>
+            <xs:element name="MechanicalCouplingTechnicallyPermissibleTowableMass" minOccurs="0" type="Decimal52"/>
+            <xs:element name="MechanicalCouplingHeightAboveGround" minOccurs="0" type="Integer4"/>
+            <xs:element name="MechanicalCouplingHeightAboveGroundAdjustableMin" minOccurs="0" type="Integer4"/>
+            <xs:element name="MechanicalCouplingHeightAboveGroundAdjustableMax" minOccurs="0" type="Integer4"/>
+            <xs:element name="DistanceCentreCouplingDeviceLastAxle" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCentreCouplingDeviceLastAxleAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCentreCouplingDeviceLastAxleAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceFrontEndCentreCoupling" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceFrontEndCentreCouplingAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceFrontEndCentreCouplingAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCentreCouplingRearEnd" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCentreCouplingRearEndAdjustableMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCentreCouplingRearEndAdjustableMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="DistanceCouplingPointFirstAxle" minOccurs="0" type="Integer6"/>
+            <xs:element name="DistanceCouplingPointFirstAxleAdjustableMin" minOccurs="0" type="Integer6"/>
+            <xs:element name="DistanceCouplingPointFirstAxleAdjustableMax" minOccurs="0" type="Integer6"/>
+            <xs:element name="MechanicalCouplingDistributionMassRunningOrder" minOccurs="0" type="Integer5"/>
+            <xs:element name="MechanicalCouplingMinimumDistributionMassCompleted" minOccurs="0" type="Integer5"/>
+            <xs:element name="MechanicalCouplingPartsTable" minOccurs="0" type="MechanicalCouplingPartsTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingPartsTable">
+        <xs:sequence>
+            <xs:element name="MechanicalCouplingPartsGroup" maxOccurs="unbounded" type="MechanicalCouplingPartsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingPartsGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingPartsTypeAccordingAppendixEU" minOccurs="0" type="Text120"/>
+            <xs:element name="MechanicalCouplingPartsMake" minOccurs="0" type="Text52"/>
+            <xs:element name="MechanicalCouplingPartsManufacturersTypeDesignation" minOccurs="0" type="Text40"/>
+            <xs:element name="MechanicalCouplingPartsApprovalMark" minOccurs="0" type="Text80"/>
+            <xs:element name="MechanicalCouplingPartsApprovalNumber" minOccurs="0" type="Text50"/>
+            <xs:element name="MechanicalCouplingPartsValueD" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingPartsValueDc" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingPartsValueV" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingPartsValueS" minOccurs="0" type="Integer6"/>
+            <xs:element name="MechanicalCouplingPartsValueU" minOccurs="0" type="Decimal62"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingCanBeFittedTable">
+        <xs:sequence>
+            <xs:element name="MechanicalCouplingCanBeFittedGroup" maxOccurs="unbounded" type="MechanicalCouplingCanBeFittedGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="MechanicalCouplingCanBeFittedGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingCanBeFittedType" minOccurs="0" type="Text80"/>
+            <xs:element name="MechanicalCouplingCanBeFittedClass" minOccurs="0" type="MechanicalCouplingCanBeFittedClassCode"/>
+            <xs:element name="MechanicalCouplingCanBeFittedValueD" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingCanBeFittedValueDc" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingCanBeFittedValueV" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MechanicalCouplingCanBeFittedValueS" minOccurs="0" type="Integer6"/>
+            <xs:element name="MechanicalCouplingCanBeFittedValueU" minOccurs="0" type="Decimal62"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="EnergyConvertorTable">
+        <xs:sequence>
+            <xs:element name="EnergyConvertorGroup" maxOccurs="unbounded" type="EnergyConvertorGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EnergyConvertorGroup">
+        <xs:all>
+            <xs:element name="ManufacturerEnergyConvertor" minOccurs="0" type="Text150"/>
+            <xs:element name="EnergyConvertorCodeMarkedOnEnergyConvertor" minOccurs="0" type="Text40"/>
+            <xs:element name="EnergyConvertorTypeApprovalNumber" minOccurs="0" type="Text50"/>
+            <xs:element name="CategorySubCategoryEnergyConvertor" minOccurs="0" type="CategorySubCategoryEnergyConvertorCode"/>
+            <xs:element name="WorkingPrinciple" minOccurs="0" type="WorkingPrincipleCode"/>
+            <xs:element name="CombustionCycle" minOccurs="0" type="CombustionCycleCode"/>
+            <xs:element name="NumberOfCylinders" minOccurs="0" type="Integer2"/>
+            <xs:element name="ArrangementCylinders" minOccurs="0" type="ArrangementCylindersCode"/>
+            <xs:element name="EngineCapacity" minOccurs="0" type="Decimal72"/>
+            <xs:element name="EnergySourceTable" minOccurs="0" type="EnergySourceTable"/>
+            <xs:element name="AdditionalEnergySourceTable" minOccurs="0" type="AdditionalEnergySourceTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="EnergySourceTable">
+        <xs:sequence>
+            <xs:element name="EnergySourceGroup" maxOccurs="unbounded" type="EnergySourceGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EnergySourceGroup">
+        <xs:all>
+            <xs:element name="EnergySource" type="EnergySourceCode"/>
+            <xs:element name="PowerMassRatio" minOccurs="0" type="Decimal32"/>
+            <xs:element name="SmokeCorrectedAbsorptionCoefficient" minOccurs="0" type="Decimal95"/>
+            <xs:element name="MaximumAcceptableAmountPercentageBiofuel" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelGroup" minOccurs="0" type="SoundLevelGroup"/>
+            <xs:element name="PowerGroup" minOccurs="0" type="PowerGroup"/>
+            <xs:element name="TestTypeIGroup" minOccurs="0" type="TestTypeIGroup"/>
+            <xs:element name="TestTypeIIGroup" minOccurs="0" type="TestTypeIIGroup"/>
+            <xs:element name="TestTypeVIIGroup" minOccurs="0" type="TestTypeVIIGroup"/>
+            <xs:element name="TestNrscGroup" minOccurs="0" type="TestNrscGroup"/>
+            <xs:element name="TestWhscGroup" minOccurs="0" type="TestWhscGroup"/>
+            <xs:element name="TestNrtcGroup" minOccurs="0" type="TestNrtcGroup"/>
+            <xs:element name="TestWhtcGroup" minOccurs="0" type="TestWhtcGroup"/>
+            <xs:element name="TestRdeGroup" minOccurs="0" type="TestRdeGroup"/>
+            <xs:element name="TestWltpType1Group" minOccurs="0" type="TestWltpType1Group"/>
+            <xs:element name="TestWltpCo2Group" minOccurs="0" type="TestWltpCo2Group"/>
+            <xs:element name="TestWltpFuelConsumptionGroup" minOccurs="0" type="TestWltpFuelConsumptionGroup"/>
+            <xs:element name="TestWltpElectricRangeGroup" minOccurs="0" type="TestWltpElectricRangeGroup"/>
+            <xs:element name="TestWltpEnergyConsumptionGroup" minOccurs="0" type="TestWltpEnergyConsumptionGroup"/>
+            <xs:element name="TestFamilyIdentifiersTable" minOccurs="0" type="TestFamilyIdentifiersTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="SoundLevelGroup">
+        <xs:all>
+            <xs:element name="SoundLevelExternalRegulation" minOccurs="0" type="Text50"/>
+            <xs:element name="SoundLevelStationary" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelStationaryEngineSpeed" minOccurs="0" type="Integer5"/>
+            <xs:element name="SoundLevelDriveBy" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelLimitValueLUrban" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelDriverPerceivedRegulation" minOccurs="0" type="Text50"/>
+            <xs:element name="SoundLevelDriverPerceivedOpenCab" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelDriverPerceivedClosedCab" minOccurs="0" type="Decimal52"/>
+            <xs:element name="SoundLevelDriverPerceivedTestMethod" minOccurs="0" type="Text50"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="PowerGroup">
+        <xs:all>
+            <xs:element name="MaximumNetPowerCombustion" minOccurs="0" type="Decimal62"/>
+            <xs:element name="EngineSpeedMaximumNetPower" minOccurs="0" type="Integer5"/>
+            <xs:element name="EngineSpeedMaximumNetPowerMin" minOccurs="0" type="Integer5"/>
+            <xs:element name="EngineSpeedMaximumNetPowerMax" minOccurs="0" type="Integer5"/>
+            <xs:element name="Maximum15MinutesPower" minOccurs="0" type="Decimal62"/>
+            <xs:element name="Maximum30MinutesPower" minOccurs="0" type="Decimal62"/>
+            <xs:element name="MaximumNetPowerElectric" minOccurs="0" type="Decimal62"/>
+            <xs:element name="DeclaredRatedNetPower" minOccurs="0" type="Decimal62"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestTypeIGroup">
+        <xs:all>
+            <xs:element name="TypeICo" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeIThc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeINox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeINmhc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeIHcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeIParticulates" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestTypeIIGroup">
+        <xs:all>
+            <xs:element name="TypeIIHcAtNormalIdleEngineSpeed" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeIIHcAtHighIdleEngineSpeed" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeIICoAtNormalIdleSpeed" minOccurs="0" type="Decimal64"/>
+            <xs:element name="TypeIICoAtHighIdleEngineSpeed" minOccurs="0" type="Decimal64"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestTypeVIIGroup">
+        <xs:all>
+            <xs:element name="TypeVIICo2" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TypeVIIFuelConsumption" minOccurs="0" type="Decimal53"/>
+            <xs:element name="TypeVIIEnergyConsumption" minOccurs="0" type="Decimal72"/>
+            <xs:element name="TypeVIIElectricRange" minOccurs="0" type="Integer5"/>
+            <xs:element name="TypeVIICo2WeightedCombined" minOccurs="0" type="Decimal52"/>
+            <xs:element name="TypeVIIFuelConsumptionWeightedCombined" minOccurs="0" type="Decimal53"/>
+            <xs:element name="TypeVIIEnergyConsumptionWeightedCombined" minOccurs="0" type="Decimal72"/>
+            <xs:element name="TypeVIIElectricRangeWeightedCombined" minOccurs="0" type="Integer5"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestNrscGroup">
+        <xs:all>
+            <xs:element name="NrscCo" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscHc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscHcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscParticulates" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrscNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+            <xs:element name="NrscTestCycle" minOccurs="0" type="NrscTestCycleCode"/>
+            <xs:element name="NrscCo2" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWhscGroup">
+        <xs:all>
+            <xs:element name="WhscCo" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscThc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscNmhc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscHcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscNh3" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscParticulates" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhscNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+            <xs:element name="WhscCo2" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestNrtcGroup">
+        <xs:all>
+            <xs:element name="NrtcCo" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcHc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcHcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcParticulates" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="NrtcNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+            <xs:element name="NrtcTestCycle" minOccurs="0" type="NrtcTestCycleCode"/>
+            <xs:element name="NrtcCo2" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWhtcGroup">
+        <xs:all>
+            <xs:element name="WhtcCo" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcNox" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcNmhc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcThc" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcCh4" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcNh3" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcParticulates" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WhtcNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+            <xs:element name="WhtcHcNox" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestRdeGroup">
+        <xs:all>
+            <xs:element name="RdeCompleteNox" minOccurs="0" type="Decimal82"/>
+            <xs:element name="RdeCompleteNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="RdeCompleteNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+            <xs:element name="RdeUrbanNox" minOccurs="0" type="Decimal82"/>
+            <xs:element name="RdeUrbanNumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="RdeUrbanNumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWltpType1Group">
+        <xs:all>
+            <xs:element name="WltpType1Co" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1Thc" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1Nmhc" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1Nox" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1ThcNox" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1Nh3" minOccurs="0" type="Decimal82"/>
+            <xs:element name="WltpType1Particulates" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WltpType1NumberOfParticles" minOccurs="0" type="Decimal95"/>
+            <xs:element name="WltpType1NumberOfParticlesExponent" minOccurs="0" type="Integer2"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWltpCo2Group">
+        <xs:all>
+            <xs:element name="WltpCo2Low" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2Medium" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2High" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ExtraHigh" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2Combined" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2WeightedCombined" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeSustainingLow" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeSustainingMedium" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeSustainingHigh" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeSustainingExtraHigh" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeSustainingCombined" minOccurs="0" type="Decimal52"/>
+            <xs:element name="WltpCo2ChargeDepletingCombined" minOccurs="0" type="Decimal52"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWltpFuelConsumptionGroup">
+        <xs:all>
+            <xs:element name="WltpFuelConsumptionLow" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionMedium" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionHigh" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionExtraHigh" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionCombined" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionWeightedCombined" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeSustainingLow" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeSustainingMedium" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeSustainingHigh" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeSustainingExtraHigh" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeSustainingCombined" minOccurs="0" type="Decimal53"/>
+            <xs:element name="WltpFuelConsumptionChargeDepletingCombined" minOccurs="0" type="Decimal53"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWltpElectricRangeGroup">
+        <xs:all>
+            <xs:element name="WltpPureElectricRange" minOccurs="0" type="Integer5"/>
+            <xs:element name="WltpPureElectricRangeCity" minOccurs="0" type="Integer5"/>
+            <xs:element name="WltpEquivalentAllElectricOffVehicleChargingRange" minOccurs="0" type="Integer5"/>
+            <xs:element name="WltpEquivalentAllElectricOffVehicleChargingRangeCity" minOccurs="0" type="Integer5"/>
+            <xs:element name="WltpAllElectricOffVehicleChargingRange" minOccurs="0" type="Integer5"/>
+            <xs:element name="WltpAllElectricOffVehicleChargingRangeCity" minOccurs="0" type="Integer5"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestWltpEnergyConsumptionGroup">
+        <xs:all>
+            <xs:element name="WltpEnergyConsumptionPureElectricLow" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionPureElectricMedium" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionPureElectricHigh" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionPureElectricExtraHigh" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionPureElectricCombined" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedLow" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedMedium" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedHigh" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedExtraHigh" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedCity" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedCombined" minOccurs="0" type="Decimal72"/>
+            <xs:element name="WltpEnergyConsumptionExternallyChargedWeightedCombined" minOccurs="0" type="Decimal72"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TestFamilyIdentifiersTable">
+        <xs:sequence>
+            <xs:element name="TestFamilyIdentifiersGroup" maxOccurs="unbounded" type="TestFamilyIdentifiersGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TestFamilyIdentifiersGroup">
+        <xs:all>
+            <xs:element name="TestFamilyIdentifier" type="TestFamilyIdentifierCode"/>
+            <xs:element name="TestFamilyIdentifierValue" type="Text100"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AdditionalEnergySourceTable">
+        <xs:sequence>
+            <xs:element name="AdditionalEnergySourceGroup" maxOccurs="unbounded" type="AdditionalEnergySourceGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AdditionalEnergySourceGroup">
+        <xs:all>
+            <xs:element name="AdditionalEnergySource" type="EnergySourceCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="EcoInnovationsTable">
+        <xs:sequence>
+            <xs:element name="EcoInnovationsGroup" maxOccurs="unbounded" type="EcoInnovationsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="EcoInnovationsGroup">
+        <xs:all>
+            <xs:element name="EcoInnovationCountry" type="TypeApprovalCountryCode"/>
+            <xs:element name="GeneralCodeEcoInnovation" type="GeneralCodeEcoInnovationCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="VectoGroup">
+        <xs:all>
+            <xs:element name="CryptographicHashManufacturerRecord" minOccurs="0" type="Text64"/>
+            <xs:element name="ZeroEmissionHeavyDutyIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="VocationalVehicleIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="CryptographicHashCustomerInformationFile" minOccurs="0" type="Text64"/>
+            <xs:element name="AveragePayload" minOccurs="0" type="Decimal95"/>
+            <xs:element name="AverageOccupancy" minOccurs="0" type="Decimal52"/>
+            <xs:element name="VehicleGroup" minOccurs="0" type="VehicleGroupCode"/>
+            <xs:element name="VehicleSubgroup" minOccurs="0" type="VehicleSubgroupCode"/>
+            <xs:element name="CryptographicHashVehicleFile" minOccurs="0" type="Text64"/>
+            <xs:element name="CargoVolume" minOccurs="0" type="Decimal63"/>
+            <xs:element name="VolumeOrientationIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="SpecificCo2EmissionsMass" minOccurs="0" type="Decimal95"/>
+            <xs:element name="SpecificCo2EmissionsPerson" minOccurs="0" type="Decimal95"/>
+            <xs:element name="EfficiencyRatioKilometer" minOccurs="0" type="Decimal95"/>
+            <xs:element name="EfficiencyRatioTonKilometer" minOccurs="0" type="Decimal95"/>
+            <xs:element name="EfficiencyRatioM3Kilometer" minOccurs="0" type="Decimal95"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TypeApprovalTransportDangerousGoodsTable">
+        <xs:sequence>
+            <xs:element name="TypeApprovalTransportDangerousGoodsGroup" maxOccurs="unbounded" type="TypeApprovalTransportDangerousGoodsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TypeApprovalTransportDangerousGoodsGroup">
+        <xs:all>
+            <xs:element name="TypeApprovalTransportDangerousGoodsClass" type="TypeApprovalTransportDangerousGoodsClassCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="AdvancedSafetySystemsTable">
+        <xs:sequence>
+            <xs:element name="AdvancedSafetySystemsGroup" maxOccurs="unbounded" type="AdvancedSafetySystemsGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="AdvancedSafetySystemsGroup">
+        <xs:all>
+            <xs:element name="AdvancedSafetySystem" type="AdvancedSafetySystemCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainGroup">
+        <xs:all>
+            <xs:element name="TrackTrainCrawlerUndercarriageConfiguration" minOccurs="0" type="TrackTrainCrawlerUndercarriageConfigurationCode"/>
+            <xs:element name="TrackTrainNumberOfBrakedSet" minOccurs="0" type="Integer2"/>
+            <xs:element name="TrackTrainNumberOfPoweredSet" minOccurs="0" type="Integer2"/>
+            <xs:element name="TrackTrainSteeringBySpeedSideIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TrackTrainSteeringByArticulationCentreAxisIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TrackTrainSteeringByArticulationCentreAxisDirectionIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TrackTrainSteeringByPivotingOppositeIndicator" minOccurs="0" type="Indicator"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="SpecialPurposesConstructionCharacteristicsGroup">
+        <xs:all>
+            <xs:element name="FallingObjectsProtectiveStructureForestryIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="FallingObjectsProtectiveStructureNonForestryIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="ProtectionPenetratingObjectsForestryIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="ProtectionPenetratingObjectsNonForestryIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="CabCategory" minOccurs="0" type="CabCategoryCode"/>
+            <xs:element name="DustFilterIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="AerosolIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="VapourFilterIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="MachineryMountedIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="GeneralDescriptionMachinery" minOccurs="0" type="Text500"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrailerBrakeTable">
+        <xs:sequence>
+            <xs:element name="TrailerBrakeGroup" maxOccurs="unbounded" type="TrailerBrakeGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrailerBrakeGroup">
+        <xs:all>
+            <xs:element name="TrailerBrakeControlSystemTechnology" minOccurs="0" type="TrailerBrakeControlSystemTechnologyCode"/>
+            <xs:element name="TrailerBrakeTechnologyConnectionsType" minOccurs="0" type="TrailerBrakeTechnologyConnectionsTypeCode"/>
+            <xs:element name="TrailerBrakePressFeedLineBraking" minOccurs="0" type="Decimal72"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="BallastSetTable">
+        <xs:sequence>
+            <xs:element name="BallastSetGroup" maxOccurs="unbounded" type="BallastSetGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="BallastSetGroup">
+        <xs:all>
+            <xs:element name="BallastSetNumber" type="Integer2"/>
+            <xs:element name="BallastSetNumberOfComponents" minOccurs="0" type="Integer3"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="DriverSeatTypeCategoryTable">
+        <xs:sequence>
+            <xs:element name="DriverSeatTypeCategoryGroup" maxOccurs="unbounded" type="DriverSeatTypeCategoryGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DriverSeatTypeCategoryGroup">
+        <xs:all>
+            <xs:element name="DriverSeatTypeCategory" type="DriverSeatTypeCategoryCode"/>
+            <xs:element name="DriverSeatTypeCategoryClassTable" minOccurs="0" type="DriverSeatTypeCategoryClassTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="DriverSeatTypeCategoryClassTable">
+        <xs:sequence>
+            <xs:element name="DriverSeatTypeCategoryClassGroup" maxOccurs="unbounded" type="DriverSeatTypeCategoryClassGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="DriverSeatTypeCategoryClassGroup">
+        <xs:all>
+            <xs:element name="DriverSeatTypeCategoryClass" type="DriverSeatTypeCategoryClassCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="LoadPlatformTable">
+        <xs:sequence>
+            <xs:element name="LoadPlatformGroup" maxOccurs="unbounded" type="LoadPlatformGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="LoadPlatformGroup">
+        <xs:all>
+            <xs:element name="LoadPlatformHeightAboveGround" minOccurs="0" type="Integer5"/>
+            <xs:element name="LoadPlatformLength" minOccurs="0" type="Integer5"/>
+            <xs:element name="LoadPlatformWidth" minOccurs="0" type="Integer5"/>
+            <xs:element name="LoadPlatformLoadCapacity" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="RollOverProtectiveStructureTable">
+        <xs:sequence>
+            <xs:element name="RollOverProtectiveStructureGroup" maxOccurs="unbounded" type="RollOverProtectiveStructureGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RollOverProtectiveStructureGroup">
+        <xs:all>
+            <xs:element name="RollOverProtectiveMake" minOccurs="0" type="Text52"/>
+            <xs:element name="RollOverProtectiveTypeApprovalNumber" minOccurs="0" type="Text120"/>
+            <xs:element name="RollOverProtectiveEquipment" minOccurs="0" type="RollOverProtectiveEquipmentCode"/>
+            <xs:element name="RollOverProtectiveStructure" minOccurs="0" type="RollOverProtectiveStructureCode"/>
+            <xs:element name="RollOverProtectiveFoldable" minOccurs="0" type="RollOverProtectiveFoldableCode"/>
+            <xs:element name="RollOverProtectiveFoldingOperation" minOccurs="0" type="RollOverProtectiveFoldingOperationCode"/>
+            <xs:element name="RollOverProtectiveHandOperated" minOccurs="0" type="RollOverProtectiveHandOperatedCode"/>
+            <xs:element name="RollOverProtectiveLockingMechanism" minOccurs="0" type="RollOverProtectiveLockingMechanismCode"/>
+            <xs:element name="RollOverProtectivePosition" minOccurs="0" type="RollOverProtectivePositionCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="PowerTakeOffTable">
+        <xs:sequence>
+            <xs:element name="PowerTakeOffGroup" maxOccurs="unbounded" type="PowerTakeOffGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PowerTakeOffGroup">
+        <xs:all>
+            <xs:element name="PowerTakeOffType" minOccurs="0" type="PowerTakeOffTypeCode"/>
+            <xs:element name="PowerTakeOffPosition" minOccurs="0" type="PowerTakeOffPositionCode"/>
+            <xs:element name="PowerTakeOffPositionOtherDescription" minOccurs="0" type="Text200"/>
+            <xs:element name="PowerTakeOffPowerTable" minOccurs="0" type="PowerTakeOffPowerTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="PowerTakeOffPowerTable">
+        <xs:sequence>
+            <xs:element name="PowerTakeOffPowerGroup" maxOccurs="unbounded" type="PowerTakeOffPowerGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="PowerTakeOffPowerGroup">
+        <xs:all>
+            <xs:element name="PowerTakeOffRatedSpeedRange" minOccurs="0" type="Text15"/>
+            <xs:element name="PowerTakeOffEngineSpeed" minOccurs="0" type="Integer5"/>
+            <xs:element name="PowerTakeOffPower" minOccurs="0" type="Decimal62"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrackSetTable">
+        <xs:sequence>
+            <xs:element name="TrackSetGroup" maxOccurs="unbounded" type="TrackSetGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrackSetGroup">
+        <xs:all>
+            <xs:element name="TrackSetNumber" type="Integer3"/>
+            <xs:element name="TrackSetBrakedIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TrackSetPoweredIndicator" minOccurs="0" type="Indicator"/>
+            <xs:element name="TrackTrainSetTable" minOccurs="0" type="TrackTrainSetTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetTable">
+        <xs:sequence>
+            <xs:element name="TrackTrainSetGroup" maxOccurs="unbounded" type="TrackTrainSetGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetGroup">
+        <xs:all>
+            <xs:element name="TrackTrainSetLength" minOccurs="0" type="Integer5"/>
+            <xs:element name="TrackTrainSetWidth" minOccurs="0" type="Integer5"/>
+            <xs:element name="TrackTrainSetAverageContactPressureGround" minOccurs="0" type="Decimal95"/>
+            <xs:element name="TrackTrainSetMaximumPermissibleMass" minOccurs="0" type="Integer6"/>
+            <xs:element name="TrackTrainSetMaximumPermissibleMassVehicle" minOccurs="0" type="Integer6"/>
+            <xs:element name="TrackTrainSetMaximumPermissibleVerticalLoadOnCouplingPoint" minOccurs="0" type="Integer5"/>
+            <xs:element name="TrackTrainSetRollerTable" minOccurs="0" type="TrackTrainSetRollerTable"/>
+            <xs:element name="TrackTrainSetCouplingPointTable" minOccurs="0" type="TrackTrainSetCouplingPointTable"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetRollerTable">
+        <xs:sequence>
+            <xs:element name="TrackTrainSetRollerGroup" maxOccurs="unbounded" type="TrackTrainSetRollerGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetRollerGroup">
+        <xs:all>
+            <xs:element name="TrackTrainSetRollerNumber" type="Integer2"/>
+            <xs:element name="TrackTrainSetRollerMaximumload" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetCouplingPointTable">
+        <xs:sequence>
+            <xs:element name="TrackTrainSetCouplingPointGroup" maxOccurs="unbounded" type="TrackTrainSetCouplingPointGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="TrackTrainSetCouplingPointGroup">
+        <xs:all>
+            <xs:element name="MechanicalCouplingNumberOfTrackTrainCouplingPoint" minOccurs="0" type="Integer3"/>
+            <xs:element name="MaximumPermissibleVerticalLoadOnCouplingPointTrackTrainCoupling" minOccurs="0" type="Integer6"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="ProvisionalApprovalTerritoryTable">
+        <xs:sequence>
+            <xs:element name="ProvisionalApprovalTerritoryGroup" maxOccurs="unbounded" type="ProvisionalApprovalTerritoryGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="ProvisionalApprovalTerritoryGroup">
+        <xs:all>
+            <xs:element name="ProvisionalApprovalTerritoryCountry" type="ViennaCountryCode"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="RemarkTable">
+        <xs:sequence>
+            <xs:element name="RemarkGroup" maxOccurs="unbounded" type="RemarkGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="RemarkGroup">
+        <xs:all>
+            <xs:element name="RemarkSubjectDescription" type="RemarkSubjectDescriptionCode"/>
+            <xs:element name="RemarkSubjectLanguage" type="EuLanguageCode"/>
+            <xs:element name="Remark" type="Text2000"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:complexType name="SubjectApprovalTable">
+        <xs:sequence>
+            <xs:element name="SubjectApprovalGroup" maxOccurs="unbounded" type="SubjectApprovalGroup"/>
+        </xs:sequence>
+    </xs:complexType>
+    <xs:complexType name="SubjectApprovalGroup">
+        <xs:all>
+            <xs:element name="SubjectApprovalCertificateNumber" type="Text80"/>
+        </xs:all>
+    </xs:complexType>
+    <xs:simpleType name="AdvancedBrakingSystemCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="ABS"/>
+            <xs:enumeration value="ACB"/>
+            <xs:enumeration value="CBS"/>
+            <xs:enumeration value="NON"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AdvancedSafetySystemCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="15"/>
+            <xs:enumeration value="AEBS"/>
+            <xs:enumeration value="ELKS"/>
+            <xs:enumeration value="ISA"/>
+            <xs:enumeration value="DDAW"/>
+            <xs:enumeration value="EDR"/>
+            <xs:enumeration value="AIF"/>
+            <xs:enumeration value="ESS"/>
+            <xs:enumeration value="TPMS"/>
+            <xs:enumeration value="ADDW"/>
+            <xs:enumeration value="DAM"/>
+            <xs:enumeration value="ADS"/>
+            <xs:enumeration value="eCall"/>
+            <xs:enumeration value="BSIS"/>
+            <xs:enumeration value="Platooning"/>
+            <xs:enumeration value="CDCF"/>
+            <xs:enumeration value="LDWS"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AerodynamicDeviceEquippedCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="BOTH"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="NONE"/>
+            <xs:enumeration value="REAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ArrangementCylindersCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="LI"/>
+            <xs:enumeration value="O"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="S"/>
+            <xs:enumeration value="V"/>
+            <xs:enumeration value="W"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="AutomatedVehicleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="AUTOM"/>
+            <xs:enumeration value="FULAT"/>
+            <xs:enumeration value="NONAT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BodyworkCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="AA"/>
+            <xs:enumeration value="AB"/>
+            <xs:enumeration value="AC"/>
+            <xs:enumeration value="AD"/>
+            <xs:enumeration value="AE"/>
+            <xs:enumeration value="AF"/>
+            <xs:enumeration value="AG"/>
+            <xs:enumeration value="BA"/>
+            <xs:enumeration value="BB"/>
+            <xs:enumeration value="BC"/>
+            <xs:enumeration value="BD"/>
+            <xs:enumeration value="BE"/>
+            <xs:enumeration value="BX"/>
+            <xs:enumeration value="CA"/>
+            <xs:enumeration value="CB"/>
+            <xs:enumeration value="CC"/>
+            <xs:enumeration value="CD"/>
+            <xs:enumeration value="CE"/>
+            <xs:enumeration value="CF"/>
+            <xs:enumeration value="CG"/>
+            <xs:enumeration value="CH"/>
+            <xs:enumeration value="CI"/>
+            <xs:enumeration value="CJ"/>
+            <xs:enumeration value="CX"/>
+            <xs:enumeration value="DA"/>
+            <xs:enumeration value="DB"/>
+            <xs:enumeration value="DC"/>
+            <xs:enumeration value="DE"/>
+            <xs:enumeration value="DF"/>
+            <xs:enumeration value="DG"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BrakedTypeTrailCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="BRK"/>
+            <xs:enumeration value="HDB"/>
+            <xs:enumeration value="INB"/>
+            <xs:enumeration value="PNB"/>
+            <xs:enumeration value="PNH"/>
+            <xs:enumeration value="UNB"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BrakingTransmissionPowerAssistCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="WPT"/>
+            <xs:enumeration value="PAT"/>
+            <xs:enumeration value="FPT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BrakingTransmissionPrincipalCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="MECHA"/>
+            <xs:enumeration value="PNEU"/>
+            <xs:enumeration value="HYDRL"/>
+            <xs:enumeration value="HYDST"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CabCategoryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CategoryHybridElectricVehicleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="OVC"/>
+            <xs:enumeration value="NOVC"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ClassHybridVehicleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="15"/>
+            <xs:enumeration value="OVC-HEV"/>
+            <xs:enumeration value="NOVC-HEV"/>
+            <xs:enumeration value="OVC-FCHV"/>
+            <xs:enumeration value="NOVC-FCHV"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CodeForBodyworkSupplementCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="01"/>
+            <xs:enumeration value="02"/>
+            <xs:enumeration value="03"/>
+            <xs:enumeration value="04"/>
+            <xs:enumeration value="05"/>
+            <xs:enumeration value="06"/>
+            <xs:enumeration value="07"/>
+            <xs:enumeration value="08"/>
+            <xs:enumeration value="09"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="11"/>
+            <xs:enumeration value="12"/>
+            <xs:enumeration value="13"/>
+            <xs:enumeration value="14"/>
+            <xs:enumeration value="15"/>
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="17"/>
+            <xs:enumeration value="18"/>
+            <xs:enumeration value="19"/>
+            <xs:enumeration value="20"/>
+            <xs:enumeration value="21"/>
+            <xs:enumeration value="22"/>
+            <xs:enumeration value="23"/>
+            <xs:enumeration value="24"/>
+            <xs:enumeration value="25"/>
+            <xs:enumeration value="26"/>
+            <xs:enumeration value="27"/>
+            <xs:enumeration value="28"/>
+            <xs:enumeration value="29"/>
+            <xs:enumeration value="30"/>
+            <xs:enumeration value="31"/>
+            <xs:enumeration value="32"/>
+            <xs:enumeration value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ColourCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="9"/>
+            <xs:enumeration value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CombustionCycleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="2ST"/>
+            <xs:enumeration value="4ST"/>
+            <xs:enumeration value="ROT"/>
+            <xs:enumeration value="OTH"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CompletedAlteredCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="C"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TrackTrainCrawlerUndercarriageConfigurationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="STF"/>
+            <xs:enumeration value="STR"/>
+            <xs:enumeration value="TFR"/>
+            <xs:enumeration value="CTT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Date">
+        <xs:restriction base="xs:date">
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DateTime">
+        <xs:restriction base="xs:dateTime">
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal32">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="3"/>
+            <xs:fractionDigits value="2"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9.99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal52">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="5"/>
+            <xs:fractionDigits value="2"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999.99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal53">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="5"/>
+            <xs:fractionDigits value="3"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99.999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal62">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="6"/>
+            <xs:fractionDigits value="2"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999.99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal63">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="6"/>
+            <xs:fractionDigits value="3"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999.999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal64">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="6"/>
+            <xs:fractionDigits value="4"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99.9999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal72">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="7"/>
+            <xs:fractionDigits value="2"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999.99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal75">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="7"/>
+            <xs:fractionDigits value="5"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99.99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal82">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="8"/>
+            <xs:fractionDigits value="2"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999999.99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal86">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="8"/>
+            <xs:fractionDigits value="6"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99.999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal95">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="9"/>
+            <xs:fractionDigits value="5"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999.99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Decimal106">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="10"/>
+            <xs:fractionDigits value="6"/>
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999.999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="BodyworkTypeTrailerCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="DA"/>
+            <xs:enumeration value="DB"/>
+            <xs:enumeration value="DC"/>
+            <xs:enumeration value="DE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DriverSeatTypeCategoryClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="II"/>
+            <xs:enumeration value="III"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DriverSeatTypeCategoryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="B"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DrivingCycleClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="3a"/>
+            <xs:enumeration value="3b"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DrivingCycleDownscalingFactor">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="5"/>
+            <xs:fractionDigits value="3"/>
+            <xs:minInclusive value="-99.999"/>
+            <xs:maxInclusive value="99.999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="DualFuelTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:enumeration value="Type 1A"/>
+            <xs:enumeration value="Type 1B"/>
+            <xs:enumeration value="Type 2A"/>
+            <xs:enumeration value="Type 2B"/>
+            <xs:enumeration value="Type 3B"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ElectricVehicleConfigurationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="HYBRE"/>
+            <xs:enumeration value="MNPWE"/>
+            <xs:enumeration value="PUREE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EnergySourceCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="11"/>
+            <xs:enumeration value="12"/>
+            <xs:enumeration value="15"/>
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="19"/>
+            <xs:enumeration value="20"/>
+            <xs:enumeration value="21"/>
+            <xs:enumeration value="22"/>
+            <xs:enumeration value="30"/>
+            <xs:enumeration value="40"/>
+            <xs:enumeration value="44"/>
+            <xs:enumeration value="50"/>
+            <xs:enumeration value="55"/>
+            <xs:enumeration value="60"/>
+            <xs:enumeration value="90"/>
+            <xs:enumeration value="91"/>
+            <xs:enumeration value="95"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EuCountryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="AT"/>
+            <xs:enumeration value="BE"/>
+            <xs:enumeration value="BG"/>
+            <xs:enumeration value="CH"/>
+            <xs:enumeration value="CY"/>
+            <xs:enumeration value="CZ"/>
+            <xs:enumeration value="DE"/>
+            <xs:enumeration value="DK"/>
+            <xs:enumeration value="EE"/>
+            <xs:enumeration value="ES"/>
+            <xs:enumeration value="FI"/>
+            <xs:enumeration value="FR"/>
+            <xs:enumeration value="GR"/>
+            <xs:enumeration value="HR"/>
+            <xs:enumeration value="HU"/>
+            <xs:enumeration value="IE"/>
+            <xs:enumeration value="IS"/>
+            <xs:enumeration value="IT"/>
+            <xs:enumeration value="LI"/>
+            <xs:enumeration value="LT"/>
+            <xs:enumeration value="LU"/>
+            <xs:enumeration value="LV"/>
+            <xs:enumeration value="MT"/>
+            <xs:enumeration value="NL"/>
+            <xs:enumeration value="NO"/>
+            <xs:enumeration value="PL"/>
+            <xs:enumeration value="PT"/>
+            <xs:enumeration value="RO"/>
+            <xs:enumeration value="SE"/>
+            <xs:enumeration value="SI"/>
+            <xs:enumeration value="SK"/>
+            <xs:enumeration value="UK"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="EuLanguageCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="bg"/>
+            <xs:enumeration value="cs"/>
+            <xs:enumeration value="da"/>
+            <xs:enumeration value="de"/>
+            <xs:enumeration value="el"/>
+            <xs:enumeration value="en"/>
+            <xs:enumeration value="es"/>
+            <xs:enumeration value="et"/>
+            <xs:enumeration value="fi"/>
+            <xs:enumeration value="fr"/>
+            <xs:enumeration value="ga"/>
+            <xs:enumeration value="hr"/>
+            <xs:enumeration value="hu"/>
+            <xs:enumeration value="it"/>
+            <xs:enumeration value="lt"/>
+            <xs:enumeration value="lv"/>
+            <xs:enumeration value="mt"/>
+            <xs:enumeration value="nl"/>
+            <xs:enumeration value="pl"/>
+            <xs:enumeration value="pt"/>
+            <xs:enumeration value="ro"/>
+            <xs:enumeration value="sk"/>
+            <xs:enumeration value="sl"/>
+            <xs:enumeration value="sv"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ExhaustEmissionLevel">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="25"/>
+            <xs:enumeration value="Euro 0"/>
+            <xs:enumeration value="Euro 1"/>
+            <xs:enumeration value="Euro 2"/>
+            <xs:enumeration value="Euro 3"/>
+            <xs:enumeration value="Euro 4"/>
+            <xs:enumeration value="Euro 5"/>
+            <xs:enumeration value="Euro 5+"/>
+            <xs:enumeration value="Euro 5 A"/>
+            <xs:enumeration value="Euro 5 B"/>
+            <xs:enumeration value="Euro 5 C"/>
+            <xs:enumeration value="Euro 5 D"/>
+            <xs:enumeration value="Euro 5 E"/>
+            <xs:enumeration value="Euro 5 F"/>
+            <xs:enumeration value="Euro 5 G"/>
+            <xs:enumeration value="Euro 5 H"/>
+            <xs:enumeration value="Euro 5 I"/>
+            <xs:enumeration value="Euro 5 J"/>
+            <xs:enumeration value="Euro 5 K"/>
+            <xs:enumeration value="Euro 5 L"/>
+            <xs:enumeration value="Euro 5 M"/>
+            <xs:enumeration value="Euro 6"/>
+            <xs:enumeration value="Euro 6 AA"/>
+            <xs:enumeration value="Euro 6 AB"/>
+            <xs:enumeration value="Euro 6 AC"/>
+            <xs:enumeration value="Euro 6 AD"/>
+            <xs:enumeration value="Euro 6 AE"/>
+            <xs:enumeration value="Euro 6 AF"/>
+            <xs:enumeration value="Euro 6 AG"/>
+            <xs:enumeration value="Euro 6 AH"/>
+            <xs:enumeration value="Euro 6 AI"/>
+            <xs:enumeration value="Euro 6 AJ"/>
+            <xs:enumeration value="Euro 6 AK"/>
+            <xs:enumeration value="Euro 6 AL"/>
+            <xs:enumeration value="Euro 6 AM"/>
+            <xs:enumeration value="Euro 6 AN"/>
+            <xs:enumeration value="Euro 6 AO"/>
+            <xs:enumeration value="Euro 6 AP"/>
+            <xs:enumeration value="Euro 6 AQ"/>
+            <xs:enumeration value="Euro 6 AR"/>
+            <xs:enumeration value="Euro 6 BA"/>
+            <xs:enumeration value="Euro 6 BB"/>
+            <xs:enumeration value="Euro 6 BC"/>
+            <xs:enumeration value="Euro 6 BG"/>
+            <xs:enumeration value="Euro 6 BH"/>
+            <xs:enumeration value="Euro 6 BI"/>
+            <xs:enumeration value="Euro 6 CG"/>
+            <xs:enumeration value="Euro 6 CH"/>
+            <xs:enumeration value="Euro 6 CI"/>
+            <xs:enumeration value="Euro 6 DG"/>
+            <xs:enumeration value="Euro 6 EA"/>
+            <xs:enumeration value="Euro 6 EB"/>
+            <xs:enumeration value="Euro 6 EC"/>
+            <xs:enumeration value="Euro 6 N"/>
+            <xs:enumeration value="Euro 6 O"/>
+            <xs:enumeration value="Euro 6 P"/>
+            <xs:enumeration value="Euro 6 PLN"/>
+            <xs:enumeration value="Euro 6 Q"/>
+            <xs:enumeration value="Euro 6 R"/>
+            <xs:enumeration value="Euro 6 S"/>
+            <xs:enumeration value="Euro 6 T"/>
+            <xs:enumeration value="Euro 6 U"/>
+            <xs:enumeration value="Euro 6 V"/>
+            <xs:enumeration value="Euro 6 W"/>
+            <xs:enumeration value="Euro 6 X"/>
+            <xs:enumeration value="Euro 6 Y"/>
+            <xs:enumeration value="Euro 6 ZA"/>
+            <xs:enumeration value="Euro 6 ZB"/>
+            <xs:enumeration value="Euro 6 ZC"/>
+            <xs:enumeration value="Euro 6 ZD"/>
+            <xs:enumeration value="Euro 6 ZE"/>
+            <xs:enumeration value="Euro 6 ZF"/>
+            <xs:enumeration value="Euro 6 ZG"/>
+            <xs:enumeration value="Euro 6 ZH"/>
+            <xs:enumeration value="Euro 6 ZI"/>
+            <xs:enumeration value="Euro 6 ZJ"/>
+            <xs:enumeration value="Euro 6 ZK"/>
+            <xs:enumeration value="Euro 6 ZL"/>
+            <xs:enumeration value="Euro 7 FE"/>
+            <xs:enumeration value="Euro 7 FL"/>
+            <xs:enumeration value="Euro 7 GE"/>
+            <xs:enumeration value="Euro 7 GL"/>
+            <xs:enumeration value="Euro 7 GS"/>
+            <xs:enumeration value="Euro 7 GT"/>
+            <xs:enumeration value="Euro 7 HE"/>
+            <xs:enumeration value="Euro 7 HL"/>
+            <xs:enumeration value="Euro 7 HS"/>
+            <xs:enumeration value="Euro 7 HT"/>
+            <xs:enumeration value="Euro 7 TE"/>
+            <xs:enumeration value="Euro 7 TL"/>
+            <xs:enumeration value="Euro 7 TS"/>
+            <xs:enumeration value="Euro 7 TT"/>
+            <xs:enumeration value="Euro V G"/>
+            <xs:enumeration value="Euro V K"/>
+            <xs:enumeration value="EEV"/>
+            <xs:enumeration value="EEV K"/>
+            <xs:enumeration value="Euro I"/>
+            <xs:enumeration value="Euro II"/>
+            <xs:enumeration value="Euro III"/>
+            <xs:enumeration value="Euro IV"/>
+            <xs:enumeration value="Euro V"/>
+            <xs:enumeration value="Euro VI"/>
+            <xs:enumeration value="Euro VI A"/>
+            <xs:enumeration value="Euro VI B"/>
+            <xs:enumeration value="Euro VI C"/>
+            <xs:enumeration value="Euro VI D"/>
+            <xs:enumeration value="Euro VI E"/>
+            <xs:enumeration value="Euro VI E+"/>			
+            <xs:enumeration value="AX"/>
+            <xs:enumeration value="AY"/>
+            <xs:enumeration value="AZ"/>
+            <xs:enumeration value="ZX"/>
+            <xs:enumeration value="ZY"/>
+            <xs:enumeration value="ZZ"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="FuellingArrangementCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="D1A"/>
+            <xs:enumeration value="D1B"/>
+            <xs:enumeration value="D2A"/>
+            <xs:enumeration value="D2B"/>
+            <xs:enumeration value="D3B"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="L"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="FuelTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="M"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="GearboxTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="H"/>
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="O"/>
+            <xs:enumeration value="S"/>
+            <xs:enumeration value="W"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="GeneralCodeEcoInnovationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="28"/>
+            <xs:enumeration value="29"/>
+            <xs:enumeration value="32"/>
+            <xs:enumeration value="33"/>
+            <xs:enumeration value="35"/>
+            <xs:enumeration value="37"/>
+            <xs:enumeration value="38"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="IviReferenceId">
+        <xs:restriction base="xs:string">
+            <xs:pattern value="[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-4[0-9a-fA-F]{3}-[89abAB][0-9a-fA-F]{3}-[0-9a-fA-F]{12}"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Indicator">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="Y"/>
+            <xs:enumeration value="N"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Integer2">
+        <xs:restriction base="xs:short">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Integer3">
+        <xs:restriction base="xs:short">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Integer4">
+        <xs:restriction base="xs:short">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="9999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Integer5">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="99999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Integer6">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="InterconnectionWithPoweredAxleConnectionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="TRANS"/>
+            <xs:enumeration value="ELECT"/>
+            <xs:enumeration value="SHAFT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="IviVersionNumberXsd">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="8"/>
+            <xs:enumeration value="2.0"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LoadCapacityIndex">
+        <xs:restriction base="xs:int">
+            <xs:minInclusive value="0"/>
+            <xs:maxInclusive value="279"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MechanicalCouplingLocationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="REAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LocationMarkingsSubjectCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="VIN"/>
+            <xs:enumeration value="STAT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LocationMarkingsVehiclePartCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="ENGCT"/>
+            <xs:enumeration value="PASCT"/>
+            <xs:enumeration value="LUGCT"/>
+            <xs:enumeration value="INSPL"/>
+            <xs:enumeration value="DRAWB"/>
+            <xs:enumeration value="CHASS"/>
+            <xs:enumeration value="APILR"/>
+            <xs:enumeration value="BPILR"/>
+            <xs:enumeration value="CPILR"/>
+            <xs:enumeration value="DPILR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LocationMarkingsVehiclePartSideCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:enumeration value="FRONTSIDE"/>
+            <xs:enumeration value="LEFTSIDE"/>
+            <xs:enumeration value="RIGHTSIDE"/>
+            <xs:enumeration value="BACKSIDE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="LocationMarkingsVehiclePartSideSectionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:enumeration value="BACK"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="LEFT"/>
+            <xs:enumeration value="MIDDLE"/>
+            <xs:enumeration value="RIGHT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MechanicalCouplingCanBeFittedClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="15"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="A50-1"/>
+            <xs:enumeration value="A50-2"/>
+            <xs:enumeration value="A50-3"/>
+            <xs:enumeration value="A50-4"/>
+            <xs:enumeration value="A50-5"/>
+            <xs:enumeration value="A50-X"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="B50-X"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="C50-1"/>
+            <xs:enumeration value="C50-2"/>
+            <xs:enumeration value="C50-3"/>
+            <xs:enumeration value="C50-4"/>
+            <xs:enumeration value="C50-5"/>
+            <xs:enumeration value="C50-6"/>
+            <xs:enumeration value="C50-7"/>
+            <xs:enumeration value="C50-X"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="D50-A"/>
+            <xs:enumeration value="D50-B"/>
+            <xs:enumeration value="D50-C"/>
+            <xs:enumeration value="D50-D"/>
+            <xs:enumeration value="D50-X"/>
+            <xs:enumeration value="E"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="G50"/>
+            <xs:enumeration value="G50-X"/>
+            <xs:enumeration value="H"/>
+            <xs:enumeration value="H50-X"/>
+            <xs:enumeration value="J"/>
+            <xs:enumeration value="K"/>
+            <xs:enumeration value="K1"/>
+            <xs:enumeration value="K2"/>
+            <xs:enumeration value="K3"/>
+            <xs:enumeration value="K4"/>
+            <xs:enumeration value="KA1"/>
+            <xs:enumeration value="KA2"/>
+            <xs:enumeration value="KA3"/>
+            <xs:enumeration value="L"/>
+            <xs:enumeration value="L1"/>
+            <xs:enumeration value="L2"/>
+            <xs:enumeration value="L3"/>
+            <xs:enumeration value="L4"/>
+            <xs:enumeration value="L5"/>
+            <xs:enumeration value="S"/>
+            <xs:enumeration value="T"/>
+            <xs:enumeration value="W"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MethodAttachmentStatutoryPlateCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="A1"/>
+            <xs:enumeration value="A2"/>
+            <xs:enumeration value="A3"/>
+            <xs:enumeration value="A4"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MetricImperialOdometerCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="M"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="MetricImperialSpeedometerCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="M"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NrscTestCycleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="C1"/>
+            <xs:enumeration value="C2"/>
+            <xs:enumeration value="D2"/>
+            <xs:enumeration value="E2"/>
+            <xs:enumeration value="E3"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="G1"/>
+            <xs:enumeration value="G2"/>
+            <xs:enumeration value="G3"/>
+            <xs:enumeration value="H"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="NrtcTestCycleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="15"/>
+            <xs:enumeration value="NRTC"/>
+            <xs:enumeration value="LSI-NRTC"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="OptionalCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="Y"/>
+            <xs:enumeration value="N"/>
+            <xs:enumeration value="O"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PowerTakeOffPositionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="OTHER"/>
+            <xs:enumeration value="REAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="PowerTakeOffTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="MNPTO"/>
+            <xs:enumeration value="SCPTO"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RemarkSubjectDescriptionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="ADINF"/>
+            <xs:enumeration value="COMTS"/>
+            <xs:enumeration value="EXEMP"/>
+            <xs:enumeration value="RMRKS"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RightLeftHandTrafficCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="BOTH"/>
+            <xs:enumeration value="LEFT"/>
+            <xs:enumeration value="RIGHT"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RimOffSet">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="6"/>
+            <xs:fractionDigits value="3"/>
+            <xs:minInclusive value="-999.999"/>
+            <xs:maxInclusive value="999.999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RoadLoadCoefficient">
+        <xs:restriction base="xs:decimal">
+            <xs:totalDigits value="9"/>
+            <xs:fractionDigits value="6"/>
+            <xs:minInclusive value="-999.999999"/>
+            <xs:maxInclusive value="999.999999"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollingResistanceClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="E"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="G"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveFoldableCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="FOLDA"/>
+            <xs:enumeration value="NFOLD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveStructureCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="CAB"/>
+            <xs:enumeration value="FRA"/>
+            <xs:enumeration value="ROL"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveEquipmentCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="CMP"/>
+            <xs:enumeration value="OPT"/>
+            <xs:enumeration value="STD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveFoldingOperationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="NNAST"/>
+            <xs:enumeration value="PTAST"/>
+            <xs:enumeration value="FLAST"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveHandOperatedCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="WTHLS"/>
+            <xs:enumeration value="WTTLS"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectiveLockingMechanismCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="MANUL"/>
+            <xs:enumeration value="AUTOM"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="RollOverProtectivePositionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="BOTH"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="REAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SeatingPositionConfigurationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="SAD"/>
+            <xs:enumeration value="SEA"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SpecialPurposeDesignationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="SA"/>
+            <xs:enumeration value="SB"/>
+            <xs:enumeration value="SC"/>
+            <xs:enumeration value="SD"/>
+            <xs:enumeration value="SE"/>
+            <xs:enumeration value="SF"/>
+            <xs:enumeration value="SG"/>
+            <xs:enumeration value="SH"/>
+            <xs:enumeration value="SJ"/>
+            <xs:enumeration value="SK"/>
+            <xs:enumeration value="SL"/>
+            <xs:enumeration value="SM"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SpeedCategorySymbolCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="A1"/>
+            <xs:enumeration value="A2"/>
+            <xs:enumeration value="A3"/>
+            <xs:enumeration value="A4"/>
+            <xs:enumeration value="A5"/>
+            <xs:enumeration value="A6"/>
+            <xs:enumeration value="A7"/>
+            <xs:enumeration value="A8"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="E"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="G"/>
+            <xs:enumeration value="H"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="J"/>
+            <xs:enumeration value="K"/>
+            <xs:enumeration value="L"/>
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="N"/>
+            <xs:enumeration value="P"/>
+            <xs:enumeration value="Q"/>
+            <xs:enumeration value="R"/>
+            <xs:enumeration value="S"/>
+            <xs:enumeration value="T"/>
+            <xs:enumeration value="U"/>
+            <xs:enumeration value="V"/>
+            <xs:enumeration value="W"/>
+            <xs:enumeration value="Y"/>
+            <xs:enumeration value="Z"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="StageOfCompletionCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="1"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="V"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SteeringCategoryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="DIFFL"/>
+            <xs:enumeration value="HYDRL"/>
+            <xs:enumeration value="MANUL"/>
+            <xs:enumeration value="POWER"/>
+            <xs:enumeration value="SERVO"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="CategorySubCategoryEnergyConvertorCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="9"/>
+            <xs:enumeration value="NRE-v-1"/>
+            <xs:enumeration value="NRE-v-2"/>
+            <xs:enumeration value="NRE-v-3"/>
+            <xs:enumeration value="NRE-v-4"/>
+            <xs:enumeration value="NRE-v-5"/>
+            <xs:enumeration value="NRE-v-6"/>
+            <xs:enumeration value="NRE-v-7"/>
+            <xs:enumeration value="NRE-c-1"/>
+            <xs:enumeration value="NRE-c-2"/>
+            <xs:enumeration value="NRE-c-3"/>
+            <xs:enumeration value="NRE-c-4"/>
+            <xs:enumeration value="NRE-c-5"/>
+            <xs:enumeration value="NRE-c-6"/>
+            <xs:enumeration value="NRG-v-1"/>
+            <xs:enumeration value="NRG-c-1"/>
+            <xs:enumeration value="NRS-vr-1a"/>
+            <xs:enumeration value="NRS-vr-1b"/>
+            <xs:enumeration value="NRS-vi-1a"/>
+            <xs:enumeration value="NRS-vi-1b"/>
+            <xs:enumeration value="NRS-v-2a"/>
+            <xs:enumeration value="NRS-v-2b"/>
+            <xs:enumeration value="NRS-v-3"/>
+            <xs:enumeration value="ATS-v-1"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="SubFuelTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="LNG"/>
+            <xs:enumeration value="RH"/>
+            <xs:enumeration value="RL"/>
+            <xs:enumeration value="U"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TestFamilyIdentifierCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="ATCT"/>
+            <xs:enumeration value="EV"/>
+            <xs:enumeration value="IP"/>
+            <xs:enumeration value="OM"/>
+            <xs:enumeration value="PEMS"/>
+            <xs:enumeration value="PR"/>
+            <xs:enumeration value="RL"/>
+            <xs:enumeration value="RM"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text2">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="2"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text10">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="10"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text15">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="15"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text20">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="20"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text25">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="25"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text30">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="30"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text35">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="35"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text40">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text50">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="50"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text52">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="52"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text64">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="64"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text80">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="80"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text100">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="100"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text120">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="120"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text130">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="130"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text150">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="150"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text200">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="200"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text400">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="400"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text500">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="500"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text2000">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="2000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="Text4000">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="1"/>
+            <xs:maxLength value="4000"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ThreePointLiftingMechanismCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="BOTH"/>
+            <xs:enumeration value="INEXT"/>
+            <xs:enumeration value="FRONT"/>
+            <xs:enumeration value="REAR"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TrailerBrakeControlSystemTechnologyCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="COMPE"/>
+            <xs:enumeration value="ELECT"/>
+            <xs:enumeration value="HYDRL"/>
+            <xs:enumeration value="INERT"/>
+            <xs:enumeration value="MECHA"/>
+            <xs:enumeration value="NONE"/>
+            <xs:enumeration value="PNEU"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TrailerBrakeTechnologyConnectionsTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="1LINE"/>
+            <xs:enumeration value="2LINE"/>
+            <xs:enumeration value="NONE"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TypeApprovalCountryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="4"/>
+            <xs:enumeration value="e1"/>
+            <xs:enumeration value="e2"/>
+            <xs:enumeration value="e3"/>
+            <xs:enumeration value="e4"/>
+            <xs:enumeration value="e5"/>
+            <xs:enumeration value="e6"/>
+            <xs:enumeration value="e7"/>
+            <xs:enumeration value="e8"/>
+            <xs:enumeration value="e9"/>
+            <xs:enumeration value="e12"/>
+            <xs:enumeration value="e13"/>
+            <xs:enumeration value="e17"/>
+            <xs:enumeration value="e18"/>
+            <xs:enumeration value="e19"/>
+            <xs:enumeration value="e20"/>
+            <xs:enumeration value="e21"/>
+            <xs:enumeration value="e23"/>
+            <xs:enumeration value="e24"/>
+            <xs:enumeration value="e25"/>
+            <xs:enumeration value="e26"/>
+            <xs:enumeration value="e27"/>
+            <xs:enumeration value="e29"/>
+            <xs:enumeration value="e32"/>
+            <xs:enumeration value="e34"/>
+            <xs:enumeration value="e36"/>
+            <xs:enumeration value="e49"/>
+            <xs:enumeration value="e50"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TypeApprovalTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="NSS"/>
+            <xs:enumeration value="ESS"/>
+            <xs:enumeration value="EU"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TyreTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="7"/>
+            <xs:enumeration value="HL"/>			
+            <xs:enumeration value="MC"/>
+            <xs:enumeration value="MS"/>
+			<xs:enumeration value="REINF"/>
+            <xs:enumeration value="RF"/>
+            <xs:enumeration value="MST"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TypeApprovalTransportDangerousGoodsClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="8"/>
+            <xs:enumeration value="EX/II"/>
+            <xs:enumeration value="EX/III"/>
+            <xs:enumeration value="AT"/>
+            <xs:enumeration value="FL"/>
+            <xs:enumeration value="MEMU"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TyreCategoryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="C1"/>
+            <xs:enumeration value="C2"/>
+            <xs:enumeration value="C3"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TyreClassificationCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="F-1"/>
+            <xs:enumeration value="F-2"/>
+            <xs:enumeration value="F-3"/>
+            <xs:enumeration value="G-1"/>
+            <xs:enumeration value="G-2"/>
+            <xs:enumeration value="G-3"/>
+            <xs:enumeration value="I-1"/>
+            <xs:enumeration value="I-2"/>
+            <xs:enumeration value="I-3"/>
+            <xs:enumeration value="I-4"/>
+            <xs:enumeration value="I-5"/>
+            <xs:enumeration value="I-6"/>
+            <xs:enumeration value="LS-1"/>
+            <xs:enumeration value="LS-2"/>
+            <xs:enumeration value="LS-3"/>
+            <xs:enumeration value="LS-4"/>
+            <xs:enumeration value="R-1"/>
+            <xs:enumeration value="R-2"/>
+            <xs:enumeration value="R-3"/>
+            <xs:enumeration value="R-4"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TyrePlyRatingNumber">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="2"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="12"/>
+            <xs:enumeration value="14"/>
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="18"/>
+            <xs:enumeration value="20"/>
+            <xs:enumeration value="22"/>
+            <xs:enumeration value="24"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="TyreTubeTypeCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="TUBLS"/>
+            <xs:enumeration value="TUBTP"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VehicleCategoryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:enumeration value="C1a"/>
+            <xs:enumeration value="C1b"/>
+            <xs:enumeration value="C2a"/>
+            <xs:enumeration value="C2b"/>
+            <xs:enumeration value="C3a"/>
+            <xs:enumeration value="C3b"/>
+            <xs:enumeration value="C4.1a"/>
+            <xs:enumeration value="C4.1b"/>
+            <xs:enumeration value="C4.2a"/>
+            <xs:enumeration value="C4.2b"/>
+            <xs:enumeration value="C4.3a"/>
+            <xs:enumeration value="C4.3b"/>
+            <xs:enumeration value="L1e-A"/>
+            <xs:enumeration value="L1e-B"/>
+            <xs:enumeration value="L2e-P"/>
+            <xs:enumeration value="L2e-U"/>
+            <xs:enumeration value="L3e-A1"/>
+            <xs:enumeration value="L3e-A1E"/>
+            <xs:enumeration value="L3e-A1T"/>
+            <xs:enumeration value="L3e-A2"/>
+            <xs:enumeration value="L3e-A2E"/>
+            <xs:enumeration value="L3e-A2T"/>
+            <xs:enumeration value="L3e-A3"/>
+            <xs:enumeration value="L3e-A3E"/>
+            <xs:enumeration value="L3e-A3T"/>
+            <xs:enumeration value="L4e-A1"/>
+            <xs:enumeration value="L4e-A2"/>
+            <xs:enumeration value="L4e-A3"/>
+            <xs:enumeration value="L5e-A"/>
+            <xs:enumeration value="L5e-B"/>
+            <xs:enumeration value="L6e-A"/>
+            <xs:enumeration value="L6e-BP"/>
+            <xs:enumeration value="L6e-BU"/>
+            <xs:enumeration value="L7e-A1"/>
+            <xs:enumeration value="L7e-A2"/>
+            <xs:enumeration value="L7e-B1"/>
+            <xs:enumeration value="L7e-B2"/>
+            <xs:enumeration value="L7e-CP"/>
+            <xs:enumeration value="L7e-CU"/>
+            <xs:enumeration value="M1"/>
+            <xs:enumeration value="M1G"/>
+            <xs:enumeration value="M1GS"/>
+            <xs:enumeration value="M1S"/>
+            <xs:enumeration value="M2"/>
+            <xs:enumeration value="M2G"/>
+            <xs:enumeration value="M2GS"/>
+            <xs:enumeration value="M2S"/>
+            <xs:enumeration value="M3"/>
+            <xs:enumeration value="M3G"/>
+            <xs:enumeration value="M3GS"/>
+            <xs:enumeration value="M3S"/>
+            <xs:enumeration value="N1"/>
+            <xs:enumeration value="N1G"/>
+            <xs:enumeration value="N1GS"/>
+            <xs:enumeration value="N1S"/>
+            <xs:enumeration value="N2"/>
+            <xs:enumeration value="N2G"/>
+            <xs:enumeration value="N2GS"/>
+            <xs:enumeration value="N2S"/>
+            <xs:enumeration value="N3"/>
+            <xs:enumeration value="N3G"/>
+            <xs:enumeration value="N3GS"/>
+            <xs:enumeration value="N3S"/>
+            <xs:enumeration value="O1"/>
+            <xs:enumeration value="O1S"/>
+            <xs:enumeration value="O2"/>
+            <xs:enumeration value="O2S"/>
+            <xs:enumeration value="O3"/>
+            <xs:enumeration value="O3S"/>
+            <xs:enumeration value="O4"/>
+            <xs:enumeration value="O4S"/>
+            <xs:enumeration value="R1a"/>
+            <xs:enumeration value="R1b"/>
+            <xs:enumeration value="R2a"/>
+            <xs:enumeration value="R2b"/>
+            <xs:enumeration value="R3a"/>
+            <xs:enumeration value="R3b"/>
+            <xs:enumeration value="R4a"/>
+            <xs:enumeration value="R4b"/>
+            <xs:enumeration value="S1a"/>
+            <xs:enumeration value="S1b"/>
+            <xs:enumeration value="S2a"/>
+            <xs:enumeration value="S2b"/>
+            <xs:enumeration value="T1a"/>
+            <xs:enumeration value="T1b"/>
+            <xs:enumeration value="T2a"/>
+            <xs:enumeration value="T2b"/>
+            <xs:enumeration value="T3a"/>
+            <xs:enumeration value="T3b"/>
+            <xs:enumeration value="T4.1a"/>
+            <xs:enumeration value="T4.1b"/>
+            <xs:enumeration value="T4.2a"/>
+            <xs:enumeration value="T4.2b"/>
+            <xs:enumeration value="T4.3a"/>
+            <xs:enumeration value="T4.3b"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VehicleClassCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="II"/>
+            <xs:enumeration value="III"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="B"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VehicleGroupCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="1"/>
+            <xs:enumeration value="10"/>
+            <xs:enumeration value="10v"/>
+            <xs:enumeration value="11"/>
+            <xs:enumeration value="111"/>
+            <xs:enumeration value="111V"/>
+            <xs:enumeration value="112"/>
+            <xs:enumeration value="112V"/>
+            <xs:enumeration value="113"/>
+            <xs:enumeration value="12"/>
+            <xs:enumeration value="121"/>
+            <xs:enumeration value="121V"/>
+            <xs:enumeration value="122"/>
+            <xs:enumeration value="122V"/>
+            <xs:enumeration value="123"/>
+            <xs:enumeration value="123V"/>
+            <xs:enumeration value="124"/>
+            <xs:enumeration value="124V"/>
+            <xs:enumeration value="125"/>
+            <xs:enumeration value="126"/>
+            <xs:enumeration value="13"/>
+            <xs:enumeration value="131"/>
+            <xs:enumeration value="131V"/>
+            <xs:enumeration value="132"/>
+            <xs:enumeration value="132V"/>
+            <xs:enumeration value="133"/>
+            <xs:enumeration value="14"/>
+            <xs:enumeration value="141"/>
+            <xs:enumeration value="141V"/>
+            <xs:enumeration value="142"/>
+            <xs:enumeration value="142V"/>
+            <xs:enumeration value="143"/>
+            <xs:enumeration value="15"/>
+            <xs:enumeration value="16"/>
+            <xs:enumeration value="17"/>
+            <xs:enumeration value="18"/>
+            <xs:enumeration value="19"/>
+            <xs:enumeration value="1s"/>
+            <xs:enumeration value="2"/>
+            <xs:enumeration value="221"/>
+            <xs:enumeration value="222"/>
+            <xs:enumeration value="223"/>
+            <xs:enumeration value="231"/>
+            <xs:enumeration value="232"/>
+            <xs:enumeration value="233"/>
+            <xs:enumeration value="3"/>
+            <xs:enumeration value="31a"/>
+            <xs:enumeration value="31b1"/>
+            <xs:enumeration value="31b2"/>
+            <xs:enumeration value="31c"/>
+            <xs:enumeration value="31d"/>
+            <xs:enumeration value="31e"/>
+            <xs:enumeration value="32a"/>
+            <xs:enumeration value="32b"/>
+            <xs:enumeration value="32c"/>
+            <xs:enumeration value="32d"/>
+            <xs:enumeration value="32e"/>
+            <xs:enumeration value="32f"/>
+            <xs:enumeration value="33a"/>
+            <xs:enumeration value="33b1"/>
+            <xs:enumeration value="33b2"/>
+            <xs:enumeration value="33c"/>
+            <xs:enumeration value="33d"/>
+            <xs:enumeration value="33e"/>
+            <xs:enumeration value="34a"/>
+            <xs:enumeration value="34b"/>
+            <xs:enumeration value="24c"/>
+            <xs:enumeration value="34d"/>
+            <xs:enumeration value="34e"/>
+            <xs:enumeration value="34f"/>
+            <xs:enumeration value="35a"/>
+            <xs:enumeration value="35b1"/>
+            <xs:enumeration value="35b2"/>
+            <xs:enumeration value="35c"/>
+            <xs:enumeration value="36a"/>
+            <xs:enumeration value="36b"/>
+            <xs:enumeration value="36c"/>
+            <xs:enumeration value="36d"/>
+            <xs:enumeration value="36e"/>
+            <xs:enumeration value="36f"/>
+            <xs:enumeration value="37a"/>
+            <xs:enumeration value="37b1"/>
+            <xs:enumeration value="37b2"/>
+            <xs:enumeration value="37c"/>
+            <xs:enumeration value="37d"/>
+            <xs:enumeration value="37e"/>
+            <xs:enumeration value="38a"/>
+            <xs:enumeration value="38b"/>
+            <xs:enumeration value="38c"/>
+            <xs:enumeration value="38d"/>
+            <xs:enumeration value="38e"/>
+            <xs:enumeration value="38f"/>
+            <xs:enumeration value="39a"/>
+            <xs:enumeration value="39b1"/>
+            <xs:enumeration value="39b2"/>
+            <xs:enumeration value="39c"/>
+            <xs:enumeration value="4"/>
+            <xs:enumeration value="40a"/>
+            <xs:enumeration value="40b"/>
+            <xs:enumeration value="40c"/>
+            <xs:enumeration value="40d"/>
+            <xs:enumeration value="40e"/>
+            <xs:enumeration value="40f"/>
+            <xs:enumeration value="421"/>
+            <xs:enumeration value="421V"/>
+            <xs:enumeration value="422"/>
+            <xs:enumeration value="422V"/>
+            <xs:enumeration value="423"/>
+            <xs:enumeration value="431"/>
+            <xs:enumeration value="431V"/>
+            <xs:enumeration value="432"/>
+            <xs:enumeration value="432V"/>
+            <xs:enumeration value="433"/>
+            <xs:enumeration value="441"/>
+            <xs:enumeration value="441V"/>
+            <xs:enumeration value="442"/>
+            <xs:enumeration value="442V"/>
+            <xs:enumeration value="443"/>
+            <xs:enumeration value="4v"/>
+            <xs:enumeration value="5"/>
+            <xs:enumeration value="51"/>
+            <xs:enumeration value="52"/>
+            <xs:enumeration value="53"/>
+            <xs:enumeration value="54"/>
+            <xs:enumeration value="541"/>
+            <xs:enumeration value="542"/>
+            <xs:enumeration value="543"/>
+            <xs:enumeration value="55"/>
+            <xs:enumeration value="56"/>
+            <xs:enumeration value="5v"/>
+            <xs:enumeration value="6"/>
+            <xs:enumeration value="611"/>
+            <xs:enumeration value="611V"/>
+            <xs:enumeration value="612"/>
+            <xs:enumeration value="612V"/>
+            <xs:enumeration value="621"/>
+            <xs:enumeration value="621V"/>
+            <xs:enumeration value="622"/>
+            <xs:enumeration value="622V"/>
+            <xs:enumeration value="623"/>
+            <xs:enumeration value="623V"/>
+            <xs:enumeration value="624"/>
+            <xs:enumeration value="624V"/>
+            <xs:enumeration value="625"/>
+            <xs:enumeration value="631"/>
+            <xs:enumeration value="631V"/>
+            <xs:enumeration value="632"/>
+            <xs:enumeration value="632V"/>
+            <xs:enumeration value="633"/>
+            <xs:enumeration value="7"/>
+            <xs:enumeration value="8"/>
+            <xs:enumeration value="9"/>
+            <xs:enumeration value="9v"/>
+            <xs:enumeration value="31"/>
+            <xs:enumeration value="32"/>
+            <xs:enumeration value="33"/>
+            <xs:enumeration value="34"/>
+            <xs:enumeration value="35"/>
+            <xs:enumeration value="36"/>
+            <xs:enumeration value="37"/>
+            <xs:enumeration value="38"/>
+            <xs:enumeration value="39"/>
+            <xs:enumeration value="40"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VehicleIdentificationNumber">
+        <xs:restriction base="xs:string">
+            <xs:minLength value="17"/>
+            <xs:maxLength value="17"/>
+            <xs:pattern value="[A-Z0-9]+"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="VehicleSubgroupCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="10"/>
+            <xs:enumeration value="4-UD"/>
+            <xs:enumeration value="4-RD"/>
+            <xs:enumeration value="4-LH"/>
+            <xs:enumeration value="9-RD"/>
+            <xs:enumeration value="9-LH"/>
+            <xs:enumeration value="5-RD"/>
+            <xs:enumeration value="5-LH"/>
+            <xs:enumeration value="10-RD"/>
+            <xs:enumeration value="10-LH"/>
+            <xs:enumeration value="P31 SD"/>
+            <xs:enumeration value="P31 DD"/>
+            <xs:enumeration value="P32 SD"/>
+            <xs:enumeration value="P32 DD"/>
+            <xs:enumeration value="P33 SD"/>
+            <xs:enumeration value="P33 DD"/>
+            <xs:enumeration value="P34 SD"/>
+            <xs:enumeration value="P34 DD"/>
+            <xs:enumeration value="P35 SD"/>
+            <xs:enumeration value="P35 DD"/>
+            <xs:enumeration value="P36 SD"/>
+            <xs:enumeration value="P36 DD"/>
+            <xs:enumeration value="P37 SD"/>
+            <xs:enumeration value="P37 DD"/>
+            <xs:enumeration value="P38 SD"/>
+            <xs:enumeration value="P38 DD"/>
+            <xs:enumeration value="P39 SD"/>
+            <xs:enumeration value="P39 DD"/>
+            <xs:enumeration value="P40 SD"/>
+            <xs:enumeration value="P40 DD"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="ViennaCountryCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="3"/>
+            <xs:enumeration value="A"/>
+            <xs:enumeration value="AL"/>
+            <xs:enumeration value="AND"/>
+            <xs:enumeration value="AM"/>
+            <xs:enumeration value="AUS"/>
+            <xs:enumeration value="AZ"/>
+            <xs:enumeration value="B"/>
+            <xs:enumeration value="BD"/>
+            <xs:enumeration value="BDS"/>
+            <xs:enumeration value="BG"/>
+            <xs:enumeration value="BH"/>
+            <xs:enumeration value="BIH"/>
+            <xs:enumeration value="BR"/>
+            <xs:enumeration value="BRN"/>
+            <xs:enumeration value="BRU"/>
+            <xs:enumeration value="BS"/>
+            <xs:enumeration value="BW"/>
+            <xs:enumeration value="BY"/>
+            <xs:enumeration value="C"/>
+            <xs:enumeration value="CDN"/>
+            <xs:enumeration value="CGO"/>
+            <xs:enumeration value="CH"/>
+            <xs:enumeration value="CI"/>
+            <xs:enumeration value="CL"/>
+            <xs:enumeration value="CO"/>
+            <xs:enumeration value="CR"/>
+            <xs:enumeration value="CV"/>
+            <xs:enumeration value="CY"/>
+            <xs:enumeration value="CZ"/>
+            <xs:enumeration value="D"/>
+            <xs:enumeration value="DK"/>
+            <xs:enumeration value="DOM"/>
+            <xs:enumeration value="DZ"/>
+            <xs:enumeration value="E"/>
+            <xs:enumeration value="EAK"/>
+            <xs:enumeration value="EAT"/>
+            <xs:enumeration value="EAU"/>
+            <xs:enumeration value="EC"/>
+            <xs:enumeration value="EG"/>
+            <xs:enumeration value="EST"/>
+            <xs:enumeration value="F"/>
+            <xs:enumeration value="FIN"/>
+            <xs:enumeration value="FJI"/>
+            <xs:enumeration value="FL"/>
+            <xs:enumeration value="FO"/>
+            <xs:enumeration value="GBA"/>
+            <xs:enumeration value="GBG"/>
+            <xs:enumeration value="GBJ"/>
+            <xs:enumeration value="GBM"/>
+            <xs:enumeration value="GBZ"/>
+            <xs:enumeration value="GCA"/>
+            <xs:enumeration value="GE"/>
+            <xs:enumeration value="GH"/>
+            <xs:enumeration value="GR"/>
+            <xs:enumeration value="GUY"/>
+            <xs:enumeration value="H"/>
+            <xs:enumeration value="HK"/>
+            <xs:enumeration value="HKJ"/>
+            <xs:enumeration value="HR"/>
+            <xs:enumeration value="I"/>
+            <xs:enumeration value="IL"/>
+            <xs:enumeration value="IND"/>
+            <xs:enumeration value="IR"/>
+            <xs:enumeration value="IRL"/>
+            <xs:enumeration value="IRQ"/>
+            <xs:enumeration value="IS"/>
+            <xs:enumeration value="J"/>
+            <xs:enumeration value="JA"/>
+            <xs:enumeration value="KH"/>
+            <xs:enumeration value="KG"/>
+            <xs:enumeration value="KWT"/>
+            <xs:enumeration value="KZ"/>
+            <xs:enumeration value="L"/>
+            <xs:enumeration value="LAO"/>
+            <xs:enumeration value="LS"/>
+            <xs:enumeration value="LT"/>
+            <xs:enumeration value="LV"/>
+            <xs:enumeration value="M"/>
+            <xs:enumeration value="MA"/>
+            <xs:enumeration value="MAL"/>
+            <xs:enumeration value="MC"/>
+            <xs:enumeration value="MD"/>
+            <xs:enumeration value="MEX"/>
+            <xs:enumeration value="MGL"/>
+            <xs:enumeration value="MNE"/>
+            <xs:enumeration value="MS"/>
+            <xs:enumeration value="MW"/>
+            <xs:enumeration value="MYA"/>
+            <xs:enumeration value="N"/>
+            <xs:enumeration value="NA"/>
+            <xs:enumeration value="NAM"/>
+            <xs:enumeration value="NIC"/>
+            <xs:enumeration value="NL"/>
+            <xs:enumeration value="NZ"/>
+            <xs:enumeration value="OM"/>
+            <xs:enumeration value="P"/>
+            <xs:enumeration value="PA"/>
+            <xs:enumeration value="PK"/>
+            <xs:enumeration value="PAL"/>
+            <xs:enumeration value="PE"/>
+            <xs:enumeration value="PL"/>
+            <xs:enumeration value="PNG"/>
+            <xs:enumeration value="PS"/>
+            <xs:enumeration value="PY"/>
+            <xs:enumeration value="RA"/>
+            <xs:enumeration value="RC"/>
+            <xs:enumeration value="RCA"/>
+            <xs:enumeration value="RCB"/>
+            <xs:enumeration value="RCH"/>
+            <xs:enumeration value="RH"/>
+            <xs:enumeration value="RI"/>
+            <xs:enumeration value="RL"/>
+            <xs:enumeration value="RM"/>
+            <xs:enumeration value="RMM"/>
+            <xs:enumeration value="RN"/>
+            <xs:enumeration value="RO"/>
+            <xs:enumeration value="ROK"/>
+            <xs:enumeration value="ROU"/>
+            <xs:enumeration value="RP"/>
+            <xs:enumeration value="RSM"/>
+            <xs:enumeration value="RUS"/>
+            <xs:enumeration value="RWA"/>
+            <xs:enumeration value="S"/>
+            <xs:enumeration value="SD"/>
+            <xs:enumeration value="SGP"/>
+            <xs:enumeration value="SK"/>
+            <xs:enumeration value="SLO"/>
+            <xs:enumeration value="SME"/>
+            <xs:enumeration value="SN"/>
+            <xs:enumeration value="SRB"/>
+            <xs:enumeration value="SY"/>
+            <xs:enumeration value="SYR"/>
+            <xs:enumeration value="T"/>
+            <xs:enumeration value="TG"/>
+            <xs:enumeration value="TJ"/>
+            <xs:enumeration value="TM"/>
+            <xs:enumeration value="TN"/>
+            <xs:enumeration value="TR"/>
+            <xs:enumeration value="TT"/>
+            <xs:enumeration value="UA"/>
+            <xs:enumeration value="UAE"/>
+            <xs:enumeration value="UK"/>
+            <xs:enumeration value="USA"/>
+            <xs:enumeration value="UZ"/>
+            <xs:enumeration value="V"/>
+            <xs:enumeration value="VN"/>
+            <xs:enumeration value="WAG"/>
+            <xs:enumeration value="WAL"/>
+            <xs:enumeration value="WAN"/>
+            <xs:enumeration value="WG"/>
+            <xs:enumeration value="WL"/>
+            <xs:enumeration value="WS"/>
+            <xs:enumeration value="WV"/>
+            <xs:enumeration value="YV"/>
+            <xs:enumeration value="Z"/>
+            <xs:enumeration value="ZA"/>
+            <xs:enumeration value="ZW"/>
+        </xs:restriction>
+    </xs:simpleType>
+    <xs:simpleType name="WorkingPrincipleCode">
+        <xs:restriction base="xs:string">
+            <xs:maxLength value="5"/>
+            <xs:enumeration value="CMPRA"/>
+            <xs:enumeration value="ELECT"/>
+            <xs:enumeration value="EXTCI"/>
+            <xs:enumeration value="EXTPI"/>
+            <xs:enumeration value="INTCI"/>
+            <xs:enumeration value="INTPI"/>
+            <xs:enumeration value="TRBNE"/>
+        </xs:restriction>
+    </xs:simpleType>
+</xs:schema>

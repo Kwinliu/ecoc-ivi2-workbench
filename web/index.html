@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>eCoC Workbench</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <header class="topbar">
+      <div>
+        <h1>eCoC Workbench</h1>
+        <p>IVI/eCoC 批量生成、校验、签章与 NAP 上传工作台</p>
+      </div>
+      <div class="status-pill" id="schemaStatus">loading</div>
+    </header>
+
+    <main class="layout">
+      <section class="panel dashboard-panel">
+        <div class="section-title">
+          <h2>看板</h2>
+        </div>
+        <div class="metrics" id="metrics"></div>
+      </section>
+
+      <section class="panel upload-panel">
+        <div class="section-title">
+          <h2>CoC 批量上传</h2>
+        </div>
+        <label class="upload-drop" id="uploadDrop">
+          <input id="batchFileInput" type="file" multiple accept=".docx,.xlsx,.xml,.csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/xml" />
+          <span class="upload-mark" aria-hidden="true"></span>
+          <strong>选择文件或拖入此处</strong>
+          <span class="upload-types">Word · Excel · IVI XML · CSV</span>
+          <small>自动抽取字段，生成 IVI2 XML 草稿，并检查 2018/858 COC 一致性。</small>
+          <span class="upload-cta">选择文件</span>
+        </label>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>上传列表</h2>
+          <div class="actions">
+            <button id="refreshButton" class="secondary">刷新</button>
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th><input id="selectAllDrafts" type="checkbox" checked /></th>
+                <th>VIN</th>
+                <th>IVI Reference</th>
+                <th>Type</th>
+                <th>Variant</th>
+                <th>Version</th>
+                <th>状态</th>
+              </tr>
+            </thead>
+            <tbody id="draftsBody"></tbody>
+          </table>
+        </div>
+        <div class="bulk-actions">
+          <button id="batchValidateButton" class="secondary">校验</button>
+          <button id="batchGenerateButton" class="secondary">生成 XML</button>
+          <button id="batchSignButton">签章</button>
+          <button id="batchUploadRdwButton">上传 NAP</button>
+        </div>
+      </section>
+
+      <section class="panel validation-panel" id="validationPanel" hidden>
+        <div class="section-title">
+          <h2>校验区</h2>
+        </div>
+        <div id="reportOutput" class="report-output">
+          <div class="empty-state">点击校验后显示 CoC 内容检查结果。</div>
+        </div>
+      </section>
+
+      <section class="panel settings-panel">
+        <div class="section-title">
+          <h2>车型设定区</h2>
+          <button id="saveSettingsButton" class="secondary">保存设定</button>
+        </div>
+        <div class="model-setting-form">
+          <label>车型<input id="settingModelType" placeholder="例如 SY14" /></label>
+          <label>Approval Number<input id="settingModelWvta" placeholder="例如 e6*2018/858*00264*01" /></label>
+          <label>签章 API<select id="settingModelSigning"></select></label>
+          <label>上传 API<select id="settingModelUpload"></select></label>
+          <label>COC 校验范本<input id="settingModelTemplate" type="file" accept=".docx,.xlsx,.xml,.csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/xml" /></label>
+          <button id="addModelSettingButton" type="button">加入列表</button>
+        </div>
+        <div class="table-wrap">
+          <table class="model-settings-table">
+            <thead>
+              <tr>
+                <th>车型</th>
+                <th>Approval Number</th>
+                <th>签章 API</th>
+                <th>上传 API</th>
+                <th>COC 校验范本</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody id="modelSettingsBody"></tbody>
+          </table>
+        </div>
+      </section>
+
+      <section class="panel">
+        <div class="section-title">
+          <h2>提交历史</h2>
+          <div class="actions">
+            <input id="submissionSearchInput" class="search-input" placeholder="检索 VIN / NAP / 状态 / Message ID" />
+          </div>
+        </div>
+        <div class="table-wrap">
+          <table>
+            <thead>
+              <tr>
+                <th>时间</th>
+                <th>VIN</th>
+                <th>NAP</th>
+                <th>状态</th>
+                <th>Message ID</th>
+                <th>回执</th>
+              </tr>
+            </thead>
+            <tbody id="submissionsBody"></tbody>
+          </table>
+        </div>
+      </section>
+    </main>
+
+    <div class="toast" id="toast"></div>
+    <script src="/app.js"></script>
+  </body>
+</html>

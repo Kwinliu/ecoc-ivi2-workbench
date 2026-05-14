@@ -1,0 +1,218 @@
+Version 1.0 Date: 2026-02-06
+   
+ 
+ 
+ 
+ 
+ 
+ 
+INITIAL VEHICLE INFORMATION  
+ECOC WEBSITE USER MANUAL  
+Page 2 van 10 
+ 
+ 
+VERSION HISTORY  
+ 
+Version Date Remarks 
+1.0 2026-02-06 Initial version 
+ 
+  
+Page 3 van 10 
+ 
+ 
+CONTENT  
+Version history................................ ................................ ................................ ................................ ....2 
+Introduction................................ ................................ ................................ ................................ ........4 
+ecoc website ................................ ................................ ................................ ................................ ...4 
+Documentation ................................ ................................ ................................ ............................... 4 
+tools ................................ ................................ ................................ ................................ ................ 5 
+XML validation ................................ ................................ ................................ ................................ 5 
+manual input ecoc ................................ ................................ ................................ ........................... 5 
+Manual input tool ................................ ................................ ................................ ............................... 6 
+selection screen ................................ ................................ ................................ .............................. 6 
+SELECT data which has to be multiplied ................................ ................................ ........................... 7 
+ENter the eCoc data ................................ ................................ ................................ ........................ 9 
+checking the Coc data................................ ................................ ................................ ...................... 9 
+Generate the ECoc XML ................................ ................................ ................................ .................  10 
+Signing the ECoc XML ................................ ................................ ................................ ....................  10 
+ 
+  
+Page 4 van 10 
+ 
+ 
+INTRODUCTION  
+ 
+ECOC WEBSITE  
+https://ecoc.eucaris.net 
+ 
+DOCUMENTATION  
+Various supporting documents are published here. Previous versions are moved to an Archive folder. 
+• eCoC Manual 
+Includes information on how to use fields within the IVI message. 
+• IVI 2.0 Example files 
+Includes a number of example CoCs with both the pdf and the xml file. 
+• IVI release documentation 
+Includes the recent version of: 
+• InitialVehicleInformation.xsd 
+This is the most recent version of the XSD that the eCoC messages must comply with. 
+• IVI 2.0 - ICM Checking Module 
+This document describes the checks that are carried out upon receipt of an eCoC. If 
+an eCoC does not meet one of these checks, the eCoCwill not be processed and the 
+manufacturer will receive an error message.  
+• IVI 2.0 - Messagebook Excelformat 
+This document provides a tab for each framework directive with an overview of all 
+relevant fields per vehicle category. It clearly shows the link between the fields in the 
+IVI message and the associated data (including numbering), as defined in the 
+regulatory framework. 
+
+Page 5 van 10 
+ 
+ 
+• IVI 2.0 - Overview transition From IVI 1.11To2.0 
+This document describes how to translate data from a 1.x message to version 2.0. 
+Not all fields can be translated. Where possible, this is indicated. The document can 
+therefore help compose a correct 2.0 message. 
+• IVI 2.0 Change Overview v1.0 
+This document contains the changes that have been discussed within the Ereg Topic 
+Group XII and implemented in IVI version 2.0. 
+TOOLS  
+Various tools can be found here to support the eCoC process. For the time being, a tool is available to 
+translate an eCoC 1.x into an eCoC 2.0. 
+Conversion tool 
+This tool is to assist you in setting up an IVI 2.0 eCoC file. A basic conversion is made that 
+largely corresponds to IVI 2.0 requirements. The created file can be used as a first basis to set 
+up the 2.0 version. A 100% correct conversion will not be possible under any circumstances. 
+Under construction 
+A tool to sign an eCoC xml and to send it to a National Accesspoint of choice is currently 
+under construction. 
+XML VALIDATION  
+This menu option allows you to check the eCoC before sending it to a Member State to see if it 
+complies with the latest version of the IVI Checking Module (ICM). 
+The ICM is already being used by various Member States to check the plausibility of the eCoCs. 
+Several rules have been included to ensure consistency of the data. Under the “Documentation” 
+menu, these rules are further described in the ICM document. 
+MANUAL INPUT ECOC  
+Furthermore, there is a possibility via the website to enter a CoC manually to generate an eCoC in 
+this way. This option is available for the Framework Directive 2018/858 and 168/2013. These eCoCs 
+can also be checked against the ICM here. Please see next chapters for description. 
+ 
+  
+Page 6 van 10 
+ 
+ 
+MANUAL INPUT TOOL  
+The manual input tool is available to assist manufacturers in setting up a eCoC xml file by manually 
+entering the complete dataset. The tool has been set up for the vehicle categories M,N and O and 
+the L-category vehicles. 
+ 
+SELECTION SCREEN  
+• Select “Manual input eCoC” from the menu 
+ 
+ 
+This is the first screen where data has to be entered which is needed for setting up the next input 
+screens, such as Type of approval or Stage of completion. Other fields are needed for handling the 
+eCoC file such as IVI version number or Intended country of registration. 
+The next screens will be setup according to the selection you’ve made here. Some fields will show as 
+mandatory before you can navigate to the next screen. 
+ 
+  
+
+Page 7 van 10 
+ 
+ 
+SELECT DATA WHICH HAS TO BE MULTIPLIED  
+ 
+ 
+ 
+For some fields the number of occurences must be enterred. These are different per vehicle 
+category. This is needed for setting op the next input screen. An example is that some fields on the 
+CoC must be entered multiple times, e.g. for multiple axles, engines or fuels. 
+ 
+The fields shown here are specified per vehicle category: 
+• Number of manufacturs 
+For multistage vehicles where the previous stage information has te be entered, enter the 
+number of manufacturers. 
+• Number of mechanical couplings 
+Enter the number of mechanical couplings which apply to the vehicle. 
+• Number of axles 
+Enter the number of axles which apply to the vehicle. 
+• AxleGroups 
+Enter the number of axle groups and axles belonging to that group which apply to the 
+vehicle. 
+• Engine code as marked on the engine 
+Enter the engine code(s) which apply to the vehicle. If more then one engine code applies 
+this has to enterred in order to show the engine information correctly on the next screens. 
+• Fuel 
+Enter the fuel(s) which apply to the vehicle per engine. If more then one fuelcode applies 
+this has to enterred in order to show the engine information correctly on the next 
+screens. 
+  
+
+Page 8 van 10 
+ 
+ 
+Example: 
+ 
+ 
+ 
+This selection will result in duplicating several input fields for the CoC dataset: 
+ 
+ 
+ 
+The data can then be entered accordingly. It’s always possible to correct this selection by using the 
+[Back] button. 
+ 
+
+Page 9 van 10 
+ 
+ 
+ENTER THE ECOC DATA  
+The eCoC data can then be entered on the next screen. The setup of the screen is in accordance with 
+the latest known regulations regarding the relevant fields and the order of the fields. 
+ 
+ 
+ 
+• Fields can be entered here in accordance with the IVI messagestructure 
+• Fields can be multiplied using the [+] button or remove using the [BIN] button 
+• If ranges are applicable it’s possible to switch to entering minimum/maximum values by 
+using the [Range] button. By default this is set to [Fixed value]. 
+CHECKING  THE COC DATA  
+By using the button [Validate XSD and ICM] the CoC data you have entered can be checked against 
+the XSD and IVI Checking Module (ICM) plausibilty checks. 
+ 
+✓ Please note: during this data entry no digital signature will be checked by the ICM check, as 
+the signature will not be available in this step.You will have to sign the eCoC in a different 
+process using your own signing certificate. Therefore this check is skipped here in order to be 
+able to perform the plausibility check on the dataset itself. However, the signature is 
+mandatory. Therefore, after signing, always check the eCoC via the ICM option itself, which 
+can also be accessed via the site. 
+Via the menu option: XML Validation. 
+ 
+The ICM checks are described in the document: IVI 2.0 - ICM Checking Module. The document is 
+available via de menu item “Documentation”. 
+ 
+Error messages will be shown as follows: 
+ 
+ 
+ 
+
+Page 10 van 10 
+ 
+ 
+If no errors are detected for the XSD or ICM check the following screen will appear: 
+ 
+ 
+ 
+✓ Please note that although many checks have been added to the ICM, it is still possible that 
+incorrect data has been included in the eCoC, in all cases this remains the responsibility of 
+the manufacturer. 
+ 
+GENERATE THE ECOC XML  
+This can be done during or after entering the data. De xml file can generated by using the [Generate 
+IVI xml] button. 
+The file can then be stored on your system. 
+SIGNING THE ECOC XML  
+There’s more information available on signing the eCoC in the eCoC Manual via the menuoption: 
+“Documentation”. 
+We’re looking in to setting up an tooling for siging an eCoC file and sending it to a contact point. This 
+is not yet available. 

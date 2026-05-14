@@ -1,0 +1,774 @@
+Version 1.5 Date: 30-03-2026
+   
+ 
+ 
+ 
+ 
+ 
+ 
+INITIAL VEHICLE INFORMATION (IVI  2.0) 
+USER MANUAL  
+  
+Page 2 van 23 
+ 
+ 
+VERSION HISTORY  
+ 
+Version Date Remarks 
+1.5 30-03-2026 Information added on usage of In Service information 
+National/International 
+1.4 27-02-2026 More information on how to use Coupling information 
+in eCoC file. 
+1.3 09-02-2026 Technical chapter on signature added. 
+1.2 05-02-2026 Embedded excelsheet “VehicleTypes-Power-Sound-
+Consumption” does not open in PDF. Document as excel 
+added to the Manual documents. 
+1.1 03-02-2026 Error in enumeration list LocationMarkingsTable 
+corrected. 
+1.0 18-01-2026 Initial version 
+ 
+ 
+ 
+ 
+  
+Page 3 van 23 
+ 
+ 
+CONTENT  
+Version history................................ ................................ ................................ ................................ ....2 
+Introduction................................ ................................ ................................ ................................ ........5 
+Signing an ecoc ................................ ................................ ................................ ................................ ...6 
+Regulation Reference ................................ ................................ ................................ ...................... 6 
+Technical guidelines related to electronic signature ................................ ................................ ........6 
+Summary and minimum requirements: ................................ ................................ ........................... 7 
+TypeApprovalIssueDate ................................ ................................ ................................ ...................... 8 
+Configuration of doors ................................ ................................ ................................ ........................ 8 
+Location StatutoryPlatesCode and Location VIN ................................ ................................ .................. 8 
+WorkingPrincipleCode and EngineCycleCode ................................ ................................ ...................... 9 
+TechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint ................................ ....................  10 
+Regulation Reference ................................ ................................ ................................ ....................  10 
+Usage information ................................ ................................ ................................ .....................  10 
+Example XML ................................ ................................ ................................ .............................  10 
+COUPLING DEVICES ................................ ................................ ................................ ...........................  10 
+Regulation Reference ................................ ................................ ................................ ....................  10 
+Usage information ................................ ................................ ................................ .....................  10 
+Example XML ................................ ................................ ................................ .............................  11 
+Trailer masses vehicle category M and N................................ ................................ ...........................  11 
+Regulation Reference ................................ ................................ ................................ ....................  11 
+Example data CoC: ................................ ................................ ................................ ........................  12 
+Example eCoC xml file ................................ ................................ ................................ ...................  12 
+(Family) Identifiers ................................ ................................ ................................ ............................  13 
+Regulation Reference ................................ ................................ ................................ ....................  13 
+Example data CoC: ................................ ................................ ................................ .....................  13 
+Usage information ................................ ................................ ................................ .....................  13 
+Example eCoC xml file: ................................ ................................ ................................ ...............  13 
+GeneralCodeEcoInnovation................................ ................................ ................................ ...............  14 
+Usage information ................................ ................................ ................................ .....................  14 
+Example eCoC xml file: ................................ ................................ ................................ ...............  14 
+PureElectricVehicleIndicator ................................ ................................ ................................ .............  14 
+Regulation Reference ................................ ................................ ................................ ....................  14 
+Usage information ................................ ................................ ................................ .....................  14 
+Indicator / OPtionalCode fields ................................ ................................ ................................ ......... 15 
+Usage information ................................ ................................ ................................ .....................  15 
+Multistage vehicles ................................ ................................ ................................ ...........................  15 
+Regulation Reference ................................ ................................ ................................ ....................  15 
+How to enter stage information in de eCoC xml ................................ ................................ .............  16 
+Example eCoC xml file: ................................ ................................ ................................ ...............  16 
+Processing the Data ................................ ................................ ................................ ...................  17 
+Hybrid vehicles (NOVC-hev) ................................ ................................ ................................ ..............  18 
+Regulation Reference ................................ ................................ ................................ ....................  18 
+Usage information ................................ ................................ ................................ .....................  18 
+Example eCoC xml file: ................................ ................................ ................................ ...............  18 
+plugin Hybrid vehicles (OVC-hev) ................................ ................................ ................................ ...... 18 
+Regulation Reference ................................ ................................ ................................ ....................  18 
+Usage information ................................ ................................ ................................ .....................  19 
+Example eCoC xml file: ................................ ................................ ................................ ...............  19 
+pure electric vehicles (PEV) ................................ ................................ ................................ ...............  19 
+Regulation Reference ................................ ................................ ................................ ....................  19 
+Usage information ................................ ................................ ................................ .....................  20 
+Page 4 van 23 
+ 
+ 
+Example eCoC xml file: ................................ ................................ ................................ ...............  20 
+Correction eCoc ................................ ................................ ................................ ................................  21 
+Regulation Reference ................................ ................................ ................................ ....................  21 
+Example eCoC xml file: ................................ ................................ ................................ ...............  21 
+Usage information................................ ................................ ................................ .........................  21 
+EMission/Sound/Power and Consumption for different vehicle types ................................ ...............  21 
+How to set up in IVI ................................ ................................ ................................ .......................  21 
+Tyre information ................................ ................................ ................................ ...............................  22 
+Regulation References ................................ ................................ ................................ ...................  22 
+how to setup in ivi ................................ ................................ ................................ .........................  22 
+In Service information National/International ................................ ................................ ...................  23 
+How to use in IVI 2.0................................ ................................ ................................ ......................  23 
+ 
+  
+Page 5 van 23 
+ 
+ 
+INTRODUCTION  
+This manual outlines the structure, logic, and regulatory context of the Initial Vehicle Information 
+(IVI) version 2.0 as implemented in the electronic Certificate of Conformity (eCoC). It is intended for 
+everybody involved in the creation, validation, and exchange of vehicle data in XML format. 
+ 
+It contains more detailed descriptions of the use of the eCoC and serves as a supplement to the IVI 
+message book. Further documentation can be found on the eCoC website under menu item 
+Documentation (https://ecoc.eucaris.net). 
+ 
+IVI 2.0 introduces a standardized schema for encoding vehicle-specific data in compliance with EU 
+framework directives 2018/858, 168/2013 and 167/2013. The manual provides detailed instructions 
+on how to use fields related to the technical data such as: masses, axles, tyres, energy sources, and 
+multistage vehicle configurations. It also addresses mandatory digital signing requirements effective 
+from July 5th 2026. 
+ 
+Information includes XML examples, regulatory references, and usage notes to support correct 
+implementation and interoperability across systems. Special attention is given to cases such as hybrid 
+configurations, optional indicators, energy sources, masses and multistage approvals. 
+ 
+This document serves as a technical reference to ensure data consistency, regulatory compliance, 
+and robust integration with national registration systems. 
+  
+Page 6 van 23 
+ 
+ 
+SIGNING AN ECOC  
+With effect from: July 5th 2026: it’s mandatory to digitally sign all eCoC files. This will not only apply 
+for the framework directive 2018/858 but also for the 168/2013 and 167/2013. 
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2024/1061 of 10 April 2024 laying down rules for the 
+application of Regulation (EU) 2018/858 of the European Parliament and of the Council as regards to 
+the secure exchange of data of the certificate of conformity in electronic format and read-only access 
+to the certificate of conformity, and amending Commission Implementing Regulation (EU) 2021/133. 
+ 
+ 
+Regulation (EU) No 910/2014 (hereafter the eIDAS Regulation or eIDAS), on electronic identification 
+and trust services for electronic transactions in the internal market, provides a regulatory 
+environment for electronic identification of natural and legal persons and for trust services. 
+ 
+ 
+ 
+Please note that the eCoC file must be signed by: 
+✓ The manufacturer or 
+✓ the EU representative of the manufacturer 
+Both parties have to be compliant as stated in the whole vehicle type approval (WVTA). 
+ 
+ 
+TECHNICAL GUIDELINES RELATED TO ELECTRONIC SIGNATURE  
+
+Page 7 van 23 
+ 
+ 
+See http://www.w3.org/2000/09/xmldsig): 
+• Canonicalization Algorithm  
+o xml-exc-c14n http://www.w3.org/2001/10/xml-exc-c14n# 
+• SignatureMethodAlgorithm  
+o SHA-256 http://www.w3.org/2001/04/xmldsig-more#rsa-sha256 
+• Transform Algorithm  
+o http://www.w3.org/2000/09/xmldsig#enveloped-signature 
+• DigestMethodAlgoritm  
+o SHA-256 http://www.w3.org/2001/04/xmlenc#sha256 
+SUMMARY AND MINIMUM REQUIREMENTS:  
+As a result of discussions within Ereg Topic Groep XII on CoC Data exchange and several 
+manufacturers the minimum requirements for the signing certificate used for signing the eCoC, are 
+as mentioned below. 
+ 
+Manufacturers, in minimum, can use an advanced electronic seal to sign the eCoC messages which 
+can be made with a non-qualified certificate. Article 36 of regulation 910/2014 states the 
+requirements for such a seal. 
+ 
+Manufacturers can (but are not required to) apply a qualified electronic seal which can be made 
+with a qualified certificate. 
+ 
+This seal must, at the latest, be applied as of July 5th 2026. 
+ 
+Having a valid code signing certificate issued by qualified TSP and applying xmldsig will suffice to 
+meet these requirements for submission of IVI messages. 
+ 
+X-ADES can be applied, as best practice; however this is not mandatory. 
+  
+Page 8 van 23 
+ 
+ 
+TYPEAPPROVALISSUEDATE  
+The TypeApprovalIssueDate will be used to indicate the issue date of the document. This date 
+doesn’t change in case of revisions or corrections. It only changes in case of extensions. First set at 
+extension 00 and subsequently at extensions 01 etc. 
+CONFIGURATION OF DOORS  
+The ConfigurationOfDoors field has been replaced by a new definition. 
+ConfigurationOfDoorsGroup 
+NumberOfDoorsFront 
+NumberOfDoorsLeft 
+NumberOfDoorsRight 
+NumberOfDoorsBack 
+ 
+Example: 
+ 
+NumberOfDoorsFront 2 
+NumberOfDoorsLeft 4 
+NumberOfDoorsRight 3 
+NumberOfDoorsBack 1 
+ 
+Please note: as the attribute “Number of doors” is still part of the CoC this will also be in the IVI file 
+as NumberOfDoors in the GeneralConstructionGroup. 
+ 
+LOCATION  STATUTORYPLATESCODE AND LOCATION  VIN  
+The fields for Item 0.6. have been replaced by a more detailed description of the location of the VIN 
+and the statutory plates. The location can be indicated in the table below: 
+ 
+LocationMarkingsTable 
+LocationMarkingsGroup 
+LocationMarkingsSubject 
+LocationMarkingsVehiclePart 
+LocationMarkingsVehiclePartSide  
+LocationMarkingsVehiclePartSideSection  
+LocationMarkingsSubjectCode 
+VIN = LocationVIN 
+STAT = LocationStatutoryPlatesCode 
+LocationMarkingsVehiclePartCode 
+ENGCT = Engine compartment 
+PASCT = Passenger compartment 
+LUGCT = Luggage compartment 
+INSPL = Instrument panel 
+DRAWB = Drawbar 
+CHASS = Chassis 
+APILR = A-pillar 
+BPILR = B-pillar 
+CPILR = C-pillar 
+DPILR = D-pillar 
+
+Page 9 van 23 
+ 
+ 
+LocationMarkingsVehiclePartSideCode 
+FRONTSIDE = Frontside 
+LEFTSIDE = Leftside 
+RIGHTSIDE = Rightside 
+BACKSIDE = Backside 
+LocationMarkingsVehiclePartSideSectionCode 
+LEFT = Left 
+MIDDLE = Middle 
+RIGHT = Right 
+FRONT = Front 
+BACK = Back 
+LocationStatutoryPlates23Wheel and LocationVin23Wheel will not be added to this table in 
+accordance with the definition in the 168/2013. The new table can be used for 2018/858 and 
+167/2013. 
+ 
+WORKINGPRINCIPLECODE AND ENGINECYCLECODE  
+The working principle code have been changed to a combination of working principle and 
+combustion cycle instead of repeating the engine cycle within the working principle. 
+ 
+WorkingPrincipleCode CMPRA Compressed air 
+WorkingPrincipleCode EXTCI External compression ignition 
+WorkingPrincipleCode EXTPI External positive ignition 
+WorkingPrincipleCode INTCI Internal compression ignition 
+WorkingPrincipleCode INTPI Internal positive ignition 
+WorkingPrincipleCode TRBNE Turbine 
+WorkingPrincipleCode ELECT Electric 
+and 
+CombustionCycleCode 2ST Two stroke cycle 
+CombustionCycleCode 4ST Four stroke cycle 
+CombustionCycleCode ROT Rotary 
+CombustionCycleCode OTH Other 
+ 
+How to use: 
+ 
+ 
+ 
+  
+WorkingPrincipleCode WorkingPrinciple CombustionCycle
+C2 compression ignition, two stroke INTCI internal compression ignition 2ST 
+C4 compression ignition, four stroke INTCI internal compression ignition 4ST
+CA compressed air CMPRA compressed air 
+CI compression ignition INTCI internal compression ignition
+DF dualfuel 
+E2 positive ignition, two stroke INTPI internal positive ignition 2ST 
+E4 positive ignition, four stroke INTPI internal positive ignition 4ST
+EC external combustion engine compression ignition EXTCI external compression ignition
+EE electric engine ELECT electricity
+EF external combustion engine 
+EP external combustion engine positive ignition EXTPI external positive ignition 
+ER positive ignition, rotary INTPI internal positive ignition ROT
+IC internal combustion engine compression ignition INTCI internal compression ignition
+IE internal combustion engine positive ignition INTPI internal positive ignition
+PI positive ignition INTPI internal positive ignition
+TB turbine TRBNE turbine
+
+Page 10 van 23 
+ 
+ 
+TECHNICALLYPERMISSIBLEMAXIMUMSTATICVERTICALMASSCOUPLINGPOINT  
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2020/683 of 15 April 2020 implementing Regulation (EU) 
+2018/858. 
+USAGE INFORMATION  
+The location of the vertical maximum static mass has been moved from the mechanical coupling 
+table to its own table within the mass group. As a result, the maximum static vertical mass can be 
+defined as follows: 
+ 
+1. At vehicle level, when no coupling is installed, but towing maximum masses are available. For 
+example, a passenger car that is delivered without a coupling device. 
+2. At coupling level, by means of the MechnicalCouplingNumber as the identifier, which is also 
+included in the mechanical coupling table. This allows the maximum static vertical mass to be 
+linked to multiple attachment points on the vehicle. For example, when a vehicle has two 
+coupling device options, such as a 50 mm ball coupling (75 kg) and a drawbar coupling (1,000 
+kg). 
+ 
+The S-value of the coupling device itself remains in the MechanicalCouplingTable. 
+ 
+EXAMPLE XML  
+ 
+ 
+ 
+Add for vehicle categories: M, N, O, L, R, S. Table is forbidden for T, C 
+For M1 a MechanicalCouplingNumberVerticalMass is Forbidden (no reference to 
+MechanicalCouplingNumber possible) 
+ 
+General rule: 
+TechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint for the vehicle  
+add with no value for MechanicalCouplingNumberVerticalMass 
+VerticalMTechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint for the coupling 
+              add with a value in MechanicalCouplingNumberVerticalMass 
+ 
+COUPLING DEVICES  
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2020/683 of 15 April 2020 implementing Regulation (EU) 
+2018/858. 
+ 
+USAGE INFORMATION  
+Make a clear distinction between coupling devices which are actually fitted on the vehicle when 
+produced of coupling devices which can be fitted after production of the vehicle. 
+ 
+ 
+
+Page 11 van 23 
+ 
+ 
+EXAMPLE XML  
+ 
+ 
+ 
+Add for vehicle categories: M2, M3, N, O, L, T, C, R, S. For M1 the Table is Forbidden.  
+Add information on the couplingdevices which are actually fitted on the vehicle. 
+ 
+ 
+Add for vehicle categories: M2, M3, N, O, T, C, R, S. For M1 and L the Table is 
+Forbidden.  
+Add information on the different parts of the MechanicalCoupling fitted 
+ 
+ 
+Add information on coupling devices that are not actually fitted on the vehicle, but 
+are allowed to be fitted. For M1, L, T, C, R and S and StageOfCompletion C,V the 
+Table is Forbidden. 
+ 
+ 
+TRAILER MASSES VEHICLE CATEGORY M AND N  
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2020/683 of 15 April 2020 implementing Regulation (EU) 
+2018/85. 
+ 
+ 
+ 
+Field IVI 2.0 Ruleset 
+MechanicalCouplingNumberTowingM
+asses 
+Optional to use, can be empty. If a value is put in it, it must 
+appear in MechanicalCouplingNumber 
+ 
+The number of MechanicalCouplingNumberTowingMasses 
+mentioned her must equal the number of 
+MechanicalCouplingNumber 
+
+Page 12 van 23 
+ 
+ 
+Field IVI 2.0 Ruleset 
+BrakedTypeTrail Item 18.x 
+Always mandatory UNB or BRK when a value is stated in 
+TechnicallyPermissibleMaximumTowableMass 
+BodyworkTypeTrailer Item 18.x 
+Always mandatory when BRK is in BrakedTypeTrail and a value 
+is in TechnicallyPermissibleMaximumTowableMass 
+TechnicallyPermissibleMaximumComb
+inationMass 
+Item 16.4 
+must occur at least once with a value 
+BrakedTypeTrail can be UNB or BRK, not mandatory to use 
+TechnicallyPermissibleMaximumTowa
+bleMass 
+Item 18.x 
+must occur at least once with a value 
+ 
+EXAMPLE DATA COC:  
+ 
+EXAMPLE ECOC XML FILE  
+ 
+  
+
+Page 13 van 23 
+ 
+ 
+(FAMILY) IDENTIFIERS  
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2020/683 of 15 April 2020 implementing Regulation (EU) 
+2018/85. 
+ 
+ 
+EXAMPLE DATA COC:  
+ 
+ 
+USAGE INFORMATION  
+The TestFamilyIdentifiers information has been moved to the EnergySourceGroup, in order to make 
+it possible to state different values per EnergySource as this might be the case with the ATCT Family. . 
+ 
+EXAMPLE ECOC XML FILE:  
+ 
+  
+
+Page 14 van 23 
+ 
+ 
+GENERALCODEECOINNOVATION  
+Enumeration added: 28 / 29 / 32 / 33 / 35 / 37 / 38 
+ 
+USAGE INFORMATION  
+State the Member State country code seperately from the eco innovations code. 
+EXAMPLE ECOC XML FILE:  
+ 
+PUREELECTRICVEHICLEINDICATOR  
+REGULATION REFERENCE  
+Commission Implementing Regulation (EU) 2020/683 of 15 April 2020 implementing Regulation (EU) 
+2018/85. 
+ 
+USAGE INFORMATION  
+The Forum has decided that the definition of the field does not refer to a electric switchmode but 
+indicates whether the vehicle is purely electric. This makes it actually a superfluous field because this 
+is allready indicated when the Energysourc(s) are all 95 (Electric). 
+  
+
+Page 15 van 23 
+ 
+ 
+INDICATOR / OPTIONALCODE FIELDS  
+USAGE INFORMATION  
+If an indicator or an optional code field is relevant within the vehicle category, a value must be 
+specified here. This means that even if the indicator “Pure Electric y/n” has no value for e.g. M1 
+Diesel vehicles, an "N" must still be specified here. 
+MULTISTAGE VE HICLES  
+REGULATION REFERENCE  
+Multi-stage vehicle are vehicles that have been built and finished in more than one stage, normally 
+by two or more different manufacturers. 
+For example: Multistage vehicle chassis and cabin modifications involve an incomplete vehicle, like a 
+chassis-cab, being completed by a second-stage manufacturer who adds specialized components to 
+create a functional vehicle, such as a box truck or motor home. This two or more stage process 
+involves different manufacturers adding parts to the vehicle's base to serve a specific purpose, like 
+carrying cargo or functioning as a mobile workshop. 
+ 
+Definitions (2018/858): 
+‘multi-stage type-approval’ means the procedure whereby one or more approval authorities certify 
+that depending on its state of completion, an incomplete or completed type of vehicle satisfies the 
+relevant administrative provisions and technical requirements; 
+ 
+‘base vehicle’ means any vehicle that is used at the initial stage of a multi-stage type-approval 
+ 
+ ‘incomplete vehicle’ means any vehicle that must undergo at least one further stage of completion 
+in order to meet the relevant technical requirements of this Regulation; 
+ 
+ ‘completed vehicle’ means a vehicle resulting from the multistage type-approval that meets the 
+relevant technical requirements of this Regulation; 
+ 
+‘complete vehicle’ means a vehicle that does not need to be completed in order to meet the relevant 
+technical requirements of this Regulation; 
+ 
+With the implementation of EU 2018/858, the stage manufacturer is responsible for the data of the 
+vehicle relating to the specific stage. Previously, it was the responsibility of the final stage 
+manufacturer to consolidate all the data of the vehicle on the last stage CoC. 
+ 
+This makes the process of processing the CoC’s for the registration purpose complex. This chapter 
+describes how the multistage vehicles should be included within the IVI 2.0 messagestructure and 
+how data could be processed. This will probably be different per Member State. 
+ 
+Possible multiple stages in this process: 
+ 
+From Status To Status To Status 
+incomplete (I) completed (V)  
+complete (C) completed (V)  
+incomplete (I) incomplete (I) completed (V) 
+Page 16 van 23 
+ 
+ 
+HOW TO ENTER STAGE INFORMATION IN DE ECOC XML  
+Example setup for three stages. 
+ 
+ 
+EXAMPLE ECOC XML FILE:  
+A multistage vehicle consists of more then one stage where each stage manufacturer has to state the 
+relevant vehicle information in the eCoC. 
+ 
+First stage manufacturer 
+States the vehicle identification number, which has to stay the same during all stages: 
+... 
+<VehicleIdentificationNumber>XRA1111122222KKKK</VehicleIdentificationNumber> 
+<StageOfCompletion>I</StageOfCompletion> 
+... 
+States the typeapprovalnumber of the first stage. The typeapprovalnumber can change between 
+different stages. At least Typeapprovalnumber or Variant or Version have to be different per stage. 
+.. 
+ <TypeApprovalNumber>e4*2018/858*0000*00</TypeApprovalNumber> 
+<TypeApprovalIssueDate>2015-01-01</TypeApprovalIssueDate> 
+<Type>A0012</Type> 
+<Variant>XYZ123</Variant> 
+<Version>V123HJ</Version> 
+.. 
+States the stagenumber 1 and the manufacturer’s address information. The 
+ManufacturerStageNumber is always mandatory also for vehicles with only one stage. 
+ 
+<ManufacturerTable> 
+<ManufacturerGroup> 
+<ManufacturerStageNumber>1</ManufacturerStageNumber> 
+<ManufacturerName>ManufacturerName First stage</ManufacturerName> 
+<ManufacturerAddressLine1>AddressLine1</ManufacturerAddressLine1> 
+<ManufacturerAddressLine2>AddressLine2</ManufacturerAddressLine2> 
+<ManufacturerAddressLine3>AddressLine3</ManufacturerAddressLine3> 
+<ManufacturerPlaceOfResidence>PlaceOfResidence</ManufacturerPlaceOfResidence> 
+<ManufacturerCountryOfResidence>The Netherlands</ManufacturerCountryOfResidence> 
+</ManufacturerGroup> 
+</ManufacturerTable> 
+ 
+Second stage manufacturer 
+
+Page 17 van 23 
+ 
+ 
+States the vehicle identification number, which has to stay the same during all stages: 
+ 
+<VehicleIdentificationNumber>XRA1111122222KKKK</VehicleIdentificationNumber> 
+<StageOfCompletion>V</StageOfCompletion> 
+ 
+At least Typeapprovalnumber or Variant or Version have to be different per stage. 
+ 
+<TypeApprovalNumber>e4*2018/858*1111*11</TypeApprovalNumber> 
+<TypeApprovalIssueDate>2015-10-01</TypeApprovalIssueDate> 
+<Type>BKLK001</Type> 
+<Variant>BVG00PL</Variant> 
+<Version>VBHLL009</Version> 
+ 
+States the stagenumber 2 and the manufacturer’s address information, and states the 
+TypeApprovalNumber/Type/Variant/Version of the previous stage manufacturer. 
+... 
+<ManufacturerTable> 
+<ManufacturerGroup> 
+<ManufacturerStageNumber>2</ManufacturerStageNumber> 
+<ManufacturerName>ManufacturerName First stage</ManufacturerName> 
+<ManufacturerAddressLine1>AddressLine1</ManufacturerAddressLine1> 
+<ManufacturerAddressLine2>AddressLine2</ManufacturerAddressLine2> 
+<ManufacturerAddressLine3>AddressLine3</ManufacturerAddressLine3> 
+<ManufacturerPlaceOfResidence>PlaceOfResidence</ManufacturerPlaceOfResidence> 
+<ManufacturerCountryOfResidence>The Netherlands</ManufacturerCountryOfResidence> 
+<PreviousStageTypeApprovalNumber>e4*2018/858*0000*00</PreviousStageTypeApprovalN
+umber> 
+<PreviousStageType>A0012</PreviousStageType> 
+<PreviousStageVariant>XYZ123</PreviousStageVariant> 
+<PreviousStageVersion>V123HJ</PreviousStageVersion> 
+</ManufacturerGroup> 
+</ManufacturerTable> 
+PROCESSING THE DATA  
+Different methods can be used to process the data from different stage CoC’s. In principle, the data 
+from the first stage must serve as a basis and differences with the subsequent stage must be 
+processed.The processing of data for registration purposes can be different per Member State. 
+ 
+Points of attention here are: 
+Data which is part of a table (for example AxleTable) will have to be repeated in the second stage 
+eCoC. If you have a first stage vehicle with three axles and in the second stage CoC there’s only one 
+Axle stated, combining the two CoC’s could mean removing two axles or adding one. This is why the 
+entire set must be included in the case of automated processing. 
+ 
+Single fields at Group level not within a table 
+For processing to a vehicle eCoC, the different eCoC’s can be superimposed on each other based on 
+the order in ManufacturerStageNumber. By following this order, the data from the first eCoC is 
+overwritten with the data from the subsequent eCoC. The issue with this processing is that single 
+fields (e.g. ClassHybridVehicle) that were named in the first stage and have no value in the 
+subsequent stage, remain because they are not overwritten with a new value and it is not clear 
+whether they should be deleted. 
+  
+Page 18 van 23 
+ 
+ 
+HYBRID VEHICLES ( NOVC -HEV ) 
+REGULATION REFERENCE  
+UN Regulation No 177 - Uniform provisions concerning the determination of system power of hybrid 
+electric vehicles and of pure electric vehicles having more than one electric machine for propulsion 
+[2025/1910] 
+3.3.13. "Not off-vehicle charging hybrid electric vehicle" (NOVC-HEV) means a hybrid electric vehicle 
+that cannot be charged from an external source. 
+3.3.14. "Hybrid vehicle" means a vehicle equipped with a powertrain containing at least two different 
+categories of propulsion energy converters and at least two different categories of propulsion energy 
+storage systems.  
+3.3.15. "Hybrid electric vehicle" means a hybrid vehicle equipped with a powertrain containing at 
+least one electric motor or electric motor-generator and at least one internal combustion engine as 
+propulsion energy converter.  
+USAGE INFORMATION  
+In case of an NOVC-HEV (ClassHybridVehicle) vehicle, several energy sources must be included in the 
+eCoC, including EnergySource: Electricity (95). Also the engine code for the electric engine has to be 
+mentioned. If this engine does not have it’s own specifications, the manufacturer of the engine and 
+the engine code must be repeated, working principle must be set to electricity. 
+The fields which are relevant for the specified energy source have to be mentioned within that 
+energysource group. For instance “MaximumNetPowerCombustion” only for EnergySource: Petrol 
+(10), and “MaximumNetPowerElectric”only for EnergySource: Electricity (95). Also see chapter: 
+EMISSION/SOUND/POWER AND CONSUMPTION FOR DIFFERENT VEHICLE TYPES. 
+EXAMPLE ECOC XML FILE:  
+ 
+ 
+PLUGIN HYBRID VEHICLES (OVC -HEV)  
+REGULATION REFERENCE  
+
+Page 19 van 23 
+ 
+ 
+UN Regulation No 177 - Uniform provisions concerning the determination of system power of hybrid 
+electric vehicles and of pure electric vehicles having more than one electric machine for propulsion 
+[2025/1910] 
+3.3.12. "Off-vehicle charging hybrid electric vehicle" (OVC-HEV) means a hybrid electric vehicle that 
+can be charged from an external source.   
+USAGE INFORMATION  
+In case of an OVC-HEV (ClassHybridVehicle), several energy sources must be included in the eCoC, 
+including EnergySource: Electricity (95). Also the engine code for the electric engine has to be 
+mentioned. If this engine does not have it’s own specifications, the manufacturer of the engine and 
+the engine code must be repeated, working principle must be set to electricity. 
+The fields which are relevant for the specified energy source have to be mentioned within that 
+energysource group. For instance “MaximumNetPowerCombustion” only for EnergySource: Petrol 
+(10), and “MaximumNetPowerElectric”only for EnergySource: Electricity (95). Also other specific OVC 
+fields have to be added for energysource electricity, example: 
+WltpEquivalentAllElectricOffVehicleChargingRange. Also see chapter: EMISSION/SOUND/POWER 
+AND CONSUMPTION FOR DIFFERENT VEHICLE TYPES. 
+EXAMPLE ECOC XML FILE:  
+ 
+ 
+ 
+PURE ELECTRIC  VEHICLES ( PEV ) 
+REGULATION REFERENCE  
+UN Regulation No 177 - Uniform provisions concerning the determination of system power of hybrid 
+electric vehicles and of pure electric vehicles having more than one electric machine for propulsion 
+[2025/1910] 
+3.3.16. "Pure electric vehicle" (PEV) means a vehicle equipped with a powertrain containing 
+exclusively electric machines as propulsion energy converters and exclusively rechargeable electric 
+energy storage systems as propulsion energy storage systems 
+
+Page 20 van 23 
+ 
+ 
+USAGE INFORMATION  
+In case of a pure electric vehicle (PureElectricVehicleIndicator = Y) the fields relevant for the electric 
+engine and energysource have to be available in the eCoC. In case of several electric engines, the 
+data for each engine must be added. If these engines do not have their own specifications, the 
+manufacturer, engine code and working principle must be repeated. In case of a fully electric vehicle, 
+the data specified for the energy source of the first engine must be repeated for the next engine(s), 
+deviating values must be adjusted. Also see chapter: EMISSION/SOUND/POWER AND CONSUMPTION 
+FOR DIFFERENT VEHICLE TYPES. 
+ 
+Note: A different approach has been chosen for fully electric vehicles because it’s not clear how to 
+enter the data for the different engines and energy sources. The data that applies to the engines 
+sometimes apply to that specific engine or could be applicable for the vehicle as a whole. It has been 
+discussed to have an option available to add energy source information on different levels in the 
+message. This was not chosen because it would make the processing of the data too complex and 
+difficult to check against the type approval. Therefore, the data must be repeated for this type of 
+vehicle. Energy source electricity must be provided per engine, so the values must be repeated (if the 
+same) for each engine because vehicle-level registration is not supported. This must be taken into 
+account when processing to the registration processes. 
+EXAMPLE ECOC XML FILE:  
+  
+
+Page 21 van 23 
+ 
+ 
+CORRECTION ECOC  
+REGULATION REFERENCE  
+A version number is not specified in the regulations. The version number is technically necessary to 
+be able to recognize and process corrections of eCoC data. 
+EXAMPLE ECOC XML FILE:  
+<Header> 
+<IviReferenceId>6a2957d3-4a32-41a6-a2d0-50681e0bf5e1</IviReferenceId> 
+<IviVersionNumberXsd>2.0</IviVersionNumberXsd> 
+<IviVersionNumber>1</IviVersionNumber> 
+<IviVersionDateTime>2024-02-01T13:35:10.500+02:00</IviVersionDateTime> 
+<IntendedCountryRegistration>NL</IntendedCountryRegistration> 
+<DesignatedTypeApprovalCountry>e4</DesignatedTypeApprovalCountry> 
+</Header> 
+USAGE INFORMATION  
+The first version with the data of the vehicle must always contain the value "1" (mandatory). Only in 
+the event of a correction of the data of the vehicle when, for example, the wheelbase is given a 
+different value because it was incorrectly supplied in version “1”, the version must be increased to 
+"2" etc. The value does not change if, for example, a delivery did not go well due to technical issues. 
+Also for a corrected version the IvIReferenceId has to have a different value, same as 
+IviVersionDateTime. 
+EMISSION/SOUND/POWER AND CONSUMPTION FOR DIFFERENT VEHICLE TYPES  
+HOW TO SET UP IN IVI  
+For all vehicles M,N,L,T,C an EnergyConvertorCodeMarkedOnEnergyConvertor must be present. For 
+hybrid vehicles, the electric engine may have its own code, then this must be entered. If this is not 
+the case, the EnergyConvertorCodeMarkedOnEnergyConvertor of the combustion engine must be 
+repeated. 
+ 
+As a general rule always state the fields which are specified for the EnergySource. For instance 
+MaximumNetPowerCombustion only for the fossile fuels, and MaximumNetPowerElectric only for 
+electricity. See for specific rules the chapters for different vehicle types in this manual. 
+ 
+The Excel “VehicleTypes-Power-Sound-Consumption” indicates which fields are relevant for different 
+vehicle types. To be found in the eCoC manual folder. 
+ 
+ 
+  
+Page 22 van 23 
+ 
+ 
+TYRE INFORMATION  
+REGULATION REFERENCE S 
+2018/858 
+ 
+O-category 
+ 
+167/2013 
+ 
+168/2013 
+ 
+HOW TO SETUP IN IVI  
+Field Example Marking Meaning / Explanation 
+TyreSize 315/80 R22.5 Tyre width 315 mm / aspect 
+ratio 80% / R = radial / rim 
+diameter 22.5 mm 
+RimSize 22.5 Rim diameter (inch); part of 
+TyreSize 
+RimOffSet ET120 Rim offset (mm); usually on 
+the rim, not on the tyre 
+TyrePlyRatingNumber 18PR Ply Rating / Load Range 
+(construction strength) 
+LoadCapacityIndexSingleWheel 154 Load Index for single fitment 
+(e.g., 3750 kg) 
+LoadCapacityIndexTwinWheel 150 Load Index for twin fitment 
+(e.g., 3350 kg) 
+SpeedCategorySymbol L Speed symbol (L = 120 km/h) 
+TyreCategory C Category (e.g., C = 
+Commercial, LT = Light Truck) 
+TyreTubeType TL TL = Tubeless, TT = Tube Type 
+TyreFittedProductionIndicator Not part of marking. Indicates tyre is fitted during 
+production. 
+TyreMaximumSpeedIndicator MAX SPEED 120 KM/H Textual speed limit 
+TyreType RADIAL Construction type (Radial or 
+Bias) 
+RollingResistanceClass C EU label class (A–E); usually on 
+sticker, not embossed on 
+sidewall 
+ 
+
+Page 23 van 23 
+ 
+ 
+IN SERVICE INFORMATION NATIONAL/INTERNATIONAL  
+ 
+ 
+ 
+HOW TO USE IN IVI 2.0  
+ 
+The “INT” and “NAT” fields have been removed.  
+ 
+If ..Country is stated and the mass fields have a  value this means the value is “National”. 
+If ..Traffic regulation is and the mass fields  have a value this means the value is “International”. 

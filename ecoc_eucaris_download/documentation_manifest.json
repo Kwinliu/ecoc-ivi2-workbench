@@ -1,0 +1,170 @@
+[
+  {
+    "path": "documentation/eCoC Manual/eCoC IVI setup Manual v1.5.pdf",
+    "bytes": 1398941
+  },
+  {
+    "path": "documentation/eCoC Manual/eCoC Website Manual v1.0.pdf",
+    "bytes": 508084
+  },
+  {
+    "path": "documentation/eCoC Manual/NAP Client manual.pdf",
+    "bytes": 3930761
+  },
+  {
+    "path": "documentation/eCoC Manual/VehicleTypes-Power-Sound-Consumption.xlsx",
+    "bytes": 27520
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/168-2013 Example files/L1e - RLCSY141000001946.pdf",
+    "bytes": 285622
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/168-2013 Example files/L1e - RLCSY141000001946.xml",
+    "bytes": 11918
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/168-2013 Example files/L5e - MLESH271000002636.pdf",
+    "bytes": 322339
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/168-2013 Example files/L5e - MLESH271000002636.xml",
+    "bytes": 13815
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-01 - Toyota - LexusRZ450e_M1_Electric_COC_Specimen.pdf",
+    "bytes": 627768
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-01 - Toyota - LexusRZ450e_M1_Electric_COC_Specimen.xml",
+    "bytes": 17805
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-02 -Toyota - C-HR M1-Specimen.pdf",
+    "bytes": 1509370
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-02 -Toyota - C-HR M1-Specimen.xml",
+    "bytes": 19862
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-03 -Toyota - Mirai_M1_Hydrogen_COC_Specimen.pdf",
+    "bytes": 629564
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-03 -Toyota - Mirai_M1_Hydrogen_COC_Specimen.xml",
+    "bytes": 13424
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-04 -Toyota - Prius_M1_PlugIn_COC_Specimen.pdf",
+    "bytes": 640058
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-04 -Toyota - Prius_M1_PlugIn_COC_Specimen.xml",
+    "bytes": 19043
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-05 -Toyota - Rav4_M1_Hybrid_Petrol_COC_Specimen.pdf",
+    "bytes": 649423
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-05 -Toyota - Rav4_M1_Hybrid_Petrol_COC_Specimen.xml",
+    "bytes": 17500
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-06 -Toyota - ProaceCity_M1_Electric_COC_Specimen.pdf",
+    "bytes": 637749
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/M1-06 -Toyota - ProaceCity_M1_Electric_COC_Specimen.xml",
+    "bytes": 14652
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/N2-01 - ProaceMax_N2_Electric_Complete_Specimen.pdf",
+    "bytes": 1443096
+  },
+  {
+    "path": "documentation/IVI 2.0 Example files/2018-858 Example files/N2-01 - ProaceMax_N2_Electric_Complete_Specimen.xml",
+    "bytes": 17394
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/20260330-Version 2.0 - IVI Release Notes.pdf",
+    "bytes": 368807
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/IVI 2.0 - ICM Checking Module - v2.6.xlsx",
+    "bytes": 295718
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/IVI 2.0 - Initial Vehicle Information XSD Scheme.xsd",
+    "bytes": 157185
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/IVI 2.0 - Messagebook Excelformat - V2.5.xlsx",
+    "bytes": 267165
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/IVI 2.0 - Overview transition From IVI 1.11To2.0 - v2.3.xlsx",
+    "bytes": 106498
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/20260227-Version 2.0 - IVI Release Notes.pdf",
+    "bytes": 393577
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Change overview version November 5 meeting.pdf",
+    "bytes": 346378
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - ICM Checking Module - v2.1.xlsx",
+    "bytes": 198920
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - ICM Checking Module - v2.2.xlsx",
+    "bytes": 175198
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - ICM Checking Module - v2.3.xlsx",
+    "bytes": 292082
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - ICM Checking Module - v2.4.xlsx",
+    "bytes": 292161
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - ICM Checking Module - v2.5.xlsx",
+    "bytes": 269520
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Messagebook Excelformat - V2.1.xlsx",
+    "bytes": 243157
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Messagebook Excelformat - V2.3.xlsx",
+    "bytes": 265263
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Messagebook Excelformat - V2.4.xlsx",
+    "bytes": 267722
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Overview transition From IVI 1.11To2.0 - v2.0.xlsx",
+    "bytes": 104853
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Overview transition From IVI 1.11To2.0 - v2.1.xlsx",
+    "bytes": 103380
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 - Overview transition From IVI 1.11To2.0 - v2.2.xlsx",
+    "bytes": 106374
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 Change Overview v1.0.pdf",
+    "bytes": 1015575
+  },
+  {
+    "path": "documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 Change Overview v1.1.pdf",
+    "bytes": 1015187
+  }
+]

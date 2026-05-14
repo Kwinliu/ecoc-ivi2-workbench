@@ -1,0 +1,174 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<InitialVehicleInformation xmlns="http://eu.ereg.initialvehicleinformation.v2">
+	<Header>
+		<IviReferenceId>90380c97-8b38-4961-9180-d8de3fa8b57b</IviReferenceId>
+		<IviVersionNumberXsd>2.0</IviVersionNumberXsd>
+		<IviVersionNumber>1</IviVersionNumber>
+		<IviVersionDateTime>2022-09-05T07:48:44.9413042Z</IviVersionDateTime>
+		<DesignatedTypeApprovalCountry>e13</DesignatedTypeApprovalCountry>
+	</Header>
+	<CocDataGroup>
+		<VehicleIdentificationNumber>RLCSY141000001946</VehicleIdentificationNumber>
+		<TypeApprovalType>EU</TypeApprovalType>
+		<ProvisionalTypeApprovalIndicator>N</ProvisionalTypeApprovalIndicator>
+		<StageOfCompletion>C</StageOfCompletion>
+		<Type>SY14</Type>
+		<Variant>A</Variant>
+		<Version>01</Version>
+		<VehicleCategory>L1e-B</VehicleCategory>
+		<LocationStatutoryPlate23Wheel>L, x268.5, y62, z603</LocationStatutoryPlate23Wheel>
+		<MethodAttachmentStatutoryPlate>A1</MethodAttachmentStatutoryPlate>
+		<LocationVin23Wheel>R, x1233, y0, z741</LocationVin23Wheel>
+		<TypeApprovalNumber>e13*168/2013*01303*00</TypeApprovalNumber>
+		<TypeApprovalIssueDate>2022-01-04</TypeApprovalIssueDate>
+		<RightLeftHandTraffic>BOTH</RightLeftHandTraffic>
+		<MetricImperialSpeedometer>B</MetricImperialSpeedometer>
+		<MaximumSpeed>44.00</MaximumSpeed>
+		<ExhaustEmissionLatestRegulationNumber>134/2014*2018/295</ExhaustEmissionLatestRegulationNumber>
+		<ElectricVehicleConfiguration>PUREE</ElectricVehicleConfiguration>
+		<SigningAuthorityTable>
+			<SigningAuthorityGroup>
+				<SignerName>Olivier Prévost</SignerName>
+				<SignerPosition>President</SignerPosition>
+				<SignatureLocation>Schiphol-Rijk</SignatureLocation>
+				<SignatureDate>2025-07-14</SignatureDate>
+			</SigningAuthorityGroup>
+		</SigningAuthorityTable>
+		<MakeTable>
+			<MakeGroup>
+				<Make>YAMAHA</Make>
+			</MakeGroup>
+		</MakeTable>
+		<CommercialNameTable>
+			<CommercialNameGroup>
+				<CommercialName>ESS025</CommercialName>
+			</CommercialNameGroup>
+		</CommercialNameTable>
+		<ManufacturerTable>
+			<ManufacturerGroup>
+				<ManufacturerStageNumber>1</ManufacturerStageNumber>
+				<ManufacturerName>Yamaha Motor Vietnam Co., Ltd.</ManufacturerName>
+				<ManufacturerAddressLine1>Trung Gia Commune</ManufacturerAddressLine1>
+				<ManufacturerAddressLine2>Soc Son District</ManufacturerAddressLine2>
+				<ManufacturerPlaceOfResidence>Hanoi</ManufacturerPlaceOfResidence>
+				<ManufacturerCountryOfResidence>Vietnam</ManufacturerCountryOfResidence>
+			</ManufacturerGroup>
+		</ManufacturerTable>
+		<EURepresentativeGroup>
+			<EURepresentativeName>Yamaha Motor Europe N.V.</EURepresentativeName>
+			<EURepresentativeAddressLine1>Koolhovenlaan 101</EURepresentativeAddressLine1>
+			<EURepresentativeAddressLine2>1119NC</EURepresentativeAddressLine2>
+			<EURepresentativePlaceOfResidence>Schiphol-Rijk</EURepresentativePlaceOfResidence>
+			<EURepresentativeCountryOfResidence>The Netherlands</EURepresentativeCountryOfResidence>
+		</EURepresentativeGroup>
+		<GeneralConstructionGroup>
+			<NumberOfAxles>2</NumberOfAxles>
+			<NumberOfWheels>2</NumberOfWheels>
+			<NumberOfSeatingPositionsIncludingDriver>2</NumberOfSeatingPositionsIncludingDriver>
+		</GeneralConstructionGroup>
+		<DimensionGroup>
+			<Wheelbase>1305</Wheelbase>
+			<Length>1875</Length>
+			<Width>695</Width>
+			<Height>1120</Height>
+		</DimensionGroup>
+		<MassGroup>
+			<MassInRunningOrder>90</MassInRunningOrder>
+			<ActualMass>173</ActualMass>
+			<TechnicallyPermissibleMaximumLadenMass>262</TechnicallyPermissibleMaximumLadenMass>
+		</MassGroup>
+		<AxleTable>
+			<AxleGroup>
+				<AxleNumber>1</AxleNumber>
+				<TwinWheelsAxleIndicator>N</TwinWheelsAxleIndicator>
+				<PoweredAxleIndicator>N</PoweredAxleIndicator>
+				<TechnicallyPermissibleMassAxle>71</TechnicallyPermissibleMassAxle>
+				<TyreAxleTable>
+					<TyreAxleGroup>
+						<TyreNumber>1</TyreNumber>
+						<TyreSize>110/70-13M/C</TyreSize>
+						<LoadCapacityIndexSingleWheel>48</LoadCapacityIndexSingleWheel>
+						<SpeedCategorySymbol>P</SpeedCategorySymbol>
+						<RimSize>13M/CxMT2 75</RimSize>
+						<RecommendedTyrePressure>225</RecommendedTyrePressure>
+					</TyreAxleGroup>
+				</TyreAxleTable>
+			</AxleGroup>
+			<AxleGroup>
+				<AxleNumber>2</AxleNumber>
+				<TwinWheelsAxleIndicator>N</TwinWheelsAxleIndicator>
+				<PoweredAxleIndicator>Y</PoweredAxleIndicator>
+				<TechnicallyPermissibleMassAxle>191</TechnicallyPermissibleMassAxle>
+				<TyreAxleTable>
+					<TyreAxleGroup>
+						<TyreNumber>1</TyreNumber>
+						<TyreSize>130/70-13M/C</TyreSize>
+						<LoadCapacityIndexSingleWheel>63</LoadCapacityIndexSingleWheel>
+						<SpeedCategorySymbol>P</SpeedCategorySymbol>
+						<RimSize>13M/CxMT3 50</RimSize>
+						<RecommendedTyrePressure>250</RecommendedTyrePressure>
+					</TyreAxleGroup>
+				</TyreAxleTable>
+			</AxleGroup>
+		</AxleTable>
+		<EnergyConvertorTable>
+			<EnergyConvertorGroup>
+				<ManufacturerEnergyConvertor>Yamaha Motor Co., Ltd.</ManufacturerEnergyConvertor>
+				<EnergyConvertorCodeMarkedOnEnergyConvertor>Y811E</EnergyConvertorCodeMarkedOnEnergyConvertor>
+				<EnergySourceTable>
+					<EnergySourceGroup>
+						<EnergySource>95</EnergySource>
+						<SoundLevelGroup>
+							<SoundLevelExternalRegulation>ECE R63-02</SoundLevelExternalRegulation>
+							<SoundLevelDriveBy>57</SoundLevelDriveBy>
+						</SoundLevelGroup>
+						<PowerGroup>
+							<Maximum30MinutesPower>2.3</Maximum30MinutesPower>
+						</PowerGroup>
+						<TestTypeVIIGroup>
+							<TypeVIIEnergyConsumption>31</TypeVIIEnergyConsumption>
+							<TypeVIIElectricRange>37</TypeVIIElectricRange>
+						</TestTypeVIIGroup>
+					</EnergySourceGroup>
+				</EnergySourceTable>
+			</EnergyConvertorGroup>
+		</EnergyConvertorTable>
+		<RemarkTable>
+			<RemarkGroup>
+				<RemarkSubjectDescription>RMRKS</RemarkSubjectDescription>
+				<RemarkSubjectLanguage>en</RemarkSubjectLanguage>
+				<Remark>Fiscal power F(1)</Remark>
+			</RemarkGroup>
+			<RemarkGroup>
+				<RemarkSubjectDescription>RMRKS</RemarkSubjectDescription>
+				<RemarkSubjectLanguage>en</RemarkSubjectLanguage>
+				<Remark>This model can be equipped with 1 battery or 2 battery packs</Remark>
+			</RemarkGroup>
+			<RemarkGroup>
+				<RemarkSubjectDescription>RMRKS</RemarkSubjectDescription>
+				<RemarkSubjectLanguage>en</RemarkSubjectLanguage>
+				<Remark>Ranges 1 battery = 37 km, 2 batteries = 68 km.</Remark>
+			</RemarkGroup>
+		</RemarkTable>
+	</CocDataGroup>
+	<Signature xmlns="http://www.w3.org/2000/09/xmldsig#">
+		<SignedInfo>
+			<CanonicalizationMethod Algorithm="http://www.w3.org/2001/10/xml-exc-c14n#"/>
+			<SignatureMethod Algorithm="http://www.w3.org/2000/09/xmldsig#rsa-sha1"/>
+			<Reference URI="">
+				<Transforms>
+					<Transform Algorithm="http://www.w3.org/2000/09/xmldsig#enveloped-signature"/>
+				</Transforms>
+				<DigestMethod Algorithm="http://www.w3.org/2000/09/xmldsig#sha1"/>
+				<DigestValue>asil0FDkSysyfLWwZFt4j+rGFAc=</DigestValue>
+			</Reference>
+		</SignedInfo>
+		<SignatureValue>aKOWb7e9jxGI29gFBJwn8LRf5ryDbo+MTYlMxVVDb7W6b3fLowYcJlkAas5y85z/CLC6CX0R5crorOkyc80gDx9NmoaSajo086L54PIJ6MeRi5zxfhzBmbidcn6p5ZE4G2DiVpRAqYfJSj1O/BG1U02CzAxdo4wRLo8LzlD397Wa2COFElsVSpvVE4qTTVtZ01sSdk4VcXPmjzgOscCjMHobjPqICC6IEDuoTvCJE5OXPa1QtH1Pei41BKHrCCOcq2YehxFP2rnCijX492R7GdtNNCUAI9Ij/A4TGwNjAMbpXmmCRqt4sXfXOCGNQXwTZWmm0BrkJJdbOI/3bm7Ksg==</SignatureValue>
+		<KeyInfo>
+			<X509Data>
+				<X509Certificate>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</X509Certificate>
+				<X509Certificate>MIIGsjCCBJqgAwIBAgIUYb6CkufoyzrfmOLKevNBVCmN0GgwDQYJKoZIhvcNAQELBQAwSDELMAkGA1UEBhMCQk0xGTAXBgNVBAoTEFF1b1ZhZGlzIExpbWl0ZWQxHjAcBgNVBAMTFVF1b1ZhZGlzIFJvb3QgQ0EgMSBHMzAeFw0xOTEwMDcxODQyMTBaFw0yOTEwMDQxODQyMTBaMEkxCzAJBgNVBAYTAkJNMRkwFwYDVQQKDBBRdW9WYWRpcyBMaW1pdGVkMR8wHQYDVQQDDBZRdW9WYWRpcyBJc3N1aW5nIENBIEc1MIICIjANBgkqhkiG9w0BAQEFAAOCAg8AMIICCgKCAgEArpE0+roCCjyHjR1iaa4zGTNN8KrCteDocRNuAluIKrTnQuKSqtykU7/H3COSW701Y20nuGsJhctHgzNu8k4bTwesDLv2XIxwqfpQQAexpi8vZb9SmHEXjHMGjgDq7/hv8Yp6qOwmv3FzBMkCmANgf1poB+cMCyz9hatvYZ/va32QvyMP5JVcT5+H2aaezEREak+UdOq/q06O+xNMGOlbkLJOurpLdzeFtyUgceOP4zTsXKZtvgdFOM9w1J6Nikx7l6eNcn8ZNbCLgPdqyWKC8st5ULHKGv+apGqqg8mXmGvuqjnNSvClVJOlA7dl+gY/dKxm7ucAD01SUEzZQonG6NC7HzSEn4KsLN7zQV7QwVllzc9KRT0SFhAOZ153lFg2QEzHuJnuaGTf4EMGrbr2oppy9WKunsOfmseQMmitYB63M/Gq+Rbi+LWJeCMtw6KYFZoowu+Tp0/GMpCe4kLv5udh4jBYGDandorDl+sEW8wSXL21Gjnyw7FnaaCY1HitiUKJkBKrOrJKVDPsCx75bD8pTQGTAjcXZ3ErR4zK+gx1mTN6ZIKgXpJKFiP+BsdBmq5n6BkfQ0x2G4KhdOe3QGYfPLDL//ktUhs+LFaaACII0mIzgDbgebtLKjhaJ4j3yE2LdyhwRiekEobmIZf6MNHeSlqbHLVAl0dRQhiHr80CAwEAAaOCAZEwggGNMBIGA1UdEwEB/wQIMAYBAf8CAQAwHwYDVR0jBBgwFoAUo5fW816iEOGrRZ88F2Q87gFwnMwwdAYIKwYBBQUHAQEEaDBmMDgGCCsGAQUFBzAChixodHRwOi8vdHJ1c3QucXVvdmFkaXNnbG9iYWwuY29tL3F2cmNhMWczLmNydDAqBggrBgEFBQcwAYYeaHR0cDovL29jc3AucXVvdmFkaXNnbG9iYWwuY29tMEkGA1UdIARCMEAwPgYEVR0gADA2MDQGCCsGAQUFBwIBFihodHRwOi8vd3d3LnF1b3ZhZGlzZ2xvYmFsLmNvbS9yZXBvc2l0b3J5MCkGA1UdJQQiMCAGCCsGAQUFBwMCBggrBgEFBQcDBAYKKwYBBAGCNwoDDDA7BgNVHR8ENDAyMDCgLqAshipodHRwOi8vY3JsLnF1b3ZhZGlzZ2xvYmFsLmNvbS9xdnJjYTFnMy5jcmwwHQYDVR0OBBYEFDdCHU5iaqadD/m1LNdzQsT7pj0tMA4GA1UdDwEB/wQEAwIBBjANBgkqhkiG9w0BAQsFAAOCAgEABi0xKQp/AIwS/Tjk7LlayzTIGT3e+7BoNmwYqiIFkGf2FlRWKm/UP20Opod0tvgBepCO/TF4QTyooPTXRl3QlN1TKFZohUz3IADIIg5dXXWC9hCoG6gNEKb6EXBnx9Fdork3bj8rWupIi7RdWUZM8PZN10UUNBchUDgBWkmrRXUH8jzrLyONqKY3SLKJv3lj6SsLdiZ/Z8MkvZRR87rCTngiDK+HJrWmbh3qWE84m7BevycpBypZoA//5LurQKZB7YxmOVcAWENrayo8zV4+SbpPjo77c3Usueh7ZkO8m7sa92VV7P28tGZSABsd+S/QYO359CdvsZb/xxH9WSa254fPSv2xRFBIayasb9TV/5AEXa4xVi7jfDWvXWW/E/rW/5eadlTKng+X9VS9v6tpJyRzcd4QjUE/URmuI6Kc2oJP0I2W2VOfUfem9hgRKIVh/GmNrUvn8nZnd4rAbz5QJVTnx6Oa/vBprN08gTJjPDcYxSx7cznnVQ9fhd5+4w+iRjsqNBjxUph+LICb0bfFkJncio1B7QAjjUOXucZgRCV4Usk1Yfe1Wy5/3t/1L2KiaGdlg+7fVq5lQ4Gfw6f9lFbW+Ag9u5egLNZo0Hzjltg7RmDJ5J2Qd6QvUEE0o9OXtqt/hLLO/aGouvV5WAyojiuiOGNKXQBaKF+AA/fdX5U=</X509Certificate>
+			</X509Data>
+		</KeyInfo>
+	</Signature>
+</InitialVehicleInformation>

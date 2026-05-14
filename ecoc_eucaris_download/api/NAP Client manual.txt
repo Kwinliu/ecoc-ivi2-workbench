@@ -1,0 +1,64 @@
+ 
+ 
+ 
+ 
+ 
+National Access Point SOAP Client 
+ User Manual 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+Version: 1.0 
+Date: 15-4-2026 
+ 
+Introduction 
+The National Access Point (NAP) SOAP Client is a desktop application used to submit 
+electronic Certificates of Conformity (eCoCs) in the InitialVehicleInformation XML 
+format to a national access point. This document provides step-by-step instructions for 
+using the tool. 
+Installation 
+The file can be downloaded as a .zip file. Store the file on your system and unzip the 
+.zipfile.  Start NapClient.exe 
+Application Overview 
+Below is a screenshot of the main interface of the NAP SOAP Client: 
+ 
+SOAP Endpoint URL 
+Enter the SOAP endpoint used to submit the signed eCoC XML file.  
+
+Environment Endpoint 
+Acceptance to be determined by NAP member state 
+Production to be determined by NAP member state 
+eCoC File to Send 
+Use the green folder button to browse and select an InitialVehicleInformation XML file. 
+Please note that the selected file does not include a soap envelope, this will be added by 
+the tool. 
+Client Certificate (Authentication) 
+Select the authentication certificate required by the NAP SOAP service. 
+Signing Certificate (XML Signing) 
+Choose the certificate used to digitally sign the XML before submission. 
+Option: 
+   Enable XML signing 
+When enabled, the XML document is cryptographically signed before 
+submission. Do not choose this option is the xml to be uploaded already contains 
+a digital signature. 
+View (Signed) XML 
+Optionally, click the 'View (Signed) XML' button to preview the XML document. 
+Submit to SOAP Endpoint 
+Press the 'Submit to SOAP Endpoint' button to send the XML to the configured 
+webservice. 
+Response Panel 
+The response panel displays the SOAP reply from the server. You can export both the 
+XML request and the response using the provided buttons. 

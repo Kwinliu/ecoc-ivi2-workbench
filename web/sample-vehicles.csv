@@ -1,0 +1,4 @@
+vin,manufacturerName,manufacturerCountry,euRepresentativeName,euRepresentativeCountry,wvtaNumber,approvalAuthority,approvalCountry,vehicleCategory,make,commercialName,type,variant,version,productionDate,intendedCountryRegistration,massRunningOrderKg,technicallyPermissibleMaximumLadenMassKg,lengthMm,widthMm,heightMm,axles,seats,fuelType,co2WLTP,emissionsClass,tyreFront,tyreRear
+WVWZZZ1JZXW000001,Demo OEM Ltd.,CN,Demo EU Representative GmbH,DE,e1*2018/858*00001*00,KBA,DE,M1,Demo,DemoCar,T1,V1,001,2026-04-01,DE,1500,2100,4500,1800,1500,2,5,Petrol,120,Euro 6,205/55 R16,205/55 R16
+WVWZZZ1JZXW000002,Demo OEM Ltd.,CN,Demo EU Representative GmbH,DE,e1*2018/858*00001*00,KBA,DE,M1,Demo,DemoCar,T1,V1,002,2026-04-02,NL,1510,2100,4500,1800,1500,2,5,Petrol,121,Euro 6,205/55 R16,205/55 R16
+

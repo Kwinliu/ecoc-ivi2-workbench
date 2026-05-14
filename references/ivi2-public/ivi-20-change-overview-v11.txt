@@ -1,0 +1,1071 @@
+ 
+Version 1.1 
+Date: 2025-05-11 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+CHANGE OVERVIEW FINAL VERSION 2.0 
+CONSOLIDATED 
+ 
+ 
+
+ 
+Page 2 van 20 
+ 
+ 
+CONTENT 
+Introduction .................................................................................................................................................................... 4 
+NAMESpace .................................................................................................................................................................. 4 
+Changed definition for non numeric fields ............................................................................................................. 4 
+Integer definition ......................................................................................................................................................... 4 
+COrrections ................................................................................................................................................................... 5 
+GeneralCodeEcoInnovation ....................................................................................................................................... 5 
+MechanicalCouplingClassCanBeFittedCode........................................................................................................... 6 
+ViennaCountryCode .................................................................................................................................................... 6 
+ElectronicBrakingSystem ............................................................................................................................................. 7 
+EngineCapacityMin/Max ........................................................................................................................................... 7 
+MechanicalCouplingTechnicallyPermissibleTowableMass ................................................................................... 7 
+DrivingDirection ............................................................................................................................................................ 7 
+MechanicalCouplingValueDc ..................................................................................................................................... 7 
+Several changes in attribute naming and type definitions ................................................................................. 8 
+Mandatory fields in IVI 2.0 ....................................................................................................................................... 8 
+DesignatedTypeApprovalCountry ........................................................................................................................... 9 
+Usage of tagnames “Range values and Minimum/Maximum values” ........................................................... 10 
+EnergySource ............................................................................................................................................................. 10 
+Type/Variant/Version ............................................................................................................................................. 10 
+TypeApprovalIssueDate .......................................................................................................................................... 11 
+LocationStatutoryPlatesCode and LocationVIN .................................................................................................. 11 
+Manufacturer information and multistage ........................................................................................................... 12 
+Representative information ..................................................................................................................................... 12 
+Configuration of doors ............................................................................................................................................ 12 
+PositionOfSeats ......................................................................................................................................................... 13 
+MassDimensionsGroup ............................................................................................................................................. 13 
+RimSizeIncludingOffset ............................................................................................................................................ 14 
+WorkingPrincipleCode and EngineCycleCode ................................................................................................... 14 
+TypeApprovalTransportDangerousGoodsClass ................................................................................................. 14 
+PowertrainGroup ...................................................................................................................................................... 15 
+Levels of registration ................................................................................................................................................ 15 
+TestFamilyIdentifiersTable ...................................................................................................................................... 15 
+Combining fields test results (N)OVC and other vehicle ................................................................................... 15 
+VectoGroup ............................................................................................................................................................... 15 
+PureElectricVehicleIndicator .................................................................................................................................... 16 
+IVI Contentcheck Module (ICM) .............................................................................................................................. 16 
+Languages in IVI ....................................................................................................................................................... 16 
+
+ 
+Page 3 van 20 
+ 
+ 
+Changed the enumeration from country codes to language codes. ............................................................... 17 
+SpeedCategorySymbolCode ................................................................................................................................. 17 
+TyreFittedProductionIndicator / TyreCo2DeterminationIndicator ................................................................... 17 
+ExhaustEmissionLevel and ExhaustEmissionLatestRegulationNumber .............................................................. 17 
+InterconnectionWithPoweredAxles ........................................................................................................................ 17 
+MechanicalCouplingCanBeFitted fields ................................................................................................................ 18 
+TechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint .................................................................. 18 
+MaximumAuthorisedDimensionsDerogationIndicator (aka : ExceedingDimensionsIndicator)..................... 18 
+RecommendedTyrePressureMin/Max ................................................................................................................... 19 
+NumberOfDoorsBack ............................................................................................................................................... 19 
+VehicleSubgroupCode ............................................................................................................................................. 19 
+Trailer masses ............................................................................................................................................................ 20 
+ 
+ 
+ 
+
+ 
+Page 4 van 20 
+ 
+ 
+INTRODUCTION 
+With effect from 5th July 2026 the eCoC (IVI) will become mandatory for the 2018/858 vehicle categories. It’s 
+important to note that the new IVI version and guideline related to the IVI 2.0 also apply to the 167/2013 and 
+168/2013 vehicle categories. Also, not all changes have been included in this document. This applies in particular 
+to those amendments which have been the subject of discussion. In the appendix "Overview transition From IVI 
+1.10-To-2.0 v1.0" sheet more changes are indicated at field level. 
+*) Changes made after publication of the first draft IVI version 2.0. Other previously implemented changes are 
+also included. 
+NAMESPACE 
+A namespace has been added to de XSD scheme. 
+ 
+CHANGED DEFINITION FOR NON NUMERIC FIELDS 
+Some fields have been changed from numeric (NonnegativeInteger of PositiveInteger) to string field. As these 
+fields are not used as numeric. This has no functional effect on the eCoC xml files. 
+ 
+<xs:simpleType name="EnergySourceCode"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="2"/> 
+<xs:simpleType name="EnergySourceCode"> 
+<xs:restriction base="xs:string"> 
+<xs:maxLength value="2"/> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="3"/> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="279"/> 
+<xs:simpleType name="LoadCapacityIndex"> 
+<xs:restriction base="xs:int"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="279"/> 
+s:simpleType name="TyrePlyRatingNumber"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:simpleType name="TyrePlyRatingNumber"> 
+<xs:restriction base="xs:string"> 
+<xs:maxLength value="2"/> 
+<xs:simpleType name="ColourCode"> 
+<xs:restriction base="xs:positiveInteger"> 
+<xs:simpleType name="ColourCode"> 
+<xs:restriction base="xs:string">  
+<xs:totalDigits value="2"/> 
+INTEGER DEFINITION 
+Due to remarks to be able to use generic tools to be able to use the XSD scheme in software generation tooling 
+the integer definition has been changed. This has no functional effect on the eCoC xml files. 
+<xs:simpleType name="Integer2"> 
+<xs:restriction base="xs:nonNegativeInteger" 
+<xs:totalDigits value="2"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer2"> 
+<xs:restriction base="xs:short"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="99"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer3"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="3"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer3"> 
+<xs:restriction base="xs:short"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="999"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer3"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="4"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer4"> 
+<xs:restriction base="xs:short"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="9999"/> 
+</xs:restriction> 
+</xs:simpleType> 
+
+ 
+Page 5 van 20 
+ 
+ 
+<xs:simpleType name="Integer3"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="5"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer5"> 
+<xs:restriction base="xs:int"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="99999"/> 
+</xs:restriction> 
+</xs:simpleType> 
+ 
+<xs:simpleType name="Integer3"> 
+<xs:restriction base="xs:nonNegativeInteger"> 
+<xs:totalDigits value="6"/> 
+</xs:restriction> 
+</xs:simpleType> 
+<xs:simpleType name="Integer6"> 
+<xs:restriction base="xs:int"> 
+<xs:minInclusive value="0"/> 
+<xs:maxInclusive value="999999"/> 
+</xs:restriction> 
+</xs:simpleType> 
+CORRECTIONS 
+ 
+Value 
+Changed 
+Adressline 
+Addressline 
+MaximumPermissibleVerticalLoadCouplingPoint 
+Removed, to be stated as ValueS 
+InServiceMaximumPermissibleLadenMassAxleGroup 
+Renamed: 
+InServiceMaximumPermissibleAxleGroupLadenMass 
+TypeVIICo2Weighted 
+Renamed: TypeVIICo2WeightedCombined 
+IviVersionNumberXsd 
+ 
+Value changed from 2.0.0 to 2.0 
+FuelingArrangementCode 
+Changed to English: FuellingArrangementCode 
+ExhaustEmissionLevel 
+Changed from EURO to Euro 
+GENERALCODEECOINNOVATION 
+Enumeration added: 28 / 29 / 32 / 33 / 35 / 37 / 38 
+ 
+ 
+ 
+
+ 
+Page 6 van 20 
+ 
+ 
+MECHANICALCOUPLINGCLASSCANBEFITTEDCODE 
+Changed enumeration 
+A 
+ 
+ 
+ 
+A50-1 
+C50-7 
+J 
+S 
+A50-2 
+C50-X 
+K 
+T 
+A50-3 
+D 
+K1 
+W 
+A50-4 
+D50-A 
+K2 
+A50-5 
+D50-B 
+K3 
+A50-X 
+D50-C 
+K4 
+B 
+D50-D 
+KA1 
+B50-X 
+D50-X 
+KA2 
+C 
+E 
+KA3 
+C50-1 
+F 
+L 
+C50-2 
+G 
+L1 
+C50-3 
+G50 
+L2 
+C50-4 
+G50-X 
+L3 
+C50-5 
+H 
+L4 
+C50-6 
+H50-X 
+L5 
+VIENNACOUNTRYCODE 
+Enumeration restricted to official Vienna codes: 
+A 
+CR 
+GCA 
+LT 
+PL 
+SK 
+WL 
+AL 
+CV 
+GE 
+LV 
+PNG 
+SLO 
+WS 
+AND 
+CY 
+GH 
+M 
+PS 
+SME 
+WV 
+AM 
+CZ 
+GR 
+MA 
+PY 
+SN 
+YV 
+AUS 
+D 
+GUY 
+MAL 
+RA 
+SRB 
+Z 
+AZ 
+DK 
+H 
+MC 
+RC 
+SY 
+ZA 
+B 
+DOM 
+HK 
+MD 
+RCA 
+SYR 
+ZW 
+BD 
+DZ 
+HKJ 
+MEX 
+RCB 
+T 
+BDS 
+E 
+HR 
+MGL 
+RCH 
+TG 
+BG 
+EAK 
+I 
+MNE 
+RH 
+TJ 
+BH 
+EAT 
+IL 
+MS 
+RI 
+TM 
+BIH 
+EAU 
+IND 
+MW 
+RL 
+TN 
+BR 
+EC 
+IR 
+MYA 
+RM 
+TR 
+BRN 
+EG 
+IRL 
+N 
+RMM 
+TT 
+BRU 
+EST 
+IRQ 
+NA 
+RN 
+UA 
+BS 
+F 
+IS 
+NAM 
+RO 
+UAE 
+BW 
+FIN 
+J 
+NIC 
+ROK 
+UK 
+BY 
+FJI 
+JA 
+NL 
+ROU 
+USA 
+C 
+FL 
+KH 
+NZ 
+RP 
+UZ 
+CDN 
+FO 
+KG 
+OM 
+RSM 
+V 
+CGO 
+GBA 
+KWT 
+P 
+RUS 
+VN 
+CH 
+GBG 
+KZ 
+PA 
+RWA 
+WAG 
+CI 
+GBJ 
+L 
+PK 
+S 
+WAL 
+CL 
+GBM 
+LAO 
+PAL 
+SD 
+WAN 
+CO 
+GBZ 
+LS 
+PE 
+SGP 
+WG 
+
+ 
+Page 7 van 20 
+ 
+ 
+ 
+ 
+ELECTRONICBRAKINGSYSTEM 
+Moved to the CoCDataGroup: 
+<xs:element name="ElectronicBrakingSystem" minOccurs="0" type="ElectronicBrakingSystemCode"/> 
+ENGINECAPACITYMIN/MAX 
+The fields EngineCapacityMin and EngineCapacityMax have no corresponding CoC field and have been 
+removed from version 2.0 
+MECHANICALCOUPLINGTECHNICALLYPERMISSIBLETOWABLEMASS 
+According  to 2015/504 the field has to be stated in Tonnes (T). 
+Change type from Integer 6 to Decimal 5.2. 
+DRIVINGDIRECTION 
+According to 2015/504 latest regulation this field is no longer part of the CoC. Has been removed from version 
+2.0. 
+ 
+MECHANICALCOUPLINGVALUEDC 
+Has been added after receiving comments from DAF. 
+ 
+ 
+ 
+
+ 
+Page 8 van 20 
+ 
+ 
+PREVIOUS CHANGES DRAFT VERSION IVI 2.0 
+SEVERAL CHANGES IN ATTRIBUTE NAMING AND TYPE DEFINITIONS 
+Also see attached Excel overview “Overview transition From IVI 1.10-To-2.0 v1.1” for description of these 
+changes and translation rules from IVI 1.x to IVI 2.0. Also the fields which are removed from version 2.0 and 
+changes in field type, length and enumerations are indicated. 
+MANDATORY FIELDS IN IVI 2.0 
+These fields are mandatory for all vehicle categories . 
+• 
+sig:Signature 
+As of version 2.0 the digital signature will be mandatory effective from 1st of September 2025. 
+The requirement of using an eIDAS advanced seal will be required effective 5th July 2026. 
+• 
+IviReferenceId 
+• 
+IviVersionNumberXsd 
+• 
+IviVersionNumber 
+• 
+IviVersionDateTime 
+• 
+TypeApprovalCountry 
+• 
+VehicleIdentificationNumber 
+• 
+TypeApprovalType 
+• 
+StageOfCompletion 
+• 
+Type 
+• 
+Variant 
+• 
+Version  
+ 
+if no Version is available in the Type Approval please state: N/A 
+this only applies to 167/2013 and 168/2013 
+• 
+VehicleCategory 
+• 
+TypeApprovalNumber 
+• 
+TypeApprovalIssueDate  
+• 
+SignerName 
+• 
+SignerPosition 
+• 
+SignatureLocation 
+• 
+SignatureDate 
+• 
+ManufacturerStageNumber 
+• 
+ManufacturerName 
+ 
+Tables/Groups which have to be present (mandatory): 
+• 
+CocDataGroup 
+• 
+SigningAuthorityTable 
+• 
+MakeTable 
+• 
+ManufacturerTable 
+• 
+GeneralConstructionGroup 
+• 
+MassGroup 
+• 
+DimensionGroup 
+ 
+ 
+ 
+
+ 
+Page 9 van 20 
+ 
+ 
+Fields which are mandatory if the Group is applicable 
+These fields are mandatory if the Group is mentioned in the eCoC. The Group itself is not mandatory. For 
+example in case of a EU Representative the Name is mandatory, if no EU Representative is mentioned in 
+the Type approval the field is not mandatory and the entire Group does not have to excist in the eCoC. 
+ 
+DESIGNATEDTYPEAPPROVALCOUNTRY 
+A new field has been added to the header and set to mandatory in order to be able to redirect eCoC’s to the 
+relevant Type approval authority easily. Without having to use the first part before the * of the 
+TypeApprovalNumber. If this changes in future no change is needed in the software. 
+ 
+ 
+
+ 
+Page 10 van 20 
+ 
+ 
+USAGE OF TAGNAMES “RANGE VALUES AND MINIMUM/MAXIMUM VALUES” 
+Added to Guideline document version 0.6 
+Example: 
+AxleSpacing 
+AxleSpacingAdjustableMin 
+AxleSpacingAdjustableMax 
+ 
+For the range values for masses Adjustable is not the correct naming, this has been changed to : 
+“Variable” -> example: MassInRunningOrderVariableMin 
+ENERGYSOURCE 
+Limit the number of EnergySources to the list as mention below: 
+10 Petrol 
+11 Petrol E5 
+12 Petrol E10 
+15 Ethanol 
+16 Ethanol E85 
+19 Mixture 
+20 Diesel 
+21 Biodiesel 
+22 ED95 
+30 LPG 
+40 CNG 
+44 Biomethane 
+50 Hydrogen 
+55 H2NG 
+60 LNG 
+90 Other 
+91 Compressed air 
+95 Electricity 
+Add 95 Electricity as an energy source. Keep the numbering of existing FuelCodes in line with the current 
+numbering. 
+TYPE/VARIANT/VERSION 
+No pattern check will be added to limit the usage of other characters than A-Z and 0-9. 
+The field Type will be limited to 15 positions. No check on case sensitive check  for Variant of Version. 
+ 
+ 
+
+ 
+Page 11 van 20 
+ 
+ 
+TYPEAPPROVALISSUEDATE 
+Remove “RevisionDateVersion”. The TypeApprovalIssueDate will be used to indicate the issue date of the 
+document. This date doesn’t change in case of revisions or corrections. It only changes in case of extensions. First 
+set at extension 00 and subsequently at extensions 01 etc. 
+LOCATIONSTATUTORYPLATESCODE AND LOCATIONVIN 
+The fields will be replaced by a new Table. 
+LocationMarkingsTable 
+LocationMarkingsGroup 
+LocationMarkingsSubject 
+LocationMarkingsVehiclePart 
+LocationMarkingsVehiclePartSide  
+LocationMarkingsVehiclePartSideSection  
+LocationOfMarkingsSubjectCode 
+VIN = LocationVIN 
+STAT = LocationStatutoryPlatesCode 
+LocationOfMarkingsVehiclePartCode 
+ENGCT = Engine compartment 
+PASCT = Passenger compartment 
+LUGCT = Luggage compartment 
+INSPL = Instrument panel 
+DRAWB = Drawbar 
+CHASS = Chassis 
+APILR = A-pillar 
+BPILR = B-pillar 
+CPILR = C-pillar 
+DPILR = D-pillar 
+LocationOfMarkingsVehiclePartSideCode 
+FRONT = Frontside 
+LEFT = Leftside 
+RIGHT = Rightside 
+BACK = Backside 
+LocationOfMarkingsVehiclePartSideSectionCode 
+LEFT = Left 
+MIDLE = Middle 
+RIGHT = Right 
+FRONT = Front 
+BACK = Back 
+LocationStatutoryPlates23Wheel and LocationVin23Wheel will not be added to this table in accordance with the 
+definition in the 168/2013. The new table can be used for 2018/858 and 167/2013. 
+ 
+ 
+
+ 
+Page 12 van 20 
+ 
+ 
+MANUFACTURER INFORMATION AND MULTISTAGE 
+Removed from the RoleTable and RoleGroup, multistage information has been simplified. This implies that 
+ManufacurerStageNumber is a mandatory field also for non-multistage vehicles. 
+ 
+REPRESENTATIVE INFORMATION 
+Removed from the RoleTable and RoleGroup and stated in separate Group. Not added in a Table, 
+as in all cases there’s only one EU representative. If a representative is mentioned the 
+EURepresentativeName is mandatory. 
+EURepresentativeGroup 
+EURepresentativeName 
+EURepresentativeAdressLine1 
+EURepresentativeAdressLine2 
+EURepresentativeAdressLine2 
+EURepresentativePlaceOfResidence 
+EURepresentativeCountryOfResidence 
+CONFIGURATION OF DOORS 
+Replace Text-40 field by a new definition. 
+ConfigurationOfDoorsGroup 
+NumberOfDoorsFront 
+NumberOfDoorsLeft 
+NumberOfDoorsRight 
+NumberOfDoorsRear 
+Example: 
+NumberOfDoorsFront 
+2 
+NumberOfDoorsLeft 
+4 
+NumberOfDoorsRight 
+3 
+NumberOfDoorsRear 
+1 
+ 
+
+ 
+Page 13 van 20 
+ 
+ 
+Please note: as the attribute “Number of doors” is still part of the CoC this will also be in the IVI file 
+as NumberOfDoors in the GeneralConstructionGroup. 
+POSITIONOFSEATS 
+For the CoC data this element only applies to the 168/2013 vehicle categories. The proposal is not in line with 
+the regulation. The proposed setup will be added to the regulation changes as proposed to the TCMV. 
+Until the regulation has been changed no changes will be made for this field. 
+Regulation 901/2014 
+ 
+ 
+ 
+MASSDIMENSIONSGROUP 
+Has been divided into a MassGroup and a DimensionGroup. 
+ 
+
+ 
+Page 14 van 20 
+ 
+ 
+RIMSIZEINCLUDINGOFFSET 
+RimSize 
+The size designation of wheels and rims shown by numbers and letters in following order as marked on the wheel: 
+Nominal rim diameter, Rim type (optional), Nominal rim width, Rim profile, Flange height (optional) 
+String-20 
+ 
+RimOffSet 
+Offset, inset or outset as marked on the wheel, using the codes of ISO 3911:2021 
+Decimal value, can be a negative value.  
+Decimal 4.3 (-999.9) 
+WORKINGPRINCIPLECODE AND ENGINECYCLECODE 
+Change working principle codes to a combination of workingprinciple and enginecycle instead of repeating the 
+engine cycle within the working principle. 
+ 
+WorkingPrincipleCode 
+ 
+Change enumeration to: 
+ 
+ 
+TYPEAPPROVALTRANSPORTDANGEROUSGOODSCLASS 
+Add enumeration fort his field: TypeApprovalTransportDangerousGoodsClassCode 
+Text-10 
+EX/II 
+EX/III 
+AT 
+FL 
+
+ 
+Page 15 van 20 
+ 
+ 
+MEMU 
+The enumeration value “OX” has been removed. 
+POWERTRAINGROUP 
+The powertrain level has been removed. Consolidated power fields have been moved to the CoC DataGroup. 
+No vehicles with more powertrains exist. 
+LEVELS OF REGISTRATION 
+Registration of groups on different levels has to be avoided as the handling of the information and checking 
+against the type approvals will make implementation to complex and almost impossible. 
+Please see Appendix 1 for proposal how to handle the information for different vehicle types. 
+ 
+ 
+multiple levels. Field/Group IVI 1.x Field/Group IVI 2.0 Moved from Moved to TestFamilyIdentifiersGroup 
+TestFamilyIdentifiersGroup CoCDataGr oup EnergySourceG roup MaximumSpeed MaximumSpeed FuelGroup 
+CoCDataGroup DeclaredMaximumSpeed DeclaredMaximumSpeedForwa rd FuelGroup CoCDataGroup 
+DeclaredMaximumSpeedR earward DeclaredMaximumSpeedRearw ard FuelGroup CoCDataGroup 
+ExhaustEmissionLevelEuro ExhaustEmissionLevel FuelGroup CoCDataGroup NrBaseRegulActLastAmen 
+ExhaustEmissionLatestRegulatio FuelGroup CoCDataGroup dMotVeh NrBaseRegulActLastAmen dEngines nNumber 
+Note: please see excel for more changes of levels of registration.  
+TESTFAMILYIDENTIFIERSTABLE 
+The TestFamilyIdentifiersTable has been moved to 
+CoCDataGroup/EnergyConvertorTable/EnergyConvertorGroup/EnergySourceTable 
+Mainly because ATCT Family can occur on an EnergySource level. In case of multiple fuels the FamilyIdentifiers 
+information has to be duplicated. 
+COMBINING FIELDS TEST RESULTS (N)OVC AND OTHER VEHICLE 
+Some fields are either for (N)OVC or other vehicles in the IVI message. For instance charge sustaining only for 
+plug-in hybrid (OVC) or Co2combined only for NOVC vehicles. Field will not be combined to one tag. Main 
+reason is that if these fields should be combined the definition is only clear when using other information in the IVI 
+message. The tag itself does not define the content anymore. Having the fields separated is also in line with the 
+legislation. If necessary the ICM can check the correct usage of the fields. 
+VECTOGROUP 
+Keep the Vecto related fields together in one VectoGroup: 
+CoCDataGroup 
+VectoGroup 
+CryptographicHashManufacturerRecord 
+ZeroEmissionHeavyDutyIndicator 
+VocationalVehicleIndicator 
+CryptographicHashCustomerInformationFile 
+AveragePayload 
+AverageOccupancy 
+VehicleGroup 
+VehicleSubgroup 
+CryptographicHashVehicleFile 
+CargoVolume 
+
+ 
+Page 16 van 20 
+ 
+ 
+VolumeOrientationIndicator 
+EfficiencyRatioKilometer 
+EfficiencyRatioTonKilometer 
+EfficiencyRatioM3Kilometer 
+ 
+Please note that some Vecto fields are stated on an Energysource level and remain in that 
+Group: 
+• 
+SpecificCo2EmissionsMass 
+• 
+SpecificCo2EmissionsPerson 
+PUREELECTRICVEHICLEINDICATOR  
+1. Question is if the field PureElectricVehicleIndicator according to point 23 is only applicable for hybrid 
+vehicles that might or might not have a pure electric mode, see below for reference: 
+ 
+ 
+2. Or does this field apply to fully electric vehicles only. So Yes only applies to vehicles with 
+EnergySourceCode 95 for Electricity only. 
+ 
+Decision of the Forum is that the field has to be defined as the second option. If a switch mode 
+(HybridElectricOperatingModeSwitchIndicator) is relevant information, a new field has to be added to the 
+legislation and the IVI message. 
+IVI CONTENTCHECK MODULE (ICM) 
+The new version of the ICM will check if fields are relevant for a specific vehicle category. If not 
+applicable the ICM will reject the IVI file. 
+For instance if a Colour is stated for the VehicleCategory M2, the file will be rejected. 
+Also if an indicator field is relevant for the VehicleCategory it has to be present with a Y of N. 
+For instance for M1 PureElectricVehicleIndicator is mentioned on the CoC, for Petrol vehicles 
+the tag has to be present with value “N”. 
+LANGUAGES IN IVI 
+Only the general remarks fields will be defined as multi lingual. Other free text fields will be defined without an 
+language option. In general the CoC, according to the regulation, has to be published in one of the EU 
+languages. Only for the fields mentioned below more than one language is optional:  
+✓ Remarks  
+✓ AdditionalInformation  
+✓ Exemptions  
+✓ Comments 
+
+ 
+Page 17 van 20 
+ 
+ 
+CHANGED THE ENUMERATION FROM COUNTRY CODES TO LANGUAGE CODES.  
+Restricted to the official EU languages: 
+Languages, multilingualism, language rules | European Union (europa.eu) using the ISO-639-1 codes: 
+ 
+SPEEDCATEGORYSYMBOLCODE 
+Extension of enumeration: 
+A1 
+D 
+N 
+Z 
+A2 
+E 
+P 
+A3 
+F 
+Q 
+A4 
+G 
+R 
+A5 
+H 
+S 
+A6 
+I 
+T 
+A7 
+J 
+U 
+A8 
+K 
+V 
+B 
+L 
+W 
+C 
+M 
+Y 
+TYREFITTEDPRODUCTIONINDICATOR / TYRECO2DETERMINATIONINDICATOR  
+Relates to Item 35. This only states information on the fitted tyre/wheel combination which is used for Co2 
+determination. If TyreFittedProductionIndicator = Y  this also indicates that it has been used for 
+CO2Determination. The TyreCo2DeterminationIndicator has been removed. 
+EXHAUSTEMISSIONLEVEL AND EXHAUSTEMISSIONLATESTREGULATIONNUMBER 
+Have been moved to the CoCDataGroup. Valus not different on fuel/energysource level. 
+INTERCONNECTIONWITHPOWEREDAXLES 
+639-1
+639-2
+639-3
+EU Languages
+bg
+bul
+bul
+Bulgarian
+cs
+cze/ces
+ces
+Czech
+da
+dan
+dan
+Danish
+de
+ger/deu
+deu
+German
+el
+gre/ell
+ell
+Greek
+en
+eng
+eng
+English
+es
+spa
+spa
+Spanish 
+et
+est
+est
+Estonian
+fi
+fin
+fin
+Finnish
+fr
+fre/fra
+fra
+French
+ga
+gle
+gle
+Irish
+hr
+scr/hrv
+hrv
+Croatian
+hu
+hun
+hun
+Hungarian
+it
+ita
+ita
+Italian
+lt
+lit
+lit
+Lithuanian
+lv
+lav
+lav
+Latvian
+mt
+mlt
+mlt
+Maltese
+nl
+dut/nld
+nld
+Dutch
+pl
+pol
+pol
+Polish
+pt
+por
+por
+Portuguese
+ro
+rum/ron
+ron
+Romanian
+sk
+slo/slk
+slk
+Slovak
+sl
+slv
+slv
+Slovenian
+sv
+swe
+swe
+Swedish
+
+ 
+Page 18 van 20 
+ 
+ 
+In the current version this is a text field. Suggestion is to change the free text to an standardized list of codes 
+(enumeration). 
+ 
+Current version 1.x 
+InterconnectionWithPoweredAxleTable 
+InterconnectionWithPoweredAxleGroup 
+InterconnectionWithPoweredAxleNumber 
+InterconnectionPoweredAxles 
+ 
+New version 2.0 
+InterconnectionWithPoweredAxleTable 
+InterconnectionWithPoweredAxleGroup 
+InterconnectionWithPoweredAxleNumber 
+InterconnectionWithPoweredAxleConnection type ="InterconnectionWithPoweredAxleCode" 
+ 
+Possible values InterconnectionWithPoweredAxleCode: 
+TRA Transfer box 
+ELE Electronic 
+SHA Shaft 
+MECHANICALCOUPLINGCANBEFITTED FIELDS 
+The suggested field “MechanicalCouplingFittedIndicator” has been removed from draft IVI 2.0. 
+ 
+Item 44. Number of Approval Certificate or Approval Mark of coupling device (if fitted) 
+ 
+ 
+MechanicalCouplingApprovalNumber (if a value is stated here the coupling device has been 
+mounted by the manufacturer) 
+ 
+Item 45. Types  or classes of coupling devices which can be fitted 
+In use for incomplete vehicles 
+MechanicalCouplingTypeCanBeFitted 
+MechanicalCouplingClassCanBeFitted 
+TECHNICALLYPERMISSIBLEMAXIMUMSTATICVERTICALMASSCOUPLINGPOINT 
+In the previous draft IVI 2.0 version we had two fields concerning StaticVerticalMassCouplingPoint  
+Current IVI 2.0 
+Item 19. TechnicallyPermissibleMaximumStaticVerticalMassAtCouplingPoint 
+Only to be used if the coupling device has been mounted at the rear of the vehicle. 
+Item 19.1 TechnicallyPermissibleMaximumStaticVerticalMassOnCouplingPoint 
+Only to be used if the coupling device has been mounted at the front of the vehicle. 
+ 
+In the current version 2.0 this has been changed to: 
+Item 19.1 TechnicallyPermissibleMaximumStaticVerticalMassCouplingPoint 
+No difference in the two fields anymore as “AtCouplingPoint” only applicable for towing vehicles, 
+“OnCouplingPoint”  
+only for towed vehicles. 
+MAXIMUMAUTHORISEDDIMENSIONSDEROGATIONINDICATOR (AKA : 
+EXCEEDINGDIMENSIONSINDICATOR) 
+This field was removed from the previous version of IVI 2.0 but has been re-instated: 
+In accordance with the second subparagraph of Article 6(5) of Regulation (EU) 2018/858, an EU type-
+approval may be granted for vehicles exceeding the maximum authorised dimensions set out in point 1.1 of 
+
+ 
+Page 19 van 20 
+ 
+ 
+Sections C, D and E of Part 2 of Annex XIII to this Regulation, in which case the remark ‘maximum 
+authorised dimensions derogation’ shall be included in point 52 of the type-approval certificate and the 
+certificate of conformity. 
+RECOMMENDEDTYREPRESSUREMIN/MAX 
+Fields are no longer part of the CoC data and have been removed. Only the L-category demands the tyre 
+pressure and no min/max is mentioned. 
+TyreAxleTable 
+TyreAxleGroup RecommendedTyrePressureMin 
+TyreAxleTable 
+TyreAxleGroup RecommendedTyrePressureMax 
+NUMBEROFDOORSBACK 
+Sugested by ACEA. The tag has been renamed to NumberOfDoorsRear 
+VEHICLESUBGROUPCODE  
+The enumeration has been extended according to the recent regulation. 
+ 
+ 
+
+ 
+Page 20 van 20 
+ 
+ 
+TRAILER MASSES 
+Usage of the table structure for all vehicle categories, avoiding duplication of information. 
+The key-items are braking-system, bodywork type of the trailer and the maximum masses. 
+Benefits 
+• 
+for all vehicle categories one way to handle this mass information and setup the eCoC; 
+• 
+for all vehicle categories one way of using the information for the registration processes; 
+• 
+can be easily extended by extending the braking type code without having to add new fields 
+Disadvantages 
+• 
+more complex to initially setup for the M,N and O categories 
+ 
+The table below is to be used for M,N, O , without mentioning “BodyworkTypeTrailer”, as this field is only 
+relevant for agricultural vehicles. 
+The UND (Undefined) is not to be used here anymore. 
+Example: 
+ 
+ 
+ 
+BodyworkTypeTrailer - BodyworkTypeTrailerCode: 
+UND has been removed from enumeration.  For M,N,O and L this field is not to be declared anymore. For 
+agricultural vehicles a value is always applicable. Also DF and DG have been removed, as these are not 
+applicable here. 
+ 
+BrakedTypeTrail-BrakedTypeTrailCode : 
+UND has been removed from enumeration.  For M,N,O and L this field is not to be declared anymore. For 
+agricultural vehicles a value is always applicable.  Also CSB , PNH, IPD have been removed, as these are not 
+applicable here. 
