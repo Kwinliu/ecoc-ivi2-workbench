@@ -25,7 +25,7 @@
 主要模块：
 
 - 看板：显示车辆、草稿、校验、签章、上传数量。
-- CoC 批量上传：支持 Word、Excel、IVI XML、CSV。
+- CoC 草稿批量上传：支持 Word、Excel、IVI XML、CSV，用于导入并创建草稿。
 - 上传列表：以表格展示车辆草稿，支持勾选和批量处理。
 - 校验区：点击校验后显示被选车辆的问题表格。
 - 车型设定区：维护 Type、Approval Number、签章 API、上传 API 和 CoC 校验范本。
@@ -54,7 +54,7 @@
 公开仓库包含：
 
 - 源代码：`src/`、`web/`、`scripts/`
-- 当前使用说明：`README.md`、`docs/11-user-manual.md`
+- 当前使用说明：`README.md`、`docs/USER_MANUAL.md`
 - 当前架构说明：`docs/ARCHITECTURE.md`
 - 官方样本和资料缓存：`ecoc_eucaris_download/`
 - 公开参考资料：`references/`
@@ -102,4 +102,3 @@ Smoke test：
 ```bash
 npm run smoke
 ```
-

@@ -112,39 +112,6 @@ p {
   pointer-events: none;
 }
 
-.upload-mark {
-  position: relative;
-  width: 48px;
-  height: 48px;
-  border: 1px solid #b9d6ce;
-  border-radius: 8px;
-  background: linear-gradient(#176b5d, #176b5d) center 34px / 22px 2px no-repeat, #eef8f5;
-  box-shadow: 0 6px 18px rgba(23, 107, 93, 0.12);
-}
-
-.upload-mark::before {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 14px;
-  width: 2px;
-  height: 18px;
-  background: var(--accent);
-  transform: translateX(-50%);
-}
-
-.upload-mark::after {
-  content: "";
-  position: absolute;
-  left: 50%;
-  top: 13px;
-  width: 12px;
-  height: 12px;
-  border-left: 2px solid var(--accent);
-  border-top: 2px solid var(--accent);
-  transform: translateX(-50%) rotate(45deg);
-}
-
 .upload-drop strong {
   font-size: 21px;
   line-height: 1.2;
