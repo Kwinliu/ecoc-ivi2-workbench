@@ -2,7 +2,7 @@
 
 本文面向实际操作人员，说明如何使用本地 eCoC Workbench 完成 CoC 文件批量导入、车型设定、CoC 内容校验、IVI2 XML 生成、D-Trust 签章、NAP 上传和提交记录检索。
 
-当前系统是本地 MVP / mock 工作台：D-Trust 签章 API、RDW/KAB/VCA 上传 API 目前使用本地模拟回执；生产环境接入时，需要替换为真实 endpoint、证书、API Key、错误码映射和正式 XMLDSig 签章。
+当前系统是本地原型工作台：D-Trust 签章 API、RDW/KBA/VCA 上传 API 目前使用本地模拟回执；生产环境接入时，需要替换为真实 endpoint、证书、API Key、错误码映射和正式 XMLDSig 签章。
 
 ## 1. 系统用途
 
@@ -190,7 +190,7 @@ PORT=4174 npm start
 | 车型 | 车辆 Type，例如 `SY14`、`AX2T(M)` |
 | Approval Number | WVTA / 型式批准号，例如 `e6*2018/858*00264*01` |
 | 签章 API | 选择 D-Trust 签章主体 |
-| 上传 API | 选择 RDW/KAB/VCA 上传主体 |
+| 上传 API | 选择 RDW/KBA/VCA 上传主体 |
 | COC 校验范本 | 上传该车型的基准 CoC 样本或校验模板 |
 
 车型设定表用于后续自动匹配：
@@ -303,7 +303,7 @@ RLCSY141000001946
 3. 系统按车型设定或默认路由选择上传 API。
 4. 上传成功后，提交历史会新增记录。
 
-当前 RDW/KAB/VCA 上传为 mock。生产环境应替换为真实 NAP API。
+当前 RDW/KBA/VCA 上传为 mock。生产环境应替换为真实 NAP API。
 
 生产上传的目标流程是：
 
@@ -325,7 +325,7 @@ DTRUST_EU_REP_2_API_KEY=...
 DTRUST_GB_REP_API_KEY=...
 
 RDW_UPLOAD_API_KEY=...
-KAB_UPLOAD_API_KEY=...
+KBA_UPLOAD_API_KEY=...
 VCA_UPLOAD_API_KEY=...
 ```
 
@@ -444,12 +444,12 @@ EU/GB 路径由 Approval Number / WVTA e-code 自动判断。
 4. 上传草稿中的 Approval Number 是否与车型设定一致。
 5. 是否刷新了页面。
 
-## 8. 当前 MVP 限制
+## 8. 当前原型限制
 
-当前系统仍是 MVP，有以下限制：
+当前系统仍是原型，有以下限制：
 
 - D-Trust 签章为 mock。
-- RDW/KAB/VCA 上传为 mock。
+- RDW/KBA/VCA 上传为 mock。
 - XMLDSig 正式签章尚未接入。
 - ICM 官方检查模块尚未完整接入。
 - 车型 COC 校验范本的字段级规则仍需进一步实现。
@@ -461,7 +461,7 @@ EU/GB 路径由 Approval Number / WVTA e-code 自动判断。
 生产环境建议补齐：
 
 1. 真实 D-Trust 签章 API。
-2. 真实 RDW/KAB/VCA 上传 API。
+2. 真实 RDW/KBA/VCA 上传 API。
 3. mTLS / 证书管理。
 4. HSM 或安全密钥管理。
 5. XMLDSig 正式签名与验签。

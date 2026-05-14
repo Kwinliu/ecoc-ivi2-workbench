@@ -1,18 +1,20 @@
-# eCOC Eucaris documentation download
+# eCOC Eucaris Documentation Cache
 
 Source: https://ecoc.eucaris.net/documentation
 Downloaded at: 2026-05-13T06:49:28.723Z
 
+This folder contains official documentation and sample files used by the local eCoC / IVI2 workbench for development and validation. Downloaded tool binaries are intentionally excluded from the public repository.
+
 ## Summary
 
 - Documentation files: 42
-- Tool/support files: 2
-- File types: .pdf=17, .xlsx=15, .xml=9, .xsd=1, .zip=1, .txt=1
+- API listing files: 5
+- Documentation file types: .pdf=17, .xlsx=15, .xml=9, .xsd=1
+- API listing file types: .json=2, .txt=3
 
 ## Folders
 
 - `documentation/`: manuals, release documentation, examples, XSD and spreadsheets from `/api/Documents`.
-- `tools/`: downloaded NAP tool zip plus captured tools page text.
 - `api/`: source JSON listings used to download files.
 
 ## Documentation Files
@@ -60,7 +62,8 @@ Downloaded at: 2026-05-13T06:49:28.723Z
 - documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 Change Overview v1.0.pdf (1015575 bytes)
 - documentation/IVI 2.0 Release documentation/Archived versions/IVI 2.0 Change Overview v1.1.pdf (1015187 bytes)
 
-## Tools
+## Excluded from Public Release
 
-- tools/NapTool.zip (623221 bytes)
-- tools/tools_page.txt (1441 bytes)
+- Downloaded tool binaries, including the NAP tool zip.
+- Local runtime data and generated evidence files.
+- Real API keys, certificates, private keys and passwords.
