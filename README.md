@@ -6,6 +6,7 @@
 
 - [系统架构说明](docs/ARCHITECTURE.md)：当前公开代码仓的模块、数据边界、签章/上传接口边界和验证方式。
 - [工作台使用说明](docs/USER_MANUAL.md)：CoC 草稿批量上传、上传列表、校验区、车型设定、签章、上传和提交历史检索流程。
+- [代码与发布审计](docs/AUDIT.md)：本次公开发布前的代码、文档、敏感信息、公开文件清单和测试审计结果。
 - [官方样本与资料缓存](ecoc_eucaris_download/README.md)：用于本地开发和校验的样本 XML、PDF、XSD、Message Book 和相关手册缓存。
 
 ## 核心边界

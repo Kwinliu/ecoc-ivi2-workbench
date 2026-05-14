@@ -86,7 +86,7 @@ function defaultSettings() {
     },
     uploadSubjects: {
       primary: "RDW",
-      secondary: "KAB",
+      secondary: "KBA",
       gb: "VCA",
       fallbackEnabled: true,
     },
@@ -137,11 +137,11 @@ function defaultApiKeys() {
       createdAt: now(),
     },
     {
-      id: "upload-kab",
+      id: "upload-kba",
       kind: "upload",
-      provider: "KAB",
-      label: "KAB 上传 API",
-      keyRef: "kab_nap_2026",
+      provider: "KBA",
+      label: "KBA 上传 API",
+      keyRef: "kba_nap_2026",
       mode: "mock",
       createdAt: now(),
     },
@@ -1335,7 +1335,7 @@ async function signDraft(db, draft, apiKey) {
 
 async function uploadDraft(db, draft, apiKey) {
   if (draft.signingStatus !== "signed" || !draft.signedXmlPath) {
-    return { draft, status: "blocked", error: "Signed XML is required before RDW upload" };
+    return { draft, status: "blocked", error: "Signed XML is required before NAP upload" };
   }
   const idempotencyKey = hash(`${draft.vin}|${draft.iviReferenceId}|${draft.signedXmlHash}`);
   const acceptedDuplicate = db.submissions.find((item) => item.idempotencyKey === idempotencyKey && item.status === "accepted");
@@ -1778,7 +1778,7 @@ async function handle(req, res) {
 ensureStore()
   .then(() => {
     http.createServer(handle).listen(PORT, () => {
-      console.log(`eCoC unsigned MVP running at http://localhost:${PORT}`);
+      console.log(`eCoC / IVI2 Workbench running at http://localhost:${PORT}`);
     });
   })
   .catch((error) => {

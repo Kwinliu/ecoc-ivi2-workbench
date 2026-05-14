@@ -171,6 +171,7 @@ async function main() {
     assert.equal(result.response.status, 200);
     assert.ok(result.data.keys.some((item) => item.kind === "signing" && item.keyDisplay.includes("...")));
     assert.ok(result.data.keys.some((item) => item.id === "signing-eu-rep-1"));
+    assert.ok(result.data.keys.some((item) => item.id === "upload-kba"));
     assert.ok(result.data.keys.some((item) => item.id === "upload-vca"));
 
     result = await request(`/api/drafts/${draftId}/sign`, {
