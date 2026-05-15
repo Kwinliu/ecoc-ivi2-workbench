@@ -86,11 +86,22 @@ function collectSettings() {
     uploadApiKeyId: row.querySelector('[data-field="uploadApiKeyId"]').value,
     templateFileName: row.querySelector('[data-field="templateFileName"]').value.trim(),
     templateBase64: row.querySelector('[data-field="templateBase64"]').value,
+    templateAudit: JSON.parse(row.querySelector('[data-field="templateAudit"]').value || "null"),
   }));
   return {
     ...(state.settings || {}),
     modelSettings: modelSettings.filter((item) => item.modelType || item.wvtaNumber),
   };
+}
+
+function renderTemplateAudit(audit) {
+  if (!audit) return `<span class="muted">未检查</span>`;
+  if (audit.status === "ok") return `<span class="audit-ok">完整</span>`;
+  if (audit.status === "notice") {
+    const missing = (audit.missing || []).map((item) => `${item.label} (${item.dataRef})`).join("、");
+    return `<span class="audit-notice" title="${escapeHtml(missing)}">提示 ${escapeHtml(audit.missing?.length || 0)} 项缺失</span>`;
+  }
+  return `<span class="muted">${escapeHtml(audit.message || "未检查")}</span>`;
 }
 
 function renderModelSettings(modelSettings) {
@@ -105,11 +116,13 @@ function renderModelSettings(modelSettings) {
           <td>
             <input data-field="templateFileName" value="${escapeHtml(item.templateFileName || "")}" placeholder="未上传" readonly />
             <input data-field="templateBase64" value="${escapeHtml(item.templateBase64 || "")}" type="hidden" />
+            <input data-field="templateAudit" value="${escapeHtml(JSON.stringify(item.templateAudit || null))}" type="hidden" />
           </td>
+          <td>${renderTemplateAudit(item.templateAudit)}</td>
           <td><button class="secondary" data-action="removeModelSetting" data-index="${index}" type="button">删除</button></td>
         </tr>`
       )
-      .join("") || `<tr><td colspan="6">暂无车型设定。按上方顺序录入车型、Approval Number、API 和 COC 校验范本。</td></tr>`;
+      .join("") || `<tr><td colspan="7">暂无车型设定。按上方顺序录入车型、Approval Number、API 和 COC 校验范本。</td></tr>`;
 }
 
 function renderPreviewOptions() {
@@ -563,14 +576,25 @@ async function addModelSetting() {
   if (!modelType || !wvtaNumber) return toast("请先填写车型和 Approval Number。");
   state.settings = state.settings || {};
   state.settings.modelSettings = collectSettings().modelSettings;
-  state.settings.modelSettings.push({
+  const modelSetting = {
     modelType,
     wvtaNumber,
     signingApiKeyId: $("settingModelSigning").value,
     uploadApiKeyId: $("settingModelUpload").value,
     templateFileName: templateFile?.name || "",
     templateBase64: templateFile ? await fileToBase64(templateFile) : "",
-  });
+  };
+  if (modelSetting.templateBase64) {
+    const result = await api("/api/settings/template-audit", {
+      method: "POST",
+      body: JSON.stringify({ modelSetting }),
+    });
+    modelSetting.templateAudit = result.templateAudit;
+    if (result.templateAudit?.status === "notice") {
+      toast(`eCoC 数据提示：${result.templateAudit.missing.length} 个信息项缺失，不阻塞流程。`);
+    }
+  }
+  state.settings.modelSettings.push(modelSetting);
   $("settingModelType").value = "";
   $("settingModelWvta").value = "";
   $("settingModelTemplate").value = "";

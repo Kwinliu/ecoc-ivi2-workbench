@@ -14,6 +14,7 @@
 - 制造商侧系统不假设能直接访问 EUCARIS。EUCARIS 官方说明其是主管机关之间的交换机制，私营主体通常需通过国家联系人、主管机关或 NAP 路径接入。
 - IVI/eCoC 的 XSD、Message Book、WSDL、示例报文、证书和测试环境参数必须以目标 NAP、主管机关、EUCARIS/EREG 正式资料为准。
 - CoC 校验只基于车型设定中上传的 COC 校验范本进行；未上传或未匹配范本时无法完成校验，不加入额外后台判定。
+- 车型 COC 校验范本上传时会按 eCoC / 电子 CoC 数据与交换要求做结构化数据完整性提示；提示不阻塞流程。
 - 当前 D-Trust 签章、RDW/KBA/VCA 上传均为本地 mock connector。生产环境需要接入真实 endpoint、API Key、证书、mTLS、XMLDSig 和错误码映射。
 - 真实 API Key、证书、私钥、本地数据库和证据文件不进入公开仓库。`data/`、`.env` 已在 `.gitignore` 中排除。
 

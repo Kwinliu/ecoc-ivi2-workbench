@@ -42,6 +42,7 @@
 - 草稿数据管理。
 - IVI2 XML 草稿生成。
 - 基于车型 COC 校验范本的比对校验。
+- eCoC / 电子 CoC 结构化数据完整性提示。
 - 车型设定保存与匹配。
 - D-Trust mock 签章。
 - RDW/KBA/VCA mock 上传。
@@ -87,7 +88,24 @@
 
 当前代码只实现 mock 回执，不能代表真实 NAP 已接受。
 
-## 6. 验证
+## 6. eCoC 数据提示
+
+车型设定区上传的 COC 校验范本会按 eCoC / 电子 CoC 的结构化数据与交换要求做完整性提示。当前依据是 Regulation (EU) 2018/858 Article 37、Commission Implementing Regulation (EU) 2021/133，以及 Commission Implementing Regulation (EU) 2024/1061 对安全交换和只读访问的补充。系统把当前可抽取字段映射到 IVI2 XML 路径，并输出缺失项提示。
+
+该提示只用于帮助维护车型对照文件，不参与车辆草稿阻断逻辑。车辆草稿校验仍只基于上传 CoC 与车型 COC 校验范本的比对结果。
+
+## 7. eCoC 法规边界
+
+当前法规边界按以下层级理解：
+
+- Regulation (EU) 2018/858 Article 36：纸面 CoC 的签发义务、完整填写、防伪和纸面 CoC 实施法授权。
+- Regulation (EU) 2018/858 Article 37：电子 CoC / structured data 的义务和访问机制；Article 37(8) 授权 Commission 另行制定电子格式、结构、交换方式和安全要求。
+- Commission Implementing Regulation (EU) 2021/133：电子 CoC 的 basic format、structure 和 means of exchange。
+- Commission Implementing Regulation (EU) 2024/1061：电子 CoC secure exchange、read-only access，并修订 2021/133。
+
+因此，本系统以 eCoC / 电子 CoC 的数据和交换要求为准；2020/683 的纸面 CoC 模板不作为当前系统校验基准。
+
+## 8. 验证
 
 语法检查：
 

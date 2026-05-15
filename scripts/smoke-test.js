@@ -185,6 +185,10 @@ async function main() {
       }),
     });
     assert.equal(result.response.status, 200);
+    assert.equal(result.data.settings.modelSettings[0].templateAudit.blocking, false);
+    assert.equal(result.data.settings.modelSettings[0].templateAudit.status, "notice");
+    assert.ok(result.data.settings.modelSettings[0].templateAudit.missing.length > 0);
+    assert.equal(result.data.settings.modelSettings[1].templateAudit.blocking, false);
 
     result = await request("/api/drafts", { method: "POST", body: JSON.stringify({}) });
     assert.equal(result.response.status, 201);

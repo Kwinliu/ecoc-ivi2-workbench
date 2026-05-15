@@ -192,6 +192,8 @@ PORT=4174 npm start
 | 上传 API | 选择 RDW/KBA/VCA 上传主体 |
 | COC 校验范本 | 上传该车型的基准 CoC 样本或校验模板 |
 
+上传 COC 校验范本后，系统会按 eCoC / 电子 CoC 的结构化数据与交换要求做完整性提示。当前依据为 Regulation (EU) 2018/858 Article 37、Commission Implementing Regulation (EU) 2021/133，以及 Commission Implementing Regulation (EU) 2024/1061 对安全交换和只读访问的补充。这个提示只用于提醒该车型对照文件可能缺少 eCoC 数据项，不阻塞保存、校验、签章或上传。
+
 车型设定表用于后续自动匹配：
 
 - 当上传草稿的 Type 和 Approval Number 与设定表匹配时，系统优先使用该行配置的签章 API 和上传 API。

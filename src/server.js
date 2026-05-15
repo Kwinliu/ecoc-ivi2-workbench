@@ -157,6 +157,46 @@ function defaultApiKeys() {
   ];
 }
 
+const ECOC_DATA_REQUIREMENTS = {
+  basis: [
+    "Regulation (EU) 2018/858 Article 37",
+    "Commission Implementing Regulation (EU) 2021/133",
+    "Commission Implementing Regulation (EU) 2024/1061",
+  ],
+  scope: "Electronic certificate of conformity structured data, exchange and access requirements",
+  fields: {
+    common: [
+      { field: "manufacturerName", label: "制造商名称", dataRef: "0.5", iviPath: "CocDataGroup/ManufacturerTable/ManufacturerGroup/ManufacturerName" },
+      { field: "manufacturerCountry", label: "制造商国家", dataRef: "0.5", iviPath: "CocDataGroup/ManufacturerTable/ManufacturerGroup/ManufacturerCountryOfResidence" },
+      { field: "wvtaNumber", label: "Approval Number / WVTA", dataRef: "0.10", iviPath: "CocDataGroup/TypeApprovalNumber" },
+      { field: "vehicleCategory", label: "车辆类别", dataRef: "0.4", iviPath: "CocDataGroup/VehicleCategory" },
+      { field: "make", label: "品牌", dataRef: "0.1", iviPath: "CocDataGroup/MakeTable/MakeGroup/Make" },
+      { field: "commercialName", label: "商业名称", dataRef: "0.2.1", iviPath: "CocDataGroup/CommercialNameTable/CommercialNameGroup/CommercialName" },
+      { field: "type", label: "Type", dataRef: "0.2", iviPath: "CocDataGroup/Type" },
+      { field: "variant", label: "Variant", dataRef: "0.2", iviPath: "CocDataGroup/Variant" },
+      { field: "version", label: "Version", dataRef: "0.2", iviPath: "CocDataGroup/Version" },
+      { field: "typeApprovalType", label: "型式批准类型", dataRef: "0.2", iviPath: "CocDataGroup/TypeApprovalType" },
+      { field: "stageOfCompletion", label: "完成阶段", dataRef: "0.2", iviPath: "CocDataGroup/StageOfCompletion" },
+      { field: "axles", label: "轴数", dataRef: "1", iviPath: "CocDataGroup/GeneralConstructionGroup/NumberOfAxles" },
+      { field: "lengthMm", label: "长度", dataRef: "4", iviPath: "CocDataGroup/DimensionGroup/Length" },
+      { field: "widthMm", label: "宽度", dataRef: "4", iviPath: "CocDataGroup/DimensionGroup/Width" },
+      { field: "heightMm", label: "高度", dataRef: "4", iviPath: "CocDataGroup/DimensionGroup/Height" },
+      { field: "massRunningOrderKg", label: "运行状态质量", dataRef: "13", iviPath: "CocDataGroup/MassGroup/MassInRunningOrder" },
+      { field: "technicallyPermissibleMaximumLadenMassKg", label: "技术允许最大装载质量", dataRef: "16", iviPath: "CocDataGroup/MassGroup/TechnicallyPermissibleMaximumLadenMass" },
+    ],
+    powered: [
+      { field: "fuelType", label: "燃料/能源类型", dataRef: "26", iviPath: "CocDataGroup/FuelType" },
+    ],
+    passenger: [
+      { field: "seats", label: "座位数", dataRef: "42", iviPath: "CocDataGroup/GeneralConstructionGroup/NumberOfSeatingPositionsIncludingDriver" },
+    ],
+    tyre: [
+      { field: "tyreFront", label: "前轮轮胎", dataRef: "35", iviPath: "CocDataGroup/TyreTable/TyreGroup" },
+      { field: "tyreRear", label: "后轮轮胎", dataRef: "35", iviPath: "CocDataGroup/TyreTable/TyreGroup" },
+    ],
+  },
+};
+
 async function readDb() {
   await ensureStore();
   const db = JSON.parse(await fs.readFile(DB_PATH, "utf8"));
@@ -632,6 +672,11 @@ function extractXmlFields(xml) {
     widthMm: xmlTagValue(xml, "Width"),
     heightMm: xmlTagValue(xml, "Height"),
     fuelType: xmlTagValue(xml, "FuelType"),
+    axles: xmlTagValue(xml, "NumberOfAxles"),
+    wheels: xmlTagValue(xml, "NumberOfWheels"),
+    seats: xmlTagValue(xml, "NumberOfSeatingPositionsIncludingDriver"),
+    tyreFront: xmlTagValue(xml, "TyreFront") || xmlTagValue(xml, "TyreFrontAxle"),
+    tyreRear: xmlTagValue(xml, "TyreRear") || xmlTagValue(xml, "TyreRearAxle"),
   };
   for (const key of Object.keys(fields)) {
     if (!fields[key]) delete fields[key];
@@ -893,6 +938,22 @@ function inferApprovalCountryName(value) {
   return APPROVAL_AUTHORITY_BY_PREFIX[code]?.country || "";
 }
 
+function cocTemplateProfile(vehicleCategory) {
+  const category = String(vehicleCategory || "").trim().toUpperCase();
+  if (/^M/.test(category)) return "passenger";
+  if (/^N/.test(category)) return "goods";
+  if (/^O/.test(category)) return "trailer";
+  return "generic";
+}
+
+function ecocRequirementFields(vehicleCategory) {
+  const profile = cocTemplateProfile(vehicleCategory);
+  const fields = [...ECOC_DATA_REQUIREMENTS.fields.common, ...ECOC_DATA_REQUIREMENTS.fields.tyre];
+  if (profile === "passenger") fields.push(...ECOC_DATA_REQUIREMENTS.fields.passenger);
+  if (profile === "passenger" || profile === "goods") fields.push(...ECOC_DATA_REQUIREMENTS.fields.powered);
+  return fields;
+}
+
 function normalizeIndicator(value, fallback = "") {
   const textValue = String(value || "").trim().toLowerCase();
   if (["y", "yes", "true", "1", "是"].includes(textValue)) return "Y";
@@ -1028,6 +1089,85 @@ async function parseCocTemplate(setting) {
   if (kind === "excel") return (await convertXlsxToVehicle({ fileName, base64 })).vehicle;
   if (kind === "xml") return (await convertXmlToVehicle({ fileName, base64 })).vehicle;
   return null;
+}
+
+async function extractCocTemplateFields(setting) {
+  const fileName = String(setting?.templateFileName || "");
+  const base64 = setting?.templateBase64 || "";
+  if (!fileName || !base64) return null;
+  const kind = detectUploadKind(fileName);
+  if (kind === "csv") {
+    const rows = parseCsv(Buffer.from(String(base64), "base64").toString("utf8"));
+    return rows[0] || null;
+  }
+  if (kind === "word") return (await convertDocxToVehicle({ fileName, base64 })).extracted.fields;
+  if (kind === "excel") return (await convertXlsxToVehicle({ fileName, base64 })).extracted.fields;
+  if (kind === "xml") return (await convertXmlToVehicle({ fileName, base64 })).extracted.fields;
+  return null;
+}
+
+async function auditCocTemplateAgainstEcocRequirements(setting) {
+  if (!setting?.templateFileName || !setting?.templateBase64) {
+    return {
+      status: "not_checked",
+      blocking: false,
+      message: "未上传 COC 校验范本。",
+      missing: [],
+      checkedAt: now(),
+    };
+  }
+  try {
+    const fields = await extractCocTemplateFields(setting);
+    if (!fields) {
+      return {
+        status: "not_checked",
+        blocking: false,
+        message: "COC 校验范本无法解析，未执行 eCoC 数据完整性提示。",
+        missing: [],
+        checkedAt: now(),
+      };
+    }
+    const vehicleCategory = fields.vehicleCategory || "";
+    const profile = cocTemplateProfile(vehicleCategory);
+    const requiredFields = ecocRequirementFields(vehicleCategory);
+    const missing = requiredFields
+      .filter((item) => !normalizeTemplateValue(item.field, fields[item.field]))
+      .map((item) => ({ ...item, severity: "notice" }));
+    return {
+      status: missing.length ? "notice" : "ok",
+      blocking: false,
+      basis: ECOC_DATA_REQUIREMENTS.basis,
+      scope: ECOC_DATA_REQUIREMENTS.scope,
+      profile,
+      vehicleCategory,
+      checkedFields: requiredFields.length,
+      missing,
+      message: missing.length
+        ? `COC 对照文件相对 eCoC 结构化数据要求有 ${missing.length} 个信息项缺失；该提示不阻塞流程。`
+        : "COC 对照文件已覆盖当前可识别的 eCoC 数据字段。",
+      checkedAt: now(),
+    };
+  } catch (error) {
+    return {
+      status: "not_checked",
+      blocking: false,
+      message: `COC 校验范本解析失败：${error.message}`,
+      missing: [],
+      checkedAt: now(),
+    };
+  }
+}
+
+async function enrichModelSettings(modelSettings) {
+  const settings = Array.isArray(modelSettings) ? modelSettings : [];
+  const enriched = [];
+  for (const setting of settings) {
+    enriched.push({
+      ...setting,
+      templateAudit: await auditCocTemplateAgainstEcocRequirements(setting),
+    });
+  }
+  return enriched;
 }
 
 function validationUnavailableReport(draft, reason) {
@@ -1526,11 +1666,16 @@ async function api(req, res, pathname) {
       modelApiRouting: { ...defaultSettings().modelApiRouting, ...(body.settings?.modelApiRouting || {}) },
       signingSubjects: { ...defaultSettings().signingSubjects, ...(body.settings?.signingSubjects || {}) },
       uploadSubjects: { ...defaultSettings().uploadSubjects, ...(body.settings?.uploadSubjects || {}) },
-      modelSettings: Array.isArray(body.settings?.modelSettings) ? body.settings.modelSettings : [],
+      modelSettings: await enrichModelSettings(body.settings?.modelSettings),
     };
     audit(db, "settings.update", "settings", "workflow", {});
     await writeDb(db);
     return json(res, 200, { settings: db.settings });
+  }
+
+  if (req.method === "POST" && pathname === "/api/settings/template-audit") {
+    const body = await readBody(req);
+    return json(res, 200, { templateAudit: await auditCocTemplateAgainstEcocRequirements(body.modelSetting || body) });
   }
 
   if (req.method === "POST" && pathname === "/api/api-keys/active") {

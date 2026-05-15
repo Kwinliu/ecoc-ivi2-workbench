@@ -621,12 +621,35 @@ tr:last-child td {
 }
 
 .model-settings-table {
-  min-width: 1120px;
+  min-width: 1240px;
 }
 
 .model-settings-table th,
 .model-settings-table td {
   vertical-align: middle;
+}
+
+.audit-ok,
+.audit-notice {
+  display: inline-flex;
+  align-items: center;
+  min-height: 28px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  white-space: nowrap;
+  font-size: 12px;
+}
+
+.audit-ok {
+  color: var(--good);
+  background: #eefcf5;
+  border: 1px solid #bce7cf;
+}
+
+.audit-notice {
+  color: var(--warn);
+  background: #fff9ed;
+  border: 1px solid #f4d199;
 }
 
 .toast {
