@@ -145,14 +145,46 @@ async function main() {
     assert.equal(result.response.status, 200);
     assert.equal(result.data.ok, true);
 
-    const csv = [
-      "vin,manufacturerName,manufacturerCountry,euRepresentativeName,euRepresentativeCountry,wvtaNumber,approvalAuthority,vehicleCategory,make,commercialName,type,variant,version,productionDate,intendedCountryRegistration,massRunningOrderKg,technicallyPermissibleMaximumLadenMassKg,lengthMm,widthMm,heightMm,axles,seats,fuelType,co2WLTP,emissionsClass,tyreFront,tyreRear",
-      "WVWZZZ1JZXW000001,Demo OEM Ltd.,CN,Demo EU Rep GmbH,DE,e1*2018/858*00001*00,KBA,M1,Demo,DemoCar,T1,V1,001,2026-04-01,DE,1500,2100,4500,1800,1500,2,5,Petrol,120,Euro 6,205/55 R16,205/55 R16",
-    ].join("\n");
+    const csvHeader =
+      "vin,manufacturerName,manufacturerCountry,euRepresentativeName,euRepresentativeCountry,wvtaNumber,vehicleCategory,make,commercialName,type,variant,version,productionDate,intendedCountryRegistration,massRunningOrderKg,technicallyPermissibleMaximumLadenMassKg,lengthMm,widthMm,heightMm,axles,seats,fuelType,co2WLTP,emissionsClass,tyreFront,tyreRear";
+    const euRow =
+      "WVWZZZ1JZXW000001,Demo OEM Ltd.,CN,Demo EU Rep GmbH,DE,e1*2018/858*00001*00,M1,Demo,DemoCar,T1,V1,001,2026-04-01,DE,1500,2100,4500,1800,1500,2,5,Petrol,120,Euro 6,205/55 R16,205/55 R16";
+    const gbRow =
+      "SALLAAA146A000001,Demo OEM Ltd.,CN,Demo EU Rep GmbH,DE,g11*2018/858*00002*00,M1,Demo,DemoCar,T2,V2,002,2026-04-02,GB,1600,2200,4600,1850,1550,2,5,Petrol,125,Euro 6,215/55 R17,215/55 R17";
+    const csv = [csvHeader, euRow, gbRow].join("\n");
 
     result = await request("/api/vehicles/import", { method: "POST", body: JSON.stringify({ csv }) });
     assert.equal(result.response.status, 200);
-    assert.equal(result.data.imported, 1);
+    assert.equal(result.data.imported, 2);
+
+    const euTemplateBase64 = Buffer.from([csvHeader, euRow].join("\n"), "utf8").toString("base64");
+    const gbTemplateBase64 = Buffer.from([csvHeader, gbRow].join("\n"), "utf8").toString("base64");
+    result = await request("/api/settings", {
+      method: "POST",
+      body: JSON.stringify({
+        settings: {
+          modelSettings: [
+            {
+              modelType: "T1",
+              wvtaNumber: "e1*2018/858*00001*00",
+              signingApiKeyId: "signing-eu-rep-1",
+              uploadApiKeyId: "upload-rdw",
+              templateFileName: "coc-template-eu.csv",
+              templateBase64: euTemplateBase64,
+            },
+            {
+              modelType: "T2",
+              wvtaNumber: "g11*2018/858*00002*00",
+              signingApiKeyId: "signing-gb-rep",
+              uploadApiKeyId: "upload-vca",
+              templateFileName: "coc-template-gb.csv",
+              templateBase64: gbTemplateBase64,
+            },
+          ],
+        },
+      }),
+    });
+    assert.equal(result.response.status, 200);
 
     result = await request("/api/drafts", { method: "POST", body: JSON.stringify({}) });
     assert.equal(result.response.status, 201);
@@ -162,6 +194,17 @@ async function main() {
     result = await request(`/api/drafts/${draftId}/validate`, { method: "POST", body: JSON.stringify({}) });
     assert.equal(result.response.status, 200);
     assert.equal(result.data.report.passed, true);
+    assert.ok(!result.data.report.findings.some((item) => item.code === "APPROVAL_AUTHORITY_REQUIRED"));
+    result = await request(`/api/drafts/${draftId}`);
+    assert.equal(result.data.draft.snapshot.approvalAuthority, "KBA");
+
+    const gbDraft = result.data.draft.vin === "SALLAAA146A000001"
+      ? result.data.draft
+      : (await request("/api/drafts")).data.drafts.find((item) => item.vin === "SALLAAA146A000001");
+    result = await request(`/api/drafts/${gbDraft.id}/validate`, { method: "POST", body: JSON.stringify({}) });
+    assert.equal(result.response.status, 200);
+    result = await request(`/api/drafts/${gbDraft.id}`);
+    assert.equal(result.data.draft.snapshot.approvalAuthority, "VCA");
 
     result = await request(`/api/drafts/${draftId}/generate-ivi`, { method: "POST", body: JSON.stringify({}) });
     assert.equal(result.response.status, 200);

@@ -1,6 +1,6 @@
 # eCoC / IVI2 Workbench Architecture
 
-更新时间：2026-05-14
+更新时间：2026-05-15
 
 本文只描述当前公开代码仓中的系统实现，不包含商务申请路径、内部论证材料或本地运行数据。
 
@@ -11,7 +11,7 @@
 1. 批量导入 CoC 文件或车辆数据。
 2. 抽取 VIN、Approval Number、Type、Variant、Version 等字段。
 3. 生成 IVI2 XML 草稿。
-4. 校验 CoC 内容是否满足当前规则和车型设定。
+4. 按车型设定中的 COC 校验范本比对上传 CoC。
 5. 按车型设定选择签章 API，并生成签章流程记录。
 6. 按车型设定或 Approval Number e-code 选择上传 API。
 7. 保存提交历史，支持检索和追溯。
@@ -41,7 +41,7 @@
 - 文件上传与字段抽取。
 - 草稿数据管理。
 - IVI2 XML 草稿生成。
-- CoC 校验。
+- 基于车型 COC 校验范本的比对校验。
 - 车型设定保存与匹配。
 - D-Trust mock 签章。
 - RDW/KBA/VCA mock 上传。
@@ -79,9 +79,9 @@
 
 上传目标流程：
 
-1. 系统确认草稿已校验通过。
+1. 系统确认草稿已基于车型 COC 校验范本完成校验。
 2. 系统确认存在签章后的 XML 包。
-3. 系统根据车型设定或 Approval Number e-code 选择 RDW、KBA 或 VCA。
+3. 系统根据车型设定或 Approval Number e-code 选择 RDW、KBA 或 VCA；`e11/g11/n11` 走 GB/VCA，EU 27 个成员国 e-code 走 EU 路径。
 4. 系统上传签章 XML 包。
 5. 系统保存 Message ID、状态和回执。
 

@@ -138,6 +138,7 @@ function statusLabel(value) {
       uploaded: "已上传",
       validated: "校验通过",
       validation_failed: "校验未通过",
+      validation_unavailable: "无法校验",
     }[value] || value || "未开始"
   );
 }
@@ -158,7 +159,9 @@ const findingText = {
   VIN_FORMAT: ["VIN 格式不正确", "VIN 应为 17 位，且不能包含 I、O 或 Q。"],
   MANUFACTURER_REQUIRED: ["制造商名称缺失", "请补充制造商法定名称。"],
   WVTA_REQUIRED: ["WVTA 批准号缺失", "请补充 WVTA 型式批准编号。"],
-  APPROVAL_AUTHORITY_REQUIRED: ["型式批准机构缺失", "请补充签发该证书的型式批准机构。"],
+  APPROVAL_AUTHORITY_MAPPING_MISSING: ["型式批准机构映射缺失", "后台尚未维护该 Approval Number 前缀对应的型式批准机构。"],
+  COC_TEMPLATE_FIELD_MISSING: ["范本字段缺失", "上传数据缺少 COC 校验范本中的对应字段。"],
+  COC_TEMPLATE_FIELD_MISMATCH: ["与范本不一致", "上传数据与 COC 校验范本不一致。"],
   APPROVAL_COUNTRY_REQUIRED: ["型式批准国家缺失", "请补充指定型式批准国家代码，例如 e1 或 e6。"],
   VEHICLE_CATEGORY_REQUIRED: ["车辆类别缺失", "请补充车辆类别。"],
   VEHICLE_CATEGORY_REVIEW: ["车辆类别需复核", "请确认该车辆类别属于 Regulation (EU) 2018/858 的适用范围。"],
@@ -168,16 +171,6 @@ const findingText = {
   TYPE_APPROVAL_ISSUE_DATE_REQUIRED: ["型式批准签发日期缺失", "请补充型式批准签发日期。"],
   TYPE_VARIANT_VERSION_REQUIRED: ["Type / Variant / Version 缺失", "请补充 Type、Variant 和 Version，用于 CoC/IVI 映射。"],
   MAKE_REQUIRED: ["品牌缺失", "请补充 Make 字段，用于 IVI 2.0 MakeTable。"],
-  MANUFACTURER_ADDRESS_INCOMPLETE: ["制造商地址不完整", "正式生成 IVI 前建议补充制造商地址和所在地。"],
-  SIGNER_INCOMPLETE: ["签署人信息不完整", "生产签章前请检查签署人、职位、签署地点和签署日期。"],
-  MASS_RUNNING_ORDER_MISSING: ["整备质量缺失", "建议补充运行状态质量。"],
-  MAX_LADEN_MASS_MISSING: ["最大允许总质量缺失", "建议补充技术允许最大装载质量。"],
-  DIMENSIONS_INCOMPLETE: ["尺寸信息不完整", "建议补充长度、宽度和高度。"],
-  FUEL_TYPE_MISSING: ["燃料/能源类型缺失", "建议补充燃料或能源来源。"],
-  TYRE_DATA_MISSING: ["轮胎信息缺失", "建议补充前轮和后轮轮胎规格。"],
-  SIGNATURE_INCLUDED: ["已包含签章", "该草稿已有签章 XML 包。"],
-  SIGNATURE_NOT_INCLUDED: ["尚未签章", "该草稿尚未签章；生产提交前需要完成 XMLDSig 签章。"],
-  OFFICIAL_XSD_AVAILABLE: ["官方 XSD 已就绪", "本地已存在 IVI 2.0 XSD；完整校验仍需接入 XMLDSig schema 与签章验证。"],
   generated: ["XML 已生成", "XML 已生成。"],
   failed: ["处理失败", "处理失败。"],
   accepted: ["上传已受理", "上传接口已受理。"],
@@ -209,10 +202,23 @@ const fieldText = {
   fuelType: "燃料/能源类型",
   make: "品牌",
   tyreFront: "前轮轮胎",
+  tyreRear: "后轮轮胎",
   "tyreFront/tyreRear": "前轮 / 后轮轮胎",
+  manufacturerCountry: "制造商国家",
+  commercialName: "商业名称",
+  type: "Type",
+  variant: "Variant",
+  version: "Version",
+  typeApprovalType: "型式批准类型",
+  stageOfCompletion: "完成阶段",
+  widthMm: "宽度",
+  heightMm: "高度",
 };
 
 function findingTitle(item) {
+  if (item.code === "COC_TEMPLATE_FIELD_MISSING" || item.code === "COC_TEMPLATE_FIELD_MISMATCH") {
+    return item.message || findingText[item.code]?.[0] || item.code;
+  }
   return findingText[item.code]?.[0] || item.code || "校验项";
 }
 
@@ -251,6 +257,18 @@ function renderReport(data) {
     : [data.report || data];
   node.innerHTML = reports
     .map((report) => {
+      if (report.unavailable) {
+        return `<article class="report-card compact unavailable">
+          <div class="report-head">
+            <div>
+              <strong>${escapeHtml(report.vin || "未识别 VIN")}</strong>
+              <span>未完成校验</span>
+            </div>
+            <span class="status validation_unavailable">无法校验</span>
+          </div>
+          <div class="empty-state">${escapeHtml(report.unavailableReason || "缺少 COC 校验范本，无法完成校验。")}</div>
+        </article>`;
+      }
       const findings = report.findings || [];
       const summary = report.summary || { errors: 0, warnings: 0, total: findings.length };
       const visibleTotal = (summary.errors || 0) + (summary.warnings || 0);
@@ -340,6 +358,9 @@ function currentDraftStatus(draft) {
   }
   if (draft.validationSummary?.errors > 0 || draft.status === "validation_failed") {
     return { stage: "校验", value: "未通过", tone: "bad" };
+  }
+  if (draft.status === "validation_unavailable") {
+    return { stage: "校验", value: "无法校验", tone: "warn" };
   }
   if (draft.signingStatus === "signed") {
     return { stage: "签章", value: "已签章", tone: "good" };
@@ -627,7 +648,7 @@ async function createDrafts() {
 async function validateDraft(id) {
   const result = await api(`/api/drafts/${id}/validate`, { method: "POST", body: "{}" });
   renderReport(result.report);
-  toast(result.report.passed ? "校验通过，可以生成 XML。" : "校验发现错误，请修复字段。");
+  toast(result.report.unavailable ? "缺少 COC 校验范本，无法完成校验。" : result.report.passed ? "校验通过，可以生成 XML。" : "校验与范本不一致，请检查字段。");
   await refresh();
 }
 

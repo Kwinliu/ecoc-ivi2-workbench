@@ -75,8 +75,8 @@ function defaultSettings() {
     },
     modelApiRouting: {
       defaultRule: "Route by WVTA / Approval number e-code.",
-      m1: "e11/e24 use GB route; all other approval numbers use EU route.",
-      n2: "e11/e24 use GB route; all other approval numbers use EU route.",
+      m1: "e11/g11/n11 use GB route; EU member-state e-codes use EU route.",
+      n2: "e11/g11/n11 use GB route; EU member-state e-codes use EU route.",
     },
     signingSubjects: {
       primary: "EU 代表处 1",
@@ -679,13 +679,13 @@ async function draftFromVehicle(db, vehicle, source, originalXml = "") {
   const savedVehicle = upsertVehicle(db, vehicle);
   const draft = makeDraft(savedVehicle);
   if (source.signaturePresent) draft.signingStatus = "signed";
-  const report = validateDraft(draft);
+  const report = await validateDraft(db, draft);
   const xml = originalXml && /<InitialVehicleInformation\b/i.test(originalXml) ? originalXml : generatePrototypeIviXml(draft);
   const relativePath = await saveEvidence(draft.id, source.xmlFileName, xml);
   draft.validationReport = report;
   draft.iviXmlPath = relativePath;
   draft.iviXmlHash = hash(xml);
-  draft.status = report.passed ? "ivi_generated" : "validation_failed";
+  draft.status = draftStatusFromValidation(report, "ivi_generated");
   if (source.signaturePresent) {
     draft.signedXmlPath = relativePath;
     draft.signedXmlHash = draft.iviXmlHash;
@@ -747,7 +747,7 @@ async function processUploadFile(db, file) {
     return {
       fileName: file.fileName,
       kind,
-      status: created.report.passed ? "converted" : "needs_fix",
+      status: created.report.unavailable ? "validation_unavailable" : created.report.passed ? "converted" : "needs_fix",
       draft: publicDraft(created.draft),
       report: created.report,
       extracted: converted.extracted,
@@ -840,8 +840,57 @@ function normalizeDate(value) {
 }
 
 function deriveApprovalCountry(value) {
-  const match = String(value || "").match(/\b(e\d+)\*/i);
+  const match = String(value || "").trim().match(/^([egn]\d+)(?:\*|\b)/i);
   return match ? match[1].toLowerCase() : "";
+}
+
+const APPROVAL_AUTHORITY_BY_PREFIX = {
+  e1: { country: "Germany", authority: "KBA" },
+  e2: { country: "France", authority: "France Type Approval Authority" },
+  e3: { country: "Italy", authority: "Italy Type Approval Authority" },
+  e4: { country: "Netherlands", authority: "RDW" },
+  e5: { country: "Sweden", authority: "STA" },
+  e6: { country: "Belgium", authority: "Belgium Type Approval Authority" },
+  e7: { country: "Hungary", authority: "Hungary Type Approval Authority" },
+  e8: { country: "Czech Republic", authority: "Czech Type Approval Authority" },
+  e9: { country: "Spain", authority: "Spain Type Approval Authority" },
+  e11: { country: "United Kingdom", authority: "VCA" },
+  g11: { country: "United Kingdom", authority: "VCA" },
+  n11: { country: "United Kingdom / Northern Ireland", authority: "VCA" },
+  e12: { country: "Austria", authority: "Austria Type Approval Authority" },
+  e13: { country: "Luxembourg", authority: "SNCH" },
+  e17: { country: "Finland", authority: "Traficom" },
+  e18: { country: "Denmark", authority: "Denmark Type Approval Authority" },
+  e19: { country: "Romania", authority: "Romania Type Approval Authority" },
+  e20: { country: "Poland", authority: "Poland Type Approval Authority" },
+  e21: { country: "Portugal", authority: "IMT" },
+  e23: { country: "Greece", authority: "Greece Type Approval Authority" },
+  e24: { country: "Ireland", authority: "NSAI" },
+  e25: { country: "Croatia", authority: "Croatia Type Approval Authority" },
+  e26: { country: "Slovenia", authority: "Slovenia Type Approval Authority" },
+  e27: { country: "Slovakia", authority: "Slovakia Type Approval Authority" },
+  e29: { country: "Estonia", authority: "Transpordiamet" },
+  e32: { country: "Latvia", authority: "CSDD" },
+  e34: { country: "Bulgaria", authority: "Bulgaria Type Approval Authority" },
+  e36: { country: "Lithuania", authority: "Lithuania Type Approval Authority" },
+  e49: { country: "Cyprus", authority: "Cyprus Type Approval Authority" },
+  e50: { country: "Malta", authority: "Transport Malta" },
+};
+
+const GB_APPROVAL_COUNTRY_CODES = new Set(["e11", "g11", "n11"]);
+
+function isGbApprovalCountry(value) {
+  return GB_APPROVAL_COUNTRY_CODES.has(String(value || "").toLowerCase());
+}
+
+function inferApprovalAuthority(value) {
+  const code = deriveApprovalCountry(value);
+  return APPROVAL_AUTHORITY_BY_PREFIX[code]?.authority || "";
+}
+
+function inferApprovalCountryName(value) {
+  const code = deriveApprovalCountry(value);
+  return APPROVAL_AUTHORITY_BY_PREFIX[code]?.country || "";
 }
 
 function normalizeIndicator(value, fallback = "") {
@@ -899,6 +948,7 @@ function normalizeVehicle(row) {
   vehicle.euRepresentativeAddressLine1 = vehicle.euRepresentativeAddressLine1 || vehicle.euRepresentativeAddress || "";
   vehicle.euRepresentativePlaceOfResidence = vehicle.euRepresentativePlaceOfResidence || vehicle.euRepresentativePlace || "";
   vehicle.approvalCountry = vehicle.approvalCountry || vehicle.designatedTypeApprovalCountry || deriveApprovalCountry(vehicle.wvtaNumber);
+  vehicle.approvalAuthority = vehicle.approvalAuthority || inferApprovalAuthority(vehicle.wvtaNumber || vehicle.approvalCountry);
   vehicle.typeApprovalType = normalizeTypeApprovalType(vehicle.typeApprovalType);
   vehicle.provisionalTypeApprovalIndicator = normalizeIndicator(vehicle.provisionalTypeApprovalIndicator, "N");
   vehicle.stageOfCompletion = normalizeStageOfCompletion(vehicle.stageOfCompletion);
@@ -933,79 +983,130 @@ function makeDraft(vehicle) {
   };
 }
 
-function validateDraft(draft) {
+const TEMPLATE_COMPARISON_FIELDS = [
+  ["manufacturerName", "制造商名称"],
+  ["manufacturerCountry", "制造商国家"],
+  ["wvtaNumber", "WVTA 编号"],
+  ["approvalCountry", "型式批准国家"],
+  ["vehicleCategory", "车辆类别"],
+  ["make", "品牌"],
+  ["commercialName", "商业名称"],
+  ["type", "Type"],
+  ["variant", "Variant"],
+  ["version", "Version"],
+  ["typeApprovalType", "型式批准类型"],
+  ["stageOfCompletion", "完成阶段"],
+  ["massRunningOrderKg", "运行状态质量"],
+  ["technicallyPermissibleMaximumLadenMassKg", "技术允许最大装载质量"],
+  ["lengthMm", "长度"],
+  ["widthMm", "宽度"],
+  ["heightMm", "高度"],
+  ["fuelType", "燃料/能源类型"],
+  ["tyreFront", "前轮轮胎"],
+  ["tyreRear", "后轮轮胎"],
+];
+
+function normalizeTemplateValue(field, value) {
+  const textValue = String(value || "").trim();
+  if (!textValue) return "";
+  if (["massRunningOrderKg", "technicallyPermissibleMaximumLadenMassKg", "lengthMm", "widthMm", "heightMm"].includes(field)) {
+    return numericText(textValue);
+  }
+  return textValue.replace(/\s+/g, " ").toUpperCase();
+}
+
+async function parseCocTemplate(setting) {
+  const fileName = String(setting?.templateFileName || "");
+  const base64 = setting?.templateBase64 || "";
+  if (!fileName || !base64) return null;
+  const kind = detectUploadKind(fileName);
+  if (kind === "csv") {
+    const rows = parseCsv(Buffer.from(String(base64), "base64").toString("utf8"));
+    return rows.length ? normalizeVehicle(rows[0]) : null;
+  }
+  if (kind === "word") return (await convertDocxToVehicle({ fileName, base64 })).vehicle;
+  if (kind === "excel") return (await convertXlsxToVehicle({ fileName, base64 })).vehicle;
+  if (kind === "xml") return (await convertXmlToVehicle({ fileName, base64 })).vehicle;
+  return null;
+}
+
+function validationUnavailableReport(draft, reason) {
+  return {
+    id: id("validation"),
+    draftId: draft.id,
+    vin: draft.vin,
+    passed: false,
+    unavailable: true,
+    unavailableReason: reason,
+    summary: { errors: 0, warnings: 0, total: 0 },
+    checks: {
+      cocTemplate: "missing",
+    },
+    findings: [],
+    generatedAt: now(),
+  };
+}
+
+function draftStatusFromValidation(report, successStatus = "validated") {
+  if (report.unavailable) return "validation_unavailable";
+  return report.passed ? successStatus : "validation_failed";
+}
+
+async function validateDraft(db, draft) {
   const v = draft.snapshot || {};
   const findings = [];
-  const error = (code, field, message) => findings.push({ severity: "error", code, field, message });
-  const warning = (code, field, message) => findings.push({ severity: "warning", code, field, message });
-  const info = (code, field, message) => findings.push({ severity: "info", code, field, message });
+  const error = (code, field, message, detail = {}) => findings.push({ severity: "error", code, field, message, ...detail });
 
-  if (!/^[A-HJ-NPR-Z0-9]{17}$/.test(v.vin || "")) {
-    error("VIN_FORMAT", "vin", "VIN must be 17 characters and cannot contain I, O or Q.");
+  if (!v.approvalCountry) {
+    v.approvalCountry = deriveApprovalCountry(v.wvtaNumber);
   }
-  if (!v.manufacturerName) error("MANUFACTURER_REQUIRED", "manufacturerName", "Manufacturer legal name is required.");
-  if (!v.wvtaNumber) error("WVTA_REQUIRED", "wvtaNumber", "WVTA approval number is required.");
-  if (!v.approvalAuthority) error("APPROVAL_AUTHORITY_REQUIRED", "approvalAuthority", "Type-approval authority is required.");
-  if (!v.approvalCountry) error("APPROVAL_COUNTRY_REQUIRED", "approvalCountry", "Designated type-approval country code is required, e.g. e1 or e6.");
-  if (!v.vehicleCategory) error("VEHICLE_CATEGORY_REQUIRED", "vehicleCategory", "Vehicle category is required.");
-  if (!/^(M[1-3]|N[1-3]|O[1-4]|L[1-7]e(?:-[A-Z0-9]+)?)$/.test(v.vehicleCategory || "")) {
-    warning("VEHICLE_CATEGORY_REVIEW", "vehicleCategory", "Confirm the category is in scope for Regulation (EU) 2018/858.");
+  if (!v.approvalAuthority) {
+    v.approvalAuthority = inferApprovalAuthority(v.wvtaNumber || v.approvalCountry);
   }
-  if (/^(M[1-3]|N[1-3]|O[1-4])$/.test(v.vehicleCategory || "") && !/2018\/858/.test(v.wvtaNumber || "")) {
-    error("CERTIFICATE_2018_858_MISMATCH", "wvtaNumber/vehicleCategory", "M/N/O vehicle categories must be consistent with a 2018/858 WVTA certificate number.");
-  }
-  if (v.approvalCountry && v.wvtaNumber && deriveApprovalCountry(v.wvtaNumber) && v.approvalCountry !== deriveApprovalCountry(v.wvtaNumber)) {
-    error("APPROVAL_COUNTRY_MISMATCH", "approvalCountry/wvtaNumber", "Designated type-approval country must match the e-code prefix in the WVTA number.");
-  }
-  if (!v.productionDate) error("PRODUCTION_DATE_REQUIRED", "productionDate", "Production date is required.");
-  if (!v.typeApprovalIssueDate) error("TYPE_APPROVAL_ISSUE_DATE_REQUIRED", "typeApprovalIssueDate", "Type-approval issue date is required.");
-  if (!v.type || !v.variant || !v.version) {
-    error("TYPE_VARIANT_VERSION_REQUIRED", "type/variant/version", "Type, variant and version are required for CoC/IVI mapping.");
-  }
-  if (!v.make) error("MAKE_REQUIRED", "make", "Make is required for IVI 2.0 MakeTable.");
-  if (!v.manufacturerAddressLine1 || !v.manufacturerPlaceOfResidence) {
-    warning("MANUFACTURER_ADDRESS_INCOMPLETE", "manufacturerAddressLine1/manufacturerPlaceOfResidence", "Manufacturer address/place should be populated for final IVI.");
-  }
-  if (!v.signerName || !v.signerPosition || !v.signatureLocation || !v.signatureDate) {
-    warning("SIGNER_INCOMPLETE", "signerName/signerPosition/signatureLocation/signatureDate", "Signing authority fields should be checked before production signing.");
-  }
-  if (!positiveNumber(v.massRunningOrderKg)) warning("MASS_RUNNING_ORDER_MISSING", "massRunningOrderKg", "Mass in running order should be populated.");
-  if (!positiveNumber(v.technicallyPermissibleMaximumLadenMassKg)) {
-    warning("MAX_LADEN_MASS_MISSING", "technicallyPermissibleMaximumLadenMassKg", "Technically permissible maximum laden mass should be populated.");
-  }
-  if (!positiveNumber(v.lengthMm) || !positiveNumber(v.widthMm) || !positiveNumber(v.heightMm)) {
-    warning("DIMENSIONS_INCOMPLETE", "lengthMm/widthMm/heightMm", "Length, width and height should be populated.");
-  }
-  if (!v.fuelType) warning("FUEL_TYPE_MISSING", "fuelType", "Fuel or energy source should be populated.");
 
-  if (draft.signingStatus === "signed") {
-    info("SIGNATURE_INCLUDED", "signature", "Draft has a signed XML package.");
-  } else {
-    warning("SIGNATURE_NOT_INCLUDED", "signature", "This draft is not signed yet. Production submission needs XMLDSig signing.");
+  const setting = findModelSetting(db, draft);
+  if (!setting?.templateBase64 || !setting?.templateFileName) {
+    return validationUnavailableReport(draft, "未匹配到该车型的 COC 校验范本，无法完成校验。");
   }
-  info("OFFICIAL_XSD_AVAILABLE", "schema", "Local IVI 2.0 XSD is present; full validation remains blocked until XMLDSig schema/signature integration is added.");
+
+  let templateVehicle = null;
+  try {
+    templateVehicle = await parseCocTemplate(setting);
+  } catch {
+    return validationUnavailableReport(draft, "COC 校验范本无法解析，无法完成校验。");
+  }
+  if (!templateVehicle) {
+    return validationUnavailableReport(draft, "COC 校验范本没有可比对字段，无法完成校验。");
+  }
+
+  for (const [field, label] of TEMPLATE_COMPARISON_FIELDS) {
+    const expected = normalizeTemplateValue(field, templateVehicle[field]);
+    if (!expected) continue;
+    const actual = normalizeTemplateValue(field, v[field]);
+    if (!actual) {
+      error("COC_TEMPLATE_FIELD_MISSING", field, `${label} 缺失。`, { expected: templateVehicle[field] });
+    } else if (actual !== expected) {
+      error("COC_TEMPLATE_FIELD_MISMATCH", field, `${label} 与 COC 校验范本不一致。`, {
+        expected: templateVehicle[field],
+        actual: v[field],
+      });
+    }
+  }
 
   const errors = findings.filter((item) => item.severity === "error").length;
-  const warnings = findings.filter((item) => item.severity === "warning").length;
   return {
     id: id("validation"),
     draftId: draft.id,
     vin: draft.vin,
     passed: errors === 0,
-    summary: { errors, warnings, total: findings.length },
+    templateFileName: setting.templateFileName,
+    summary: { errors, warnings: 0, total: findings.length },
     checks: {
-      internalBusinessRules: errors === 0 ? "passed" : "failed",
-      officialXsd: OFFICIAL_SCHEMA_STATUS,
-      icm: "not_configured",
-      signature: "excluded_from_mvp",
+      cocTemplate: errors === 0 ? "passed" : "failed",
     },
     findings,
     generatedAt: now(),
   };
-}
-
-function positiveNumber(value) {
-  return Number(value) > 0;
 }
 
 function escapeXml(value) {
@@ -1228,7 +1329,7 @@ function resolveSigningApiKey(db, draft) {
   }
   const v = draft.snapshot || {};
   const country = String(v.approvalCountry || deriveApprovalCountry(v.wvtaNumber) || "").toLowerCase();
-  if (["e11", "e24"].includes(country)) {
+  if (isGbApprovalCountry(country)) {
     return db.apiKeys.find((item) => item.id === "signing-gb-rep") || selectApiKey(db, "signing");
   }
   if (["e2", "e3", "e4", "e5", "e6", "e9", "e13"].includes(country)) {
@@ -1245,7 +1346,7 @@ function resolveUploadApiKey(db, draft) {
   }
   const v = draft.snapshot || {};
   const approvalCountry = String(v.approvalCountry || deriveApprovalCountry(v.wvtaNumber) || "").toLowerCase();
-  if (["e11", "e24"].includes(approvalCountry)) {
+  if (isGbApprovalCountry(approvalCountry)) {
     return db.apiKeys.find((item) => item.id === "upload-vca") || selectApiKey(db, "upload");
   }
   return db.apiKeys.find((item) => item.id === "upload-rdw") || selectApiKey(db, "upload");
@@ -1253,7 +1354,7 @@ function resolveUploadApiKey(db, draft) {
 
 function routingDecision(db, draft) {
   const approvalCountry = draft.snapshot?.approvalCountry || deriveApprovalCountry(draft.snapshot?.wvtaNumber);
-  const region = ["e11", "e24"].includes(String(approvalCountry || "").toLowerCase()) ? "GB" : "EU";
+  const region = isGbApprovalCountry(approvalCountry) ? "GB" : "EU";
   const signing = resolveSigningApiKey(db, draft);
   const upload = resolveUploadApiKey(db, draft);
   return {
@@ -1300,11 +1401,16 @@ function makeMockSignatureXml(xml, draft, apiKey) {
 }
 
 async function signDraft(db, draft, apiKey) {
-  const report = validateDraft(draft);
+  const report = await validateDraft(db, draft);
   draft.validationReport = report;
   if (!report.passed) {
-    draft.status = "validation_failed";
-    return { draft, status: "blocked", error: "Validation errors must be fixed before signing", report };
+    draft.status = report.unavailable ? "validation_unavailable" : "validation_failed";
+    return {
+      draft,
+      status: "blocked",
+      error: report.unavailable ? report.unavailableReason : "Validation errors must be fixed before signing",
+      report,
+    };
   }
   if (!draft.iviXmlPath) {
     const xml = generatePrototypeIviXml(draft);
@@ -1401,8 +1507,8 @@ async function api(req, res, pathname) {
       keys: db.apiKeys.map(publicApiKey),
       routingMode: "automatic_by_2018_858_certificate",
       routingRules: [
-        "签章主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/e24 走 GB 代表处，其余走 EU 代表处。",
-        "上传主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/e24 走 GB/VCA，其余走 EU/RDW。",
+        "签章主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/g11/n11 走 GB 代表处，其余 EU 成员国 e-code 走 EU 代表处。",
+        "上传主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/g11/n11 走 GB/VCA，其余 EU 成员国 e-code 走 EU/RDW。",
       ],
     });
   }
@@ -1468,9 +1574,9 @@ async function api(req, res, pathname) {
     const ids = Array.isArray(body.draftIds) && body.draftIds.length ? body.draftIds : db.drafts.map((draft) => draft.id);
     const results = [];
     for (const draft of db.drafts.filter((item) => ids.includes(item.id))) {
-      const report = validateDraft(draft);
+      const report = await validateDraft(db, draft);
       draft.validationReport = report;
-      draft.status = report.passed ? (draft.signingStatus === "signed" ? "signed" : "validated") : "validation_failed";
+      draft.status = draftStatusFromValidation(report, draft.signingStatus === "signed" ? "signed" : "validated");
       draft.updatedAt = now();
       await saveEvidence(draft.id, "validation-report.json", JSON.stringify(report, null, 2));
       results.push({ draft: publicDraft(draft), report });
@@ -1520,13 +1626,13 @@ async function api(req, res, pathname) {
     else db.vehicles.push(savedVehicle);
 
     const draft = makeDraft(savedVehicle);
-    const report = validateDraft(draft);
+    const report = await validateDraft(db, draft);
     const xml = generatePrototypeIviXml(draft);
     const relativePath = await saveEvidence(draft.id, "ivi20-from-word.xml", xml);
     draft.validationReport = report;
     draft.iviXmlPath = relativePath;
     draft.iviXmlHash = hash(xml);
-    draft.status = report.passed ? "ivi_generated" : "validation_failed";
+    draft.status = draftStatusFromValidation(report, "ivi_generated");
     db.drafts.push(draft);
 
     audit(db, "word.convert_to_ivi", "draft", draft.id, {
@@ -1561,13 +1667,13 @@ async function api(req, res, pathname) {
     else db.vehicles.push(savedVehicle);
 
     const draft = makeDraft(savedVehicle);
-    const report = validateDraft(draft);
+    const report = await validateDraft(db, draft);
     const xml = generatePrototypeIviXml(draft);
     const relativePath = await saveEvidence(draft.id, "ivi20-from-excel.xml", xml);
     draft.validationReport = report;
     draft.iviXmlPath = relativePath;
     draft.iviXmlHash = hash(xml);
-    draft.status = report.passed ? "ivi_generated" : "validation_failed";
+    draft.status = draftStatusFromValidation(report, "ivi_generated");
     db.drafts.push(draft);
 
     audit(db, "excel.convert_to_ivi", "draft", draft.id, {
@@ -1653,9 +1759,9 @@ async function api(req, res, pathname) {
     }
 
     if (req.method === "POST" && action === "validate") {
-      const report = validateDraft(draft);
+      const report = await validateDraft(db, draft);
       draft.validationReport = report;
-      draft.status = report.passed ? "validated" : "validation_failed";
+      draft.status = draftStatusFromValidation(report, "validated");
       draft.updatedAt = now();
       await saveEvidence(draft.id, "validation-report.json", JSON.stringify(report, null, 2));
       audit(db, "draft.validate", "draft", draft.id, { passed: report.passed, summary: report.summary });
