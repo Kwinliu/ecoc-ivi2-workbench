@@ -5,6 +5,21 @@ const path = require("path");
 const crypto = require("crypto");
 const os = require("os");
 const { execFile } = require("child_process");
+const {
+  INFOCERT_STAGE_CONTRACT,
+  buildInfoCertOAuthForm,
+  buildInfoCertHashSignRequest,
+  infoCertCorrelationId,
+} = require("./infocert-stage-contract");
+const {
+  INFOCERT_SIGNING_API_KEY_ID,
+  infoCertCertificateConfig,
+  normalizeSigningCertificateProfiles,
+  publicSigningCertificateProfile,
+  publicSigningCertificateProfiles,
+  selectSigningCertificateProfile,
+  signingCertificateProfileAvailability,
+} = require("./infocert-certificate-profiles");
 
 const ROOT = path.resolve(__dirname, "..");
 const WEB_DIR = path.join(ROOT, "web");
@@ -32,6 +47,7 @@ const MIME = {
   ".json": "application/json; charset=utf-8",
   ".xml": "application/xml; charset=utf-8",
   ".csv": "text/csv; charset=utf-8",
+  ".svg": "image/svg+xml; charset=utf-8",
   ".txt": "text/plain; charset=utf-8",
 };
 
@@ -84,6 +100,7 @@ function defaultSettings() {
       gb: "GB 代表处",
       fallbackEnabled: true,
     },
+    signingCertificateProfiles: [],
     uploadSubjects: {
       primary: "RDW",
       secondary: "KBA",
@@ -95,36 +112,18 @@ function defaultSettings() {
 }
 
 function defaultActiveApiKeys() {
-  return { signing: "signing-eu-rep-1", upload: "upload-rdw" };
+  return { signing: INFOCERT_SIGNING_API_KEY_ID, upload: "upload-rdw" };
 }
 
 function defaultApiKeys() {
   return [
     {
-      id: "signing-eu-rep-1",
+      id: INFOCERT_SIGNING_API_KEY_ID,
       kind: "signing",
-      provider: "EU Representative 1",
-      label: "EU 代表处 1 · D-Trust 签章 API",
-      keyRef: "eu_rep_1_dtrust_2026",
-      mode: "mock",
-      createdAt: now(),
-    },
-    {
-      id: "signing-eu-rep-2",
-      kind: "signing",
-      provider: "EU Representative 2",
-      label: "EU 代表处 2 · D-Trust 签章 API",
-      keyRef: "eu_rep_2_dtrust_2026",
-      mode: "mock",
-      createdAt: now(),
-    },
-    {
-      id: "signing-gb-rep",
-      kind: "signing",
-      provider: "GB Representative",
-      label: "GB 代表处 · D-Trust 签章 API",
-      keyRef: "gb_rep_dtrust_2026",
-      mode: "mock",
+      provider: "Safehomo · InfoCert",
+      label: INFOCERT_STAGE_CONTRACT.providerLabel,
+      keyRef: "INFOCERT_STAGE_CLIENT_ID",
+      mode: "infocert-stage",
       createdAt: now(),
     },
     {
@@ -215,6 +214,11 @@ async function readDb() {
     db.settings = defaultSettings();
     changed = true;
   }
+  const normalizedProfiles = normalizeSigningCertificateProfiles(db.settings.signingCertificateProfiles || []);
+  if (JSON.stringify(normalizedProfiles) !== JSON.stringify(db.settings.signingCertificateProfiles || [])) {
+    db.settings.signingCertificateProfiles = normalizedProfiles;
+    changed = true;
+  }
   if (!catalogIds.has(db.activeApiKeys.signing) || !catalogIds.has(db.activeApiKeys.upload)) {
     db.activeApiKeys = defaultActiveApiKeys();
     changed = true;
@@ -246,6 +250,11 @@ function maskKeyRef(value) {
 }
 
 function publicApiKey(item) {
+  const missingEnv = item.mode === "infocert-stage"
+    ? ["INFOCERT_STAGE_CLIENT_ID", "INFOCERT_STAGE_CLIENT_SECRET"].filter(
+        (name) => !String(process.env[name] || "").trim()
+      )
+    : [];
   return {
     id: item.id,
     kind: item.kind,
@@ -253,6 +262,8 @@ function publicApiKey(item) {
     label: item.label,
     mode: item.mode,
     keyDisplay: maskKeyRef(item.keyRef),
+    configured: missingEnv.length === 0,
+    missingEnv,
   };
 }
 
@@ -1461,21 +1472,46 @@ function findModelSetting(db, draft) {
   });
 }
 
-function resolveSigningApiKey(db, draft) {
+function resolveSigningApiKey(db, requestedId = "") {
+  if (requestedId && requestedId !== INFOCERT_SIGNING_API_KEY_ID) {
+    throw new Error("当前系统只允许通过 Safehomo 的单一 InfoCert API 发起签章。");
+  }
+  const apiKey = db.apiKeys.find(
+    (item) => item.kind === "signing" && item.id === INFOCERT_SIGNING_API_KEY_ID
+  );
+  if (!apiKey) throw new Error("Safehomo InfoCert 签章 API 未配置。");
+  return apiKey;
+}
+
+function signingCertificateProfileMatchesDraft(profile, draft) {
+  const snapshot = draft.snapshot || {};
+  const modelType = cleanCocText(snapshot.type || "").toLowerCase();
+  const wvtaNumber = cleanCocText(snapshot.wvtaNumber || "").toLowerCase();
+  const manufacturerName = cleanCocText(snapshot.manufacturerName || "").toLowerCase();
+  const approvalCountry = cleanCocText(
+    snapshot.approvalCountry || deriveApprovalCountry(snapshot.wvtaNumber)
+  ).toLowerCase();
+  const region = isGbApprovalCountry(approvalCountry) ? "GB" : "EU";
+  if (profile.manufacturerName && profile.manufacturerName.toLowerCase() !== manufacturerName) return false;
+  if (profile.modelType && profile.modelType.toLowerCase() !== modelType) return false;
+  if (profile.wvtaNumber && profile.wvtaNumber.toLowerCase() !== wvtaNumber) return false;
+  if (profile.market) {
+    const market = profile.market.toUpperCase();
+    if (market !== region && market.toLowerCase() !== approvalCountry) return false;
+  }
+  return true;
+}
+
+function resolveSigningCertificateProfile(db, draft, requestedId = "") {
+  const profiles = normalizeSigningCertificateProfiles(
+    db.settings?.signingCertificateProfiles || []
+  );
   const modelSetting = findModelSetting(db, draft);
-  if (modelSetting?.signingApiKeyId) {
-    const configured = db.apiKeys.find((item) => item.kind === "signing" && item.id === modelSetting.signingApiKeyId);
-    if (configured) return configured;
-  }
-  const v = draft.snapshot || {};
-  const country = String(v.approvalCountry || deriveApprovalCountry(v.wvtaNumber) || "").toLowerCase();
-  if (isGbApprovalCountry(country)) {
-    return db.apiKeys.find((item) => item.id === "signing-gb-rep") || selectApiKey(db, "signing");
-  }
-  if (["e2", "e3", "e4", "e5", "e6", "e9", "e13"].includes(country)) {
-    return db.apiKeys.find((item) => item.id === "signing-eu-rep-2") || selectApiKey(db, "signing");
-  }
-  return db.apiKeys.find((item) => item.id === "signing-eu-rep-1") || selectApiKey(db, "signing");
+  return selectSigningCertificateProfile(profiles, {
+    requestedId,
+    routedId: modelSetting?.signingCertificateProfileId || "",
+    matches: (profile) => signingCertificateProfileMatchesDraft(profile, draft),
+  });
 }
 
 function resolveUploadApiKey(db, draft) {
@@ -1492,11 +1528,22 @@ function resolveUploadApiKey(db, draft) {
   return db.apiKeys.find((item) => item.id === "upload-rdw") || selectApiKey(db, "upload");
 }
 
-function routingDecision(db, draft) {
+function routingDecision(db, draft, overrides = {}) {
   const approvalCountry = draft.snapshot?.approvalCountry || deriveApprovalCountry(draft.snapshot?.wvtaNumber);
   const region = isGbApprovalCountry(approvalCountry) ? "GB" : "EU";
-  const signing = resolveSigningApiKey(db, draft);
+  const signing = resolveSigningApiKey(db, overrides.signingApiKeyId || "");
   const upload = resolveUploadApiKey(db, draft);
+  let signingCertificate = null;
+  let signingCertificateError = "";
+  try {
+    signingCertificate = resolveSigningCertificateProfile(
+      db,
+      draft,
+      overrides.signingCertificateProfileId || ""
+    );
+  } catch (error) {
+    signingCertificateError = error.message;
+  }
   return {
     draftId: draft.id,
     vin: draft.vin,
@@ -1506,7 +1553,379 @@ function routingDecision(db, draft) {
       uploadRegion: region,
     },
     signing: publicApiKey(signing),
+    signingCertificate: signingCertificate
+      ? publicSigningCertificateProfile(signingCertificate)
+      : { configured: false, error: signingCertificateError },
     upload: publicApiKey(upload),
+  };
+}
+
+function envValue(name, fallback = "") {
+  const value = process.env[name];
+  return value === undefined || value === null || value === "" ? fallback : String(value);
+}
+
+function envFlag(name) {
+  return /^(1|true|yes|on)$/i.test(envValue(name).trim());
+}
+
+function requiredEnvValue(name) {
+  const value = envValue(name).trim();
+  if (!value) throw new Error(`InfoCert STAGE connector is missing required env var: ${name}`);
+  return value;
+}
+
+function infoCertStageConfig(certificateProfile) {
+  const certificate = infoCertCertificateConfig(certificateProfile);
+  return {
+    oauthUrl: envValue("INFOCERT_STAGE_OAUTH_URL", INFOCERT_STAGE_CONTRACT.oauthUrl),
+    apiBaseUrl: envValue("INFOCERT_STAGE_API_BASE_URL", INFOCERT_STAGE_CONTRACT.apiBaseUrl).replace(/\/+$/, ""),
+    clientId: requiredEnvValue("INFOCERT_STAGE_CLIENT_ID"),
+    clientSecret: requiredEnvValue("INFOCERT_STAGE_CLIENT_SECRET"),
+    applicationId: envValue("INFOCERT_STAGE_APPLICATION_ID", INFOCERT_STAGE_CONTRACT.applicationId),
+    oauthScope: envValue("INFOCERT_STAGE_OAUTH_SCOPE", INFOCERT_STAGE_CONTRACT.oauthScope).trim(),
+    signerId: certificate.signerId,
+    certificateId: certificate.certificateId,
+    pin: certificate.pin,
+    sat: certificate.sat,
+    certificateProfile: certificate.profile,
+  };
+}
+
+function redactConnectorBody(value) {
+  if (Array.isArray(value)) return value.map(redactConnectorBody);
+  if (!value || typeof value !== "object") return value;
+  return Object.fromEntries(
+    Object.entries(value).map(([key, item]) => {
+      if (/token|secret|password|pin|sat|content|hash/i.test(key)) return [key, "***"];
+      return [key, redactConnectorBody(item)];
+    })
+  );
+}
+
+async function fetchJsonWithError(url, options, label) {
+  const timeoutMs = Number(envValue("CONNECTOR_HTTP_TIMEOUT_MS", "45000"));
+  const response = await fetch(url, { signal: AbortSignal.timeout(timeoutMs), ...options });
+  const responseText = await response.text();
+  let data = null;
+  if (responseText) {
+    try {
+      data = JSON.parse(responseText);
+    } catch {
+      data = null;
+    }
+  }
+  const correlationId = infoCertCorrelationId(response.headers);
+  if (!response.ok) {
+    const safeBody = data && typeof data === "object"
+      ? JSON.stringify(redactConnectorBody(data)).slice(0, 1200)
+      : String(responseText || "").slice(0, 1200);
+    const suffix = correlationId ? `, correlation ${correlationId}` : "";
+    const error = new Error(`${label} failed (${response.status}${suffix}): ${safeBody || response.statusText}`);
+    error.statusCode = response.status;
+    error.correlationId = correlationId;
+    throw error;
+  }
+  return { data: data ?? responseText, correlationId };
+}
+
+async function getInfoCertOAuthToken(config) {
+  const form = buildInfoCertOAuthForm(config.oauthScope);
+  const basicAuth = Buffer.from(`${config.clientId}:${config.clientSecret}`, "utf8").toString("base64");
+  const { data } = await fetchJsonWithError(
+    config.oauthUrl,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Basic ${basicAuth}`,
+        "Content-Type": "application/x-www-form-urlencoded",
+        Accept: "application/json",
+      },
+      body: form.toString(),
+    },
+    "InfoCert OAuth token request"
+  );
+  if (!data || typeof data !== "object" || !data.access_token) {
+    throw new Error("InfoCert OAuth token response did not contain access_token");
+  }
+  return data.access_token;
+}
+
+const DSIG_NS = "http://www.w3.org/2000/09/xmldsig#";
+const XADES_NS = "http://uri.etsi.org/01903/v1.3.2#";
+const XMLDSIG_ENVELOPED_ALGORITHM = "http://www.w3.org/2000/09/xmldsig#enveloped-signature";
+const XMLDSIG_C14N_ALGORITHM = "http://www.w3.org/2001/10/xml-exc-c14n#";
+const XMLDSIG_SHA256_DIGEST_ALGORITHM = "http://www.w3.org/2001/04/xmlenc#sha256";
+const XMLDSIG_RSA_SHA256_SIGNATURE_ALGORITHM = "http://www.w3.org/2001/04/xmldsig-more#rsa-sha256";
+const XADES_SIGNED_PROPERTIES_TYPE = "http://uri.etsi.org/01903#SignedProperties";
+
+function normalizeCertificateBase64(value) {
+  return String(value || "")
+    .replace(/-----BEGIN CERTIFICATE-----/g, "")
+    .replace(/-----END CERTIFICATE-----/g, "")
+    .replace(/\s+/g, "");
+}
+
+function certificatePem(value) {
+  const certificate = normalizeCertificateBase64(value);
+  if (!certificate) throw new Error("InfoCert certificate response did not contain a certificate");
+  return `-----BEGIN CERTIFICATE-----\n${certificate.match(/.{1,64}/g).join("\n")}\n-----END CERTIFICATE-----\n`;
+}
+
+function hexSerialToDecimal(serialHex) {
+  const clean = String(serialHex || "").replace(/[^0-9a-f]/gi, "");
+  if (!clean) return "";
+  try {
+    return BigInt(`0x${clean}`).toString(10);
+  } catch {
+    return clean;
+  }
+}
+
+function sha256Base64(value) {
+  return crypto.createHash("sha256").update(value).digest("base64");
+}
+
+async function canonicalizeXml(xml) {
+  const textValue = String(xml || "");
+  if (/<!DOCTYPE\b|<!ENTITY\b/i.test(textValue)) {
+    throw new Error("XML canonicalization rejects DOCTYPE and ENTITY declarations.");
+  }
+  const dir = await fs.mkdtemp(path.join(os.tmpdir(), "ecoc-c14n-"));
+  const filePath = path.join(dir, "input.xml");
+  try {
+    await fs.writeFile(filePath, textValue);
+    return await execFileText(
+      envValue("XMLLINT_BIN", "xmllint"),
+      ["--nonet", "--exc-c14n", filePath],
+      { timeout: Number(envValue("XMLLINT_TIMEOUT_MS", "15000")) }
+    );
+  } finally {
+    await fs.rm(dir, { recursive: true, force: true }).catch(() => {});
+  }
+}
+
+function localSignatureXmlId(prefix) {
+  return `${prefix}-${crypto.randomBytes(8).toString("hex")}`;
+}
+
+function buildSignedPropertiesXml({ signedPropertiesId, signatureId, signingTime, certificateRecord }) {
+  const certificate = normalizeCertificateBase64(certificateRecord.certificate);
+  const x509 = new crypto.X509Certificate(certificatePem(certificate));
+  const certificateDigest = sha256Base64(Buffer.from(certificate, "base64"));
+  return `<xades:SignedProperties Id="${escapeXml(signedPropertiesId)}" xmlns:xades="${XADES_NS}" xmlns:ds="${DSIG_NS}">
+  <xades:SignedSignatureProperties>
+    <xades:SigningTime>${escapeXml(signingTime)}</xades:SigningTime>
+    <xades:SigningCertificate>
+      <xades:Cert>
+        <xades:CertDigest>
+          <ds:DigestMethod Algorithm="${XMLDSIG_SHA256_DIGEST_ALGORITHM}"></ds:DigestMethod>
+          <ds:DigestValue>${certificateDigest}</ds:DigestValue>
+        </xades:CertDigest>
+        <xades:IssuerSerial>
+          <ds:X509IssuerName>${escapeXml(x509.issuer)}</ds:X509IssuerName>
+          <ds:X509SerialNumber>${escapeXml(hexSerialToDecimal(x509.serialNumber))}</ds:X509SerialNumber>
+        </xades:IssuerSerial>
+      </xades:Cert>
+    </xades:SigningCertificate>
+    <xades:SignaturePolicyIdentifier>
+      <xades:SignaturePolicyImplied></xades:SignaturePolicyImplied>
+    </xades:SignaturePolicyIdentifier>
+  </xades:SignedSignatureProperties>
+  <xades:SignedDataObjectProperties>
+    <xades:DataObjectFormat ObjectReference="#${escapeXml(`${signatureId}-document-ref`)}">
+      <xades:MimeType>application/xml</xades:MimeType>
+    </xades:DataObjectFormat>
+  </xades:SignedDataObjectProperties>
+</xades:SignedProperties>`;
+}
+
+function buildSignedInfoXml({ signatureId, signedPropertiesId, documentDigest, signedPropertiesDigest }) {
+  return `<ds:SignedInfo xmlns:ds="${DSIG_NS}">
+  <ds:CanonicalizationMethod Algorithm="${XMLDSIG_C14N_ALGORITHM}"></ds:CanonicalizationMethod>
+  <ds:SignatureMethod Algorithm="${XMLDSIG_RSA_SHA256_SIGNATURE_ALGORITHM}"></ds:SignatureMethod>
+  <ds:Reference Id="${escapeXml(`${signatureId}-document-ref`)}" URI="">
+    <ds:Transforms>
+      <ds:Transform Algorithm="${XMLDSIG_ENVELOPED_ALGORITHM}"></ds:Transform>
+      <ds:Transform Algorithm="${XMLDSIG_C14N_ALGORITHM}"></ds:Transform>
+    </ds:Transforms>
+    <ds:DigestMethod Algorithm="${XMLDSIG_SHA256_DIGEST_ALGORITHM}"></ds:DigestMethod>
+    <ds:DigestValue>${documentDigest}</ds:DigestValue>
+  </ds:Reference>
+  <ds:Reference Id="${escapeXml(`${signatureId}-signed-properties-ref`)}" URI="#${escapeXml(signedPropertiesId)}" Type="${XADES_SIGNED_PROPERTIES_TYPE}">
+    <ds:Transforms>
+      <ds:Transform Algorithm="${XMLDSIG_C14N_ALGORITHM}"></ds:Transform>
+    </ds:Transforms>
+    <ds:DigestMethod Algorithm="${XMLDSIG_SHA256_DIGEST_ALGORITHM}"></ds:DigestMethod>
+    <ds:DigestValue>${signedPropertiesDigest}</ds:DigestValue>
+  </ds:Reference>
+</ds:SignedInfo>`;
+}
+
+function buildLocalXadesSignatureXml({ signatureId, signedInfoXml, signatureValue, certificateRecord, signedPropertiesXml }) {
+  const certificate = normalizeCertificateBase64(certificateRecord.certificate);
+  const x509 = new crypto.X509Certificate(certificatePem(certificate));
+  return `<ds:Signature Id="${escapeXml(signatureId)}" xmlns:ds="${DSIG_NS}">
+${signedInfoXml}
+  <ds:SignatureValue>${signatureValue}</ds:SignatureValue>
+  <ds:KeyInfo>
+    <ds:X509Data>
+      <ds:X509SubjectName>${escapeXml(x509.subject)}</ds:X509SubjectName>
+      <ds:X509Certificate>${certificate}</ds:X509Certificate>
+    </ds:X509Data>
+  </ds:KeyInfo>
+  <ds:Object Id="${escapeXml(`${signatureId}-object`)}">
+    <xades:QualifyingProperties Target="#${escapeXml(signatureId)}" xmlns:xades="${XADES_NS}">
+${signedPropertiesXml}
+    </xades:QualifyingProperties>
+  </ds:Object>
+</ds:Signature>`;
+}
+
+function insertEnvelopedSignatureXml(xml, signatureXml) {
+  const re = /(<\/(?:[A-Za-z_][\w.-]*:)?InitialVehicleInformation>\s*)$/i;
+  if (!re.test(xml)) {
+    throw new Error("Cannot insert XMLDSig Signature: InitialVehicleInformation closing tag was not found");
+  }
+  return String(xml).replace(re, `${signatureXml}$1`);
+}
+
+async function buildLocalXadesSignaturePlan(xml, draft, certificateRecord) {
+  const signatureId = localSignatureXmlId("Signature");
+  const signedPropertiesId = localSignatureXmlId("SignedProperties");
+  const requestId = String(draft.iviReferenceId || draft.id || crypto.randomUUID())
+    .replace(/[^A-Za-z0-9_.:-]/g, "-")
+    .slice(0, 80) || "id-1";
+  const signingTime = now();
+  const signedPropertiesXml = buildSignedPropertiesXml({
+    signedPropertiesId,
+    signatureId,
+    signingTime,
+    certificateRecord,
+  });
+  const documentDigest = sha256Base64(await canonicalizeXml(xml));
+  const signedPropertiesDigest = sha256Base64(await canonicalizeXml(signedPropertiesXml));
+  const signedInfoXml = buildSignedInfoXml({
+    signatureId,
+    signedPropertiesId,
+    documentDigest,
+    signedPropertiesDigest,
+  });
+  const canonicalSignedInfo = await canonicalizeXml(signedInfoXml);
+  return {
+    signatureId,
+    requestId,
+    signedPropertiesXml,
+    signedInfoXml,
+    canonicalSignedInfo,
+    signedInfoHash: sha256Base64(canonicalSignedInfo),
+    documentDigest,
+  };
+}
+
+function selectInfoCertCertificate(certificateList, certificateId) {
+  const certificates = Array.isArray(certificateList) ? certificateList : certificateList?.certificates;
+  const selected = (certificates || []).find((item) => {
+    if (String(item.id || item.certificateId || "") === certificateId) return true;
+    return (item.ids || []).some((idValue) => String(idValue).includes(certificateId));
+  });
+  if (!selected) {
+    throw new Error(`InfoCert certificate ${maskKeyRef(certificateId)} was not found for configured signer`);
+  }
+  if (selected.status && String(selected.status).toLowerCase() !== "active") {
+    throw new Error(`InfoCert certificate ${maskKeyRef(certificateId)} is not active`);
+  }
+  return selected;
+}
+
+async function getInfoCertCertificate(config, token) {
+  const { data, correlationId } = await fetchJsonWithError(
+    `${config.apiBaseUrl}/certificates/`,
+    {
+      method: "GET",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        [INFOCERT_STAGE_CONTRACT.signerHeader]: config.signerId,
+        Accept: "application/json",
+      },
+    },
+    "InfoCert certificate lookup"
+  );
+  return { certificate: selectInfoCertCertificate(data, config.certificateId), correlationId };
+}
+
+function extractInfoCertHashSignature(responseBody, requestId) {
+  const results = Array.isArray(responseBody?.signatureResult) ? responseBody.signatureResult : [];
+  const result = results.find((item) => item.requestId === requestId) || results[0];
+  if (!result) throw new Error("InfoCert hash signing response did not contain signatureResult");
+  if (result.isOk === false) {
+    const detail = result.signatureError?.detail || result.signatureError?.title || "hash signing failed";
+    throw new Error(`InfoCert hash signing failed: ${detail}`);
+  }
+  const content = result.signedDocument?.content;
+  if (!content) throw new Error("InfoCert hash signing response did not contain signedDocument.content");
+  return String(content).replace(/\s+/g, "");
+}
+
+async function signHashWithInfoCertStage(config, token, requestId, hashBase64) {
+  const requestBody = buildInfoCertHashSignRequest({
+    applicationId: config.applicationId,
+    pin: config.pin,
+    sat: config.sat,
+    requestId,
+    hash: hashBase64,
+  });
+  const result = await fetchJsonWithError(
+    `${config.apiBaseUrl}/certificates/${encodeURIComponent(config.certificateId)}/sign`,
+    {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${token}`,
+        [INFOCERT_STAGE_CONTRACT.signerHeader]: config.signerId,
+        "Content-Type": "application/json",
+        Accept: "application/json",
+      },
+      body: JSON.stringify(requestBody),
+    },
+    "InfoCert hash signing request"
+  );
+  return {
+    signatureValue: extractInfoCertHashSignature(result.data, requestId),
+    correlationId: result.correlationId,
+  };
+}
+
+async function signXmlHashWithInfoCertStage(xml, draft, certificateProfile) {
+  const config = infoCertStageConfig(certificateProfile);
+  const token = await getInfoCertOAuthToken(config);
+  const certificateLookup = await getInfoCertCertificate(config, token);
+  const plan = await buildLocalXadesSignaturePlan(xml, draft, certificateLookup.certificate);
+  const hashSignature = await signHashWithInfoCertStage(config, token, plan.requestId, plan.signedInfoHash);
+  const certificate = certificatePem(certificateLookup.certificate.certificate);
+  const verified = crypto.verify(
+    "RSA-SHA256",
+    Buffer.from(plan.canonicalSignedInfo, "utf8"),
+    certificate,
+    Buffer.from(hashSignature.signatureValue, "base64")
+  );
+  if (!verified) {
+    throw new Error("InfoCert hash signature could not be verified locally against the returned certificate");
+  }
+  const signatureXml = buildLocalXadesSignatureXml({
+    signatureId: plan.signatureId,
+    signedInfoXml: plan.signedInfoXml,
+    signatureValue: hashSignature.signatureValue,
+    certificateRecord: certificateLookup.certificate,
+    signedPropertiesXml: plan.signedPropertiesXml,
+  });
+  return {
+    signedXml: insertEnvelopedSignatureXml(xml, signatureXml),
+    requestId: plan.requestId,
+    correlationId: hashSignature.correlationId,
+    certificateLookupCorrelationId: certificateLookup.correlationId,
+    documentDigest: plan.documentDigest,
+    certificateDisplay: maskKeyRef(config.certificateId),
+    certificateProfile: config.certificateProfile,
   };
 }
 
@@ -1514,7 +1933,7 @@ function unsignedXmlWithoutClosingRoot(xml) {
   return String(xml || "").replace(/\s*<\/InitialVehicleInformation>\s*$/i, "");
 }
 
-function makeMockSignatureXml(xml, draft, apiKey) {
+function makeMockSignatureXml(xml, draft, apiKey, certificateProfile) {
   const digest = hash(xml);
   const signatureId = `SIG-${crypto.randomBytes(7).toString("hex").toUpperCase()}`;
   return `${unsignedXmlWithoutClosingRoot(xml)}
@@ -1530,17 +1949,17 @@ function makeMockSignatureXml(xml, draft, apiKey) {
         <DigestValue>${digest}</DigestValue>
       </Reference>
     </SignedInfo>
-    <SignatureValue>${hash(`${digest}|${apiKey.keyRef}|${draft.id}`).toUpperCase()}</SignatureValue>
+    <SignatureValue>${hash(`${digest}|${apiKey.keyRef}|${certificateProfile.id}|${draft.id}`).toUpperCase()}</SignatureValue>
     <KeyInfo>
-      <KeyName>${escapeXml(apiKey.label)}</KeyName>
+      <KeyName>${escapeXml(certificateProfile.label)}</KeyName>
     </KeyInfo>
-    <Object Id="${signatureId}">Mock D-Trust API seal status for local acceptance testing.</Object>
+    <Object Id="${signatureId}">InfoCert connector mock enabled for local acceptance testing.</Object>
   </Signature>
 </InitialVehicleInformation>
 `;
 }
 
-async function signDraft(db, draft, apiKey) {
+async function signDraft(db, draft, apiKey, certificateProfile) {
   const report = await validateDraft(db, draft);
   draft.validationReport = report;
   if (!report.passed) {
@@ -1552,30 +1971,108 @@ async function signDraft(db, draft, apiKey) {
       report,
     };
   }
+  if (draft.signingStatus === "signed" || draft.signedXmlPath) {
+    return {
+      draft,
+      status: "blocked",
+      error: "当前草稿已经签章。系统不会重复签章或覆盖原证据；如需更换证书，请从未签章 XML 创建新草稿。",
+      report,
+    };
+  }
+  const apiAvailability = publicApiKey(apiKey);
+  if (!apiAvailability.configured) {
+    return {
+      draft,
+      status: "blocked",
+      error: `InfoCert API 未配置，缺少环境变量：${apiAvailability.missingEnv.join(", ")}`,
+      report,
+    };
+  }
+  const certificateAvailability = signingCertificateProfileAvailability(certificateProfile);
+  if (!certificateAvailability.configured) {
+    return {
+      draft,
+      status: "blocked",
+      error: certificateAvailability.reason,
+      report,
+    };
+  }
   if (!draft.iviXmlPath) {
     const xml = generatePrototypeIviXml(draft);
     draft.iviXmlPath = await saveEvidence(draft.id, "ivi20-before-signing.xml", xml);
     draft.iviXmlHash = hash(xml);
   }
   const xml = await getEvidenceFile(draft.iviXmlPath);
-  const signedXml = /<Signature\b/i.test(xml) ? xml : makeMockSignatureXml(xml, draft, apiKey);
+  if (/<(?:[A-Za-z_][\w.-]*:)?Signature\b/i.test(xml)) {
+    return {
+      draft,
+      status: "blocked",
+      error: "当前 XML 已包含 XMLDSig Signature。系统不会覆盖原签章；请使用未签章 XML 创建新草稿。",
+      report,
+    };
+  }
+  let signedXml = xml;
+  let connectorResult = null;
+  try {
+    if (envFlag("INFOCERT_STAGE_MOCK")) {
+      signedXml = makeMockSignatureXml(xml, draft, apiKey, certificateProfile);
+      connectorResult = {
+        requestId: `MOCK-${draft.id}`,
+        correlationId: "",
+        certificateLookupCorrelationId: "",
+        certificateDisplay: certificateAvailability.certificateDisplay,
+      };
+    } else {
+      connectorResult = await signXmlHashWithInfoCertStage(xml, draft, certificateProfile);
+      signedXml = connectorResult.signedXml;
+    }
+  } catch (error) {
+    audit(db, "draft.sign_failed", "draft", draft.id, {
+      provider: apiKey.provider,
+      apiKeyId: apiKey.id,
+      certificateProfileId: certificateProfile.id,
+      correlationId: error.correlationId || "",
+      error: error.message,
+    });
+    return {
+      draft,
+      status: "blocked",
+      error: error.message,
+      correlationId: error.correlationId || "",
+      report,
+    };
+  }
   const signedXmlPath = await saveEvidence(draft.id, "ivi20-signed.xml", signedXml);
   draft.signedXmlPath = signedXmlPath;
   draft.signedXmlHash = hash(signedXml);
   draft.signingStatus = "signed";
   draft.signatureProvider = apiKey.provider;
   draft.signatureApiKeyId = apiKey.id;
+  draft.signatureCertificateProfileId = certificateProfile.id;
+  draft.signatureCertificateProfileLabel = certificateProfile.label;
   draft.signatureReceipt = {
-    id: `DTRUST-${crypto.randomBytes(8).toString("hex").toUpperCase()}`,
+    id: `INFOCERT-${crypto.randomBytes(8).toString("hex").toUpperCase()}`,
     status: "sealed",
     provider: apiKey.provider,
-    mode: apiKey.mode,
-    keyDisplay: maskKeyRef(apiKey.keyRef),
+    mode: envFlag("INFOCERT_STAGE_MOCK") ? "mock" : apiKey.mode,
+    certificateProfileId: certificateProfile.id,
+    certificateProfileLabel: certificateProfile.label,
+    certificateOrganization: certificateProfile.organizationName,
+    keyDisplay: connectorResult?.certificateDisplay || certificateAvailability.certificateDisplay,
+    requestId: connectorResult?.requestId || "",
+    correlationId: connectorResult?.correlationId || "",
+    certificateLookupCorrelationId: connectorResult?.certificateLookupCorrelationId || "",
     at: now(),
   };
   draft.status = "signed";
   draft.updatedAt = now();
-  audit(db, "draft.sign", "draft", draft.id, { provider: apiKey.provider, apiKeyId: apiKey.id, receipt: draft.signatureReceipt.id });
+  audit(db, "draft.sign", "draft", draft.id, {
+    provider: apiKey.provider,
+    apiKeyId: apiKey.id,
+    certificateProfileId: certificateProfile.id,
+    receipt: draft.signatureReceipt.id,
+    correlationId: draft.signatureReceipt.correlationId,
+  });
   return { draft, status: "signed", receipt: draft.signatureReceipt };
 }
 
@@ -1625,7 +2122,7 @@ async function api(req, res, pathname) {
   const db = await readDb();
 
   if (req.method === "GET" && pathname === "/api/health") {
-    return json(res, 200, { ok: true, at: now(), signature: "excluded_from_mvp" });
+    return json(res, 200, { ok: true, at: now(), signature: "infocert_stage_xades" });
   }
 
   if (req.method === "GET" && pathname === "/api/dashboard") {
@@ -1645,32 +2142,64 @@ async function api(req, res, pathname) {
     return json(res, 200, {
       active: db.activeApiKeys,
       keys: db.apiKeys.map(publicApiKey),
-      routingMode: "automatic_by_2018_858_certificate",
+      routingMode: "single_infocert_api_with_manufacturer_certificates",
       routingRules: [
-        "签章主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/g11/n11 走 GB 代表处，其余 EU 成员国 e-code 走 EU 代表处。",
+        "签章连接：全系统只使用一条 Safehomo InfoCert API 连接。",
+        "签章证书：先按 VIN 的厂家匹配证书，再按车型、WVTA 或市场收窄；多张候选必须显式绑定，系统不会猜测。",
         "上传主体：按 WVTA / Approval number 的 e-code 自动判定 EU 或 GB；e11/g11/n11 走 GB/VCA，其余 EU 成员国 e-code 走 EU/RDW。",
       ],
     });
   }
 
   if (req.method === "GET" && pathname === "/api/settings") {
-    return json(res, 200, { settings: { ...defaultSettings(), ...(db.settings || {}) } });
+    const settings = { ...defaultSettings(), ...(db.settings || {}) };
+    return json(res, 200, {
+      settings: {
+        ...settings,
+        signingCertificateProfiles: publicSigningCertificateProfiles(
+          settings.signingCertificateProfiles
+        ),
+      },
+    });
   }
 
   if (req.method === "POST" && pathname === "/api/settings") {
     const body = await readBody(req);
+    const requestedSettings = body.settings || {};
+    const currentSettings = { ...defaultSettings(), ...(db.settings || {}) };
+    const requestedModelSettings = Object.prototype.hasOwnProperty.call(requestedSettings, "modelSettings")
+      ? requestedSettings.modelSettings
+      : currentSettings.modelSettings;
+    const modelSettings = (await enrichModelSettings(requestedModelSettings)).map((item) => ({
+      ...item,
+      signingApiKeyId: INFOCERT_SIGNING_API_KEY_ID,
+      signingCertificateProfileId: cleanCocText(item.signingCertificateProfileId || ""),
+    }));
+    const signingCertificateProfiles = Object.prototype.hasOwnProperty.call(
+      requestedSettings,
+      "signingCertificateProfiles"
+    )
+      ? normalizeSigningCertificateProfiles(requestedSettings.signingCertificateProfiles)
+      : normalizeSigningCertificateProfiles(currentSettings.signingCertificateProfiles);
     db.settings = {
       ...defaultSettings(),
-      ...(body.settings || {}),
-      wvtaReference: { ...defaultSettings().wvtaReference, ...(body.settings?.wvtaReference || {}) },
-      modelApiRouting: { ...defaultSettings().modelApiRouting, ...(body.settings?.modelApiRouting || {}) },
-      signingSubjects: { ...defaultSettings().signingSubjects, ...(body.settings?.signingSubjects || {}) },
-      uploadSubjects: { ...defaultSettings().uploadSubjects, ...(body.settings?.uploadSubjects || {}) },
-      modelSettings: await enrichModelSettings(body.settings?.modelSettings),
+      ...currentSettings,
+      ...requestedSettings,
+      wvtaReference: { ...defaultSettings().wvtaReference, ...(requestedSettings.wvtaReference || currentSettings.wvtaReference) },
+      modelApiRouting: { ...defaultSettings().modelApiRouting, ...(requestedSettings.modelApiRouting || currentSettings.modelApiRouting) },
+      signingSubjects: { ...defaultSettings().signingSubjects, ...(requestedSettings.signingSubjects || currentSettings.signingSubjects) },
+      uploadSubjects: { ...defaultSettings().uploadSubjects, ...(requestedSettings.uploadSubjects || currentSettings.uploadSubjects) },
+      signingCertificateProfiles,
+      modelSettings,
     };
     audit(db, "settings.update", "settings", "workflow", {});
     await writeDb(db);
-    return json(res, 200, { settings: db.settings });
+    return json(res, 200, {
+      settings: {
+        ...db.settings,
+        signingCertificateProfiles: publicSigningCertificateProfiles(signingCertificateProfiles),
+      },
+    });
   }
 
   if (req.method === "POST" && pathname === "/api/settings/template-audit") {
@@ -1736,12 +2265,34 @@ async function api(req, res, pathname) {
     const ids = Array.isArray(body.draftIds) && body.draftIds.length ? body.draftIds : db.drafts.map((draft) => draft.id);
     const results = [];
     for (const draft of db.drafts.filter((item) => ids.includes(item.id))) {
-      const apiKey = resolveSigningApiKey(db, draft);
-      const result = await signDraft(db, draft, apiKey);
-      results.push({ ...result, draft: publicDraft(result.draft), apiKey: publicApiKey(apiKey), routing: routingDecision(db, draft) });
+      try {
+        const apiKey = resolveSigningApiKey(db, body.signingApiKeyId || "");
+        const certificateProfile = resolveSigningCertificateProfile(
+          db,
+          draft,
+          body.signingCertificateProfileId || ""
+        );
+        const result = await signDraft(db, draft, apiKey, certificateProfile);
+        results.push({
+          ...result,
+          draft: publicDraft(result.draft),
+          apiKey: publicApiKey(apiKey),
+          certificateProfile: publicSigningCertificateProfile(certificateProfile),
+          routing: routingDecision(db, draft, {
+            signingCertificateProfileId: certificateProfile.id,
+          }),
+        });
+      } catch (error) {
+        results.push({ draft: publicDraft(draft), status: "blocked", error: error.message });
+      }
     }
     await writeDb(db);
-    return json(res, 200, { routingMode: "automatic_by_2018_858_certificate", results });
+    return json(res, 200, {
+      routingMode: body.signingCertificateProfileId
+        ? "certificate_selected_by_user"
+        : "certificate_routed_by_manufacturer",
+      results,
+    });
   }
 
   if (req.method === "POST" && pathname === "/api/drafts/batch-upload") {
@@ -1940,11 +2491,30 @@ async function api(req, res, pathname) {
     }
 
     if (req.method === "POST" && action === "sign") {
-      await readBody(req);
-      const apiKey = resolveSigningApiKey(db, draft);
-      const result = await signDraft(db, draft, apiKey);
+      const body = await readBody(req);
+      let apiKey;
+      let certificateProfile;
+      try {
+        apiKey = resolveSigningApiKey(db, body.signingApiKeyId || "");
+        certificateProfile = resolveSigningCertificateProfile(
+          db,
+          draft,
+          body.signingCertificateProfileId || ""
+        );
+      } catch (error) {
+        return json(res, 409, { status: "blocked", error: error.message, draft: publicDraft(draft) });
+      }
+      const result = await signDraft(db, draft, apiKey, certificateProfile);
       await writeDb(db);
-      return json(res, result.status === "blocked" ? 409 : 200, { ...result, draft: publicDraft(result.draft), apiKey: publicApiKey(apiKey), routing: routingDecision(db, draft) });
+      return json(res, result.status === "blocked" ? 409 : 200, {
+        ...result,
+        draft: publicDraft(result.draft),
+        apiKey: publicApiKey(apiKey),
+        certificateProfile: publicSigningCertificateProfile(certificateProfile),
+        routing: routingDecision(db, draft, {
+          signingCertificateProfileId: certificateProfile.id,
+        }),
+      });
     }
 
     if (req.method === "GET" && action === "signed-xml") {

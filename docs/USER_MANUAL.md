@@ -1,8 +1,8 @@
 # eCoC / IVI2 工作台使用说明
 
-本文面向实际操作人员，说明如何使用本地 eCoC Workbench 完成 CoC 文件批量导入、车型设定、CoC 内容校验、IVI2 XML 生成、D-Trust 签章、NAP 上传和提交记录检索。
+本文面向实际操作人员，说明如何使用本地 eCoC Workbench 完成 CoC 文件批量导入、厂家证书与车型设定、CoC 内容校验、IVI2 XML 生成、InfoCert 签章、NAP 上传和提交记录检索。
 
-当前系统是本地原型工作台：D-Trust 签章 API、RDW/KBA/VCA 上传 API 目前使用本地模拟回执；生产环境接入时，需要替换为真实 endpoint、证书、API Key、错误码映射和正式 XMLDSig 签章。
+当前系统是本地原型工作台：InfoCert STAGE 签章已具备 OAuth、证书查询、HashSign、XAdES/XMLDSig 组装和本地验签适配；只有服务器配置完整平台凭据与厂家证书后才会真实调用。RDW/KBA/VCA 上传 API 目前使用本地模拟回执。
 
 ## 1. 系统用途
 
@@ -12,8 +12,8 @@
 2. 自动抽取 VIN、WVTA/Approval Number、车型、Variant、Version 等字段。
 3. 生成 IVI2 XML 草稿。
 4. 基于车型 COC 校验范本对上传 CoC 做一致性校验。
-5. 对校验通过的草稿执行签章：系统生成待签 XML 的 hash / 签章载荷，并提交给 D-Trust 签章服务。
-6. 将 D-Trust 返回的签章结果合入 IVI/eCoC XML，再把签章后的 XML 包上传到配置的 NAP API。
+5. 对校验通过的草稿执行签章：系统选择对应厂家的证书，生成待签 XML 的 digest，并提交给 InfoCert HashSign。
+6. 将 InfoCert 返回的签章值组装为 XAdES/XMLDSig，再把签章后的 XML 包上传到配置的 NAP API。
 7. 记录提交历史，便于追溯和检索。
 
 ## 2. 启动方式
@@ -170,17 +170,16 @@ PORT=4174 npm start
 
 ### 3.5 车型设定区
 
-车型设定区用于维护“某个车型 + Approval Number”对应的默认 API 和 CoC 校验范本。
+本区域先维护厂家证书档案，再维护“某个车型 + Approval Number”对应的证书、上传 API 和 CoC 校验范本。
 
 录入顺序：
 
-1. 输入车型。
-2. 输入 Approval Number。
-3. 选择签章 API。
-4. 选择上传 API。
-5. 上传 COC 校验范本。
-6. 点击“加入列表”。
-7. 点击“保存设定”。
+1. 添加厂家证书档案，填写制造商、证书法律主体、角色和适用范围。
+2. 环境变量前缀必须与服务器上的证书配置一致。
+3. 输入车型和 Approval Number。
+4. 选择厂家证书；也可保留“按制造商自动匹配”。
+5. 选择上传 API，上传 COC 校验范本。
+6. 点击“加入列表”，再点击“保存设定”。
 
 字段说明：
 
@@ -188,7 +187,7 @@ PORT=4174 npm start
 | --- | --- |
 | 车型 | 车辆 Type，例如 `SY14`、`AX2T(M)` |
 | Approval Number | WVTA / 型式批准号，例如 `e6*2018/858*00264*01` |
-| 签章 API | 选择 D-Trust 签章主体 |
+| 签章证书 | 选择 OEM 或正式代表持有的 InfoCert 证书档案 |
 | 上传 API | 选择 RDW/KBA/VCA 上传主体 |
 | COC 校验范本 | 上传该车型的基准 CoC 样本或校验模板 |
 
@@ -196,8 +195,9 @@ PORT=4174 npm start
 
 车型设定表用于后续自动匹配：
 
-- 当上传草稿的 Type 和 Approval Number 与设定表匹配时，系统优先使用该行配置的签章 API 和上传 API。
-- 如果没有匹配的车型设定，系统使用默认路由规则。
+- 当上传草稿的 Type 和 Approval Number 与设定表匹配时，系统优先使用该行绑定的厂家证书和上传 API。
+- 未显式绑定证书时，系统按制造商名称精确匹配，再按车型、WVTA 和市场收窄。
+- 只有一个适用证书时可自动选择；没有候选或有多个候选时都会阻断签章。
 
 当前默认路由规则：
 
@@ -240,10 +240,10 @@ RLCSY141000001946
 ### 4.1 首次配置车型
 
 1. 打开工作台。
-2. 滚动到“车型设定区”。
-3. 输入车型。
-4. 输入 Approval Number。
-5. 选择签章 API。
+2. 滚动到“签章证书与车型设定”。
+3. 添加厂家证书档案，并确认服务器配置状态。
+4. 输入车型和 Approval Number。
+5. 选择厂家证书或使用制造商自动匹配。
 6. 选择上传 API。
 7. 上传该车型的 COC 校验范本。
 8. 点击“加入列表”。
@@ -282,20 +282,18 @@ RLCSY141000001946
 
 1. 勾选已生成 XML 且校验通过的车辆。
 2. 点击“签章”。
-3. 系统按车型设定或默认路由选择签章 API。
+3. 系统按车型绑定或制造商路由选择厂家证书。
 4. 签章成功后，状态变为“签章 已签章”。
 
-当前 D-Trust 签章为 mock。生产环境应替换为真实 D-Trust API。
-
-生产签章的目标流程是：
+签章流程是：
 
 1. 系统生成未签章 IVI2 XML。
-2. 系统对待签 XML 做规范化处理，并生成 hash / digest / signing payload。
-3. 系统把签章请求发送到 D-Trust 服务器。
-4. D-Trust 返回签章值、签章 XML 片段或签章回执。
-5. 系统保存签章结果，并生成签章后的 IVI/eCoC XML 包。
+2. 系统按厂家证书档案生成 digest / signing payload。
+3. 系统通过 Safehomo 的 InfoCert OAuth 客户端请求 HashSign。
+4. InfoCert 返回签章值，系统使用返回证书进行本地验签。
+5. 系统组装并保存 XAdES/XMLDSig，同时保存 request ID 和 correlation ID。
 
-私钥不应放在本系统前端，也不应明文保存在数据库中。
+私钥、PIN、SAT 和 client secret 不进入前端或数据库；数据库只保存环境变量引用。
 
 ### 4.6 上传 NAP
 
@@ -309,33 +307,26 @@ RLCSY141000001946
 生产上传的目标流程是：
 
 1. 系统确认草稿已经基于车型 COC 校验范本校验通过。
-2. 系统确认存在 D-Trust 签章后的 XML 包。
+2. 系统确认存在 InfoCert 签章后的 XML 包。
 3. 系统按车型设定或默认路由选择 RDW/KBA/VCA。
 4. 系统把签章后的 IVI/eCoC XML 包上传到对应服务器。
 5. 系统保存 NAP 返回的 Message ID、状态和回执。
 
-## 5. API Key 管理
+## 5. 平台连接和厂家证书管理
 
-建议生产环境把 API Key 写在环境文件中，不要放到前端，也不要在数据库明文保存。
+Safehomo 只配置一条 InfoCert 平台连接，每个 OEM 或正式代表使用独立的证书变量组。真实值写入服务器环境，不在页面或数据库明文保存。
 
 推荐变量：
 
 ```env
-DTRUST_EU_REP_1_API_KEY=...
-DTRUST_EU_REP_2_API_KEY=...
-DTRUST_GB_REP_API_KEY=...
+INFOCERT_STAGE_CLIENT_ID=...
+INFOCERT_STAGE_CLIENT_SECRET=...
 
-RDW_UPLOAD_API_KEY=...
-KBA_UPLOAD_API_KEY=...
-VCA_UPLOAD_API_KEY=...
-```
-
-生产环境还应预留 endpoint 和证书配置：
-
-```env
-DTRUST_EU_REP_1_ENDPOINT=...
-DTRUST_EU_REP_2_ENDPOINT=...
-DTRUST_GB_REP_ENDPOINT=...
+INFOCERT_CERT_EXAMPLE_OEM_SIGNER_ID=...
+INFOCERT_CERT_EXAMPLE_OEM_CERTIFICATE_ID=...
+INFOCERT_CERT_EXAMPLE_OEM_PIN=...
+INFOCERT_CERT_EXAMPLE_OEM_SAT=...
+INFOCERT_CERT_EXAMPLE_OEM_CERTIFICATE_PEM_PATH=...
 
 RDW_UPLOAD_ENDPOINT=...
 KBA_UPLOAD_ENDPOINT=...
@@ -353,8 +344,8 @@ VCA_CLIENT_KEY_PATH=...
 
 - `.env`：本机真实密钥，不提交 Git。
 - `.env.example`：只放变量名和示例，不放真实密钥。
-- 前端只显示脱敏值，例如 `eu_r...2026`。
-- 后端调用 D-Trust、RDW、KBA、VCA 时才读取完整密钥。
+- 前端只显示配置状态、环境变量引用和脱敏证书标识。
+- 后端调用 InfoCert、RDW、KBA、VCA 时才读取完整密钥。
 - 真实 API Key、证书路径、endpoint 不应写死在 `src/server.js` 中。
 
 ## 6. 文件与证据
@@ -449,25 +440,23 @@ EU/GB 路径由 Approval Number / WVTA e-code 自动判断。
 
 当前系统仍是原型，有以下限制：
 
-- D-Trust 签章为 mock。
+- InfoCert STAGE 的真实可用性取决于合法账号、证书、PIN/SAT、网络准入和服务端契约。
 - RDW/KBA/VCA 上传为 mock。
-- XMLDSig 正式签章尚未接入。
 - ICM 官方检查模块尚未完整接入。
 - 车型 COC 校验范本目前按已抽取字段比对，复杂规则和结构化差异分析仍需进一步实现。
 - XML 预览区已移除，后续可改为证据文件查看或下载功能。
-- API Key 仍需进一步改造成环境变量读取。
 
 ## 9. 建议生产化补充
 
 生产环境建议补齐：
 
-1. 真实 D-Trust 签章 API。
+1. InfoCert 生产环境准入、证书生命周期和错误码联调。
 2. 真实 RDW/KBA/VCA 上传 API。
-3. mTLS / 证书管理。
+3. NAP mTLS / 客户端证书管理。
 4. HSM 或安全密钥管理。
-5. XMLDSig 正式签名与验签。
+5. XMLDSig/XAdES 互操作验收。
 6. ICM 官方检查模块。
 7. 车型 COC 校验范本结构化差异分析和规则引擎。
 8. 可下载的签章 XML、上传回执、审计报告。
 9. 用户权限、操作日志和审批流程。
-10. API Key 环境变量化和密钥轮换机制。
+10. 平台凭据和厂家证书的轮换、吊销与授权审批机制。

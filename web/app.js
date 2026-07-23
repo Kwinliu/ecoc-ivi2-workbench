@@ -59,7 +59,9 @@ function renderMetrics(dashboard) {
   $("metrics").innerHTML = items
     .map(([key, label]) => `<div class="metric"><strong>${dashboard.counts[key]}</strong><span>${label}</span></div>`)
     .join("");
-  $("schemaStatus").textContent = dashboard.officialSchemaStatus;
+  $("schemaStatus").textContent = dashboard.officialSchemaStatus?.includes("loaded")
+    ? "IVI 2.0 官方 XSD 已加载"
+    : "IVI 2.0 官方 XSD 未加载";
 }
 
 function apiKeyOptions(kind, selectedId = "") {
@@ -69,11 +71,129 @@ function apiKeyOptions(kind, selectedId = "") {
     .join("");
 }
 
+function certificateRoleLabel(role) {
+  return (
+    {
+      oem: "OEM",
+      eu_representative: "欧盟代表处",
+      gb_representative: "英国代表处",
+    }[role] || role || "OEM"
+  );
+}
+
+function certificateProfileId(value) {
+  const base = (
+    String(value || "")
+      .toLowerCase()
+      .replace(/[^a-z0-9]+/g, "-")
+      .replace(/^-+|-+$/g, "")
+      .slice(0, 80) || `certificate-${Date.now()}`
+  );
+  const used = new Set((state.settings?.signingCertificateProfiles || []).map((item) => item.id));
+  if (!used.has(base)) return base;
+  let suffix = 2;
+  while (used.has(`${base}-${suffix}`)) suffix += 1;
+  return `${base}-${suffix}`;
+}
+
+function certificateProfileOptions(selectedId = "") {
+  const profiles = state.settings?.signingCertificateProfiles || [];
+  return [
+    `<option value="">按制造商自动匹配</option>`,
+    ...profiles
+      .filter((item) => item.status !== "disabled")
+      .map((item) => {
+        const selected = item.id === selectedId ? "selected" : "";
+        const availability = item.configured ? "已配置" : "待配置";
+        return `<option value="${escapeHtml(item.id)}" ${selected}>${escapeHtml(item.label)} · ${escapeHtml(item.manufacturerName)} · ${availability}</option>`;
+      }),
+  ].join("");
+}
+
+function editableCertificateProfile(profile = {}) {
+  return {
+    id: profile.id || "",
+    label: profile.label || "",
+    manufacturerName: profile.manufacturerName || "",
+    organizationName: profile.organizationName || "",
+    role: profile.role || "oem",
+    market: profile.market || "",
+    modelType: profile.modelType || "",
+    wvtaNumber: profile.wvtaNumber || "",
+    secretRefPrefix: profile.secretRefPrefix || "",
+    subject: profile.subject || "",
+    issuer: profile.issuer || "",
+    serialNumber: profile.serialNumber || "",
+    validFrom: profile.validFrom || "",
+    validTo: profile.validTo || "",
+    fingerprint: profile.fingerprint || "",
+    rdwRegistrationStatus: profile.rdwRegistrationStatus || "pending",
+    status: profile.status || "active",
+    notes: profile.notes || "",
+  };
+}
+
+function renderInfoCertConnection() {
+  const connection = state.apiKeys.find((item) => item.id === "signing-infocert-stage");
+  if (!connection) {
+    $("infoCertConnection").innerHTML = `<strong>InfoCert STAGE</strong><span class="connection-bad">公共签章连接未载入</span>`;
+    return;
+  }
+  const stateClass = connection.configured ? "connection-good" : "connection-warn";
+  const stateText = connection.configured
+    ? "平台连接已配置"
+    : `平台连接待配置：${(connection.missingEnv || []).join("、")}`;
+  $("infoCertConnection").innerHTML = `
+    <div>
+      <strong>${escapeHtml(connection.label)}</strong>
+      <span>全系统共用一条技术连接，签章身份由下方厂家证书决定。</span>
+    </div>
+    <span class="${stateClass}">${escapeHtml(stateText)}</span>`;
+}
+
+function renderCertificateProfiles(profiles) {
+  const body = $("certificateProfilesBody");
+  if (!body) return;
+  body.innerHTML =
+    profiles
+      .map((item, index) => {
+        const scopes = [
+          item.market ? `市场 ${item.market}` : "",
+          item.modelType ? `车型 ${item.modelType}` : "",
+          item.wvtaNumber ? `WVTA ${item.wvtaNumber}` : "",
+        ].filter(Boolean);
+        const configured = item.configured
+          ? `<span class="audit-ok">已配置</span>`
+          : `<span class="audit-notice" title="${escapeHtml((item.missingEnv || []).join(", "))}">待配置</span>`;
+        const rdwStatus =
+          {
+            registered: "已登记",
+            not_required: "无需登记",
+            rejected: "登记被拒",
+            pending: "待登记",
+          }[item.rdwRegistrationStatus] || item.rdwRegistrationStatus;
+        return `<tr>
+          <td><strong>${escapeHtml(item.label)}</strong><div class="meta">${escapeHtml(certificateRoleLabel(item.role))}</div></td>
+          <td>${escapeHtml(item.manufacturerName || "未填写")}</td>
+          <td>${escapeHtml(item.organizationName || "未填写")}</td>
+          <td>${escapeHtml(scopes.join(" · ") || "全部车型与市场")}</td>
+          <td>${configured}<div class="meta mono">${escapeHtml(item.secretRefPrefix)}</div></td>
+          <td>${escapeHtml(rdwStatus)}</td>
+          <td><button class="secondary" data-action="removeCertificateProfile" data-index="${index}" type="button">删除</button></td>
+        </tr>`;
+      })
+      .join("") ||
+    `<tr><td colspan="7">暂无厂家证书档案。添加后，系统会按制造商和适用范围进行签章路由。</td></tr>`;
+}
+
 function renderSettings(settings) {
   state.settings = settings;
-  const defaultSigning = state.activeApiKeys.signing || state.apiKeys.find((item) => item.kind === "signing")?.id || "";
   const defaultUpload = state.activeApiKeys.upload || state.apiKeys.find((item) => item.kind === "upload")?.id || "";
-  if ($("settingModelSigning")) $("settingModelSigning").innerHTML = apiKeyOptions("signing", defaultSigning);
+  renderInfoCertConnection();
+  renderCertificateProfiles(settings.signingCertificateProfiles || []);
+  if ($("settingModelSigningCertificate")) {
+    $("settingModelSigningCertificate").innerHTML = certificateProfileOptions();
+  }
   if ($("settingModelUpload")) $("settingModelUpload").innerHTML = apiKeyOptions("upload", defaultUpload);
   if ($("modelSettingsBody")) renderModelSettings(settings.modelSettings || []);
 }
@@ -82,7 +202,8 @@ function collectSettings() {
   const modelSettings = [...document.querySelectorAll(".model-setting-row")].map((row) => ({
     modelType: row.querySelector('[data-field="modelType"]').value.trim(),
     wvtaNumber: row.querySelector('[data-field="wvtaNumber"]').value.trim(),
-    signingApiKeyId: row.querySelector('[data-field="signingApiKeyId"]').value,
+    signingApiKeyId: "signing-infocert-stage",
+    signingCertificateProfileId: row.querySelector('[data-field="signingCertificateProfileId"]').value,
     uploadApiKeyId: row.querySelector('[data-field="uploadApiKeyId"]').value,
     templateFileName: row.querySelector('[data-field="templateFileName"]').value.trim(),
     templateBase64: row.querySelector('[data-field="templateBase64"]').value,
@@ -90,6 +211,7 @@ function collectSettings() {
   }));
   return {
     ...(state.settings || {}),
+    signingCertificateProfiles: (state.settings?.signingCertificateProfiles || []).map(editableCertificateProfile),
     modelSettings: modelSettings.filter((item) => item.modelType || item.wvtaNumber),
   };
 }
@@ -111,7 +233,7 @@ function renderModelSettings(modelSettings) {
         (item, index) => `<tr class="model-setting-row" data-index="${index}">
           <td><input data-field="modelType" value="${escapeHtml(item.modelType || "")}" /></td>
           <td><input data-field="wvtaNumber" value="${escapeHtml(item.wvtaNumber || "")}" /></td>
-          <td><select data-field="signingApiKeyId">${apiKeyOptions("signing", item.signingApiKeyId)}</select></td>
+          <td><select data-field="signingCertificateProfileId">${certificateProfileOptions(item.signingCertificateProfileId)}</select></td>
           <td><select data-field="uploadApiKeyId">${apiKeyOptions("upload", item.uploadApiKeyId)}</select></td>
           <td>
             <input data-field="templateFileName" value="${escapeHtml(item.templateFileName || "")}" placeholder="未上传" readonly />
@@ -579,7 +701,8 @@ async function addModelSetting() {
   const modelSetting = {
     modelType,
     wvtaNumber,
-    signingApiKeyId: $("settingModelSigning").value,
+    signingApiKeyId: "signing-infocert-stage",
+    signingCertificateProfileId: $("settingModelSigningCertificate").value,
     uploadApiKeyId: $("settingModelUpload").value,
     templateFileName: templateFile?.name || "",
     templateBase64: templateFile ? await fileToBase64(templateFile) : "",
@@ -598,6 +721,47 @@ async function addModelSetting() {
   $("settingModelType").value = "";
   $("settingModelWvta").value = "";
   $("settingModelTemplate").value = "";
+  renderModelSettings(state.settings.modelSettings);
+}
+
+async function addCertificateProfile() {
+  const label = $("certificateLabel").value.trim();
+  const manufacturerName = $("certificateManufacturer").value.trim();
+  const organizationName = $("certificateOrganization").value.trim();
+  if (!label || !manufacturerName || !organizationName) {
+    return toast("请填写档案名称、制造商名称和证书法律主体。");
+  }
+  state.settings = state.settings || {};
+  state.settings.modelSettings = collectSettings().modelSettings;
+  state.settings.signingCertificateProfiles = [
+    ...(state.settings.signingCertificateProfiles || []).map(editableCertificateProfile),
+    {
+      id: certificateProfileId(label),
+      label,
+      manufacturerName,
+      organizationName,
+      role: $("certificateRole").value,
+      market: $("certificateMarket").value.trim(),
+      modelType: $("certificateModelType").value.trim(),
+      wvtaNumber: $("certificateWvta").value.trim(),
+      secretRefPrefix: $("certificateSecretRefPrefix").value.trim(),
+      rdwRegistrationStatus: "pending",
+      status: "active",
+    },
+  ];
+  [
+    "certificateLabel",
+    "certificateManufacturer",
+    "certificateOrganization",
+    "certificateMarket",
+    "certificateModelType",
+    "certificateWvta",
+    "certificateSecretRefPrefix",
+  ].forEach((id) => {
+    $(id).value = "";
+  });
+  renderCertificateProfiles(state.settings.signingCertificateProfiles);
+  $("settingModelSigningCertificate").innerHTML = certificateProfileOptions();
   renderModelSettings(state.settings.modelSettings);
 }
 
@@ -775,6 +939,7 @@ document.addEventListener("click", async (event) => {
     if (button.id === "batchSignButton") await batchSign();
     if (button.id === "batchUploadRdwButton") await batchUploadRdw();
     if (button.id === "previewXmlButton") await previewSelectedXml();
+    if (button.id === "addCertificateProfileButton") await addCertificateProfile();
     if (button.id === "addModelSettingButton") await addModelSetting();
     if (button.id === "convertWordButton") await convertWord();
     if (button.id === "convertExcelButton") await convertExcel();
@@ -791,6 +956,20 @@ document.addEventListener("click", async (event) => {
     if (action === "submitKba") await mockSubmit(id, "KBA");
     if (action === "removeModelSetting") {
       state.settings.modelSettings = collectSettings().modelSettings.filter((_, index) => index !== Number(button.dataset.index));
+      renderModelSettings(state.settings.modelSettings);
+    }
+    if (action === "removeCertificateProfile") {
+      state.settings.modelSettings = collectSettings().modelSettings;
+      const profiles = (state.settings.signingCertificateProfiles || []).map(editableCertificateProfile);
+      const removed = profiles[Number(button.dataset.index)];
+      state.settings.signingCertificateProfiles = profiles.filter((_, index) => index !== Number(button.dataset.index));
+      state.settings.modelSettings = state.settings.modelSettings.map((item) => ({
+        ...item,
+        signingCertificateProfileId:
+          item.signingCertificateProfileId === removed?.id ? "" : item.signingCertificateProfileId,
+      }));
+      renderCertificateProfiles(state.settings.signingCertificateProfiles);
+      $("settingModelSigningCertificate").innerHTML = certificateProfileOptions();
       renderModelSettings(state.settings.modelSettings);
     }
   } catch (error) {

@@ -91,7 +91,7 @@ npm run smoke
 
 当前仓库仍是本地原型：
 
-- D-Trust 签章为 mock。
+- InfoCert STAGE 签章已实现公开请求契约、HashSign、XAdES/XMLDSig 组装和本地验签；真实凭据与证书不在仓库中。
 - RDW/KBA/VCA 上传为 mock。
-- 生产环境还需要接入真实 endpoint、mTLS、证书、XMLDSig、错误码映射和密钥管理。
+- 生产环境还需要完成 InfoCert 账号与证书准入、NAP mTLS、错误码映射和密钥生命周期管理。
 - eCoC 数据提示目前覆盖当前可抽取并可映射到 IVI2 XML 的字段；完整逐项数据集、交换协议和正式规则引擎仍需继续扩展。

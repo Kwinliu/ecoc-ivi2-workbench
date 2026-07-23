@@ -4,6 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>eCoC Workbench</title>
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="stylesheet" href="/styles.css" />
   </head>
   <body>
@@ -78,13 +79,61 @@
 
       <section class="panel settings-panel">
         <div class="section-title">
-          <h2>车型设定区</h2>
+          <div>
+            <h2>签章证书与车型设定</h2>
+            <p>Safehomo 统一连接 InfoCert；每家制造商使用自己持有的电子签章证书。</p>
+          </div>
           <button id="saveSettingsButton" class="secondary">保存设定</button>
         </div>
+        <div class="infocert-connection" id="infoCertConnection"></div>
+        <div class="settings-subsection">
+          <div class="settings-subsection-title">
+            <h3>厂家证书档案</h3>
+            <span>证书、PIN 和 SAT 仅通过服务器环境变量配置，页面不保存密钥。</span>
+          </div>
+          <div class="certificate-profile-form">
+            <label>档案名称<input id="certificateLabel" placeholder="例如 Demo OEM STAGE" /></label>
+            <label>制造商名称<input id="certificateManufacturer" placeholder="须与 CoC 厂家名称一致" /></label>
+            <label>证书法律主体<input id="certificateOrganization" placeholder="证书实际持有人" /></label>
+            <label>主体角色
+              <select id="certificateRole">
+                <option value="oem">OEM</option>
+                <option value="eu_representative">欧盟代表处</option>
+                <option value="gb_representative">英国代表处</option>
+              </select>
+            </label>
+            <label>适用市场<input id="certificateMarket" placeholder="EU / GB，可留空" /></label>
+            <label>适用车型<input id="certificateModelType" placeholder="可留空" /></label>
+            <label>适用 WVTA<input id="certificateWvta" placeholder="可留空" /></label>
+            <label>环境变量前缀<input id="certificateSecretRefPrefix" placeholder="INFOCERT_CERT_DEMO_OEM" /></label>
+            <button id="addCertificateProfileButton" type="button">添加证书档案</button>
+          </div>
+          <div class="table-wrap">
+            <table class="certificate-profiles-table">
+              <thead>
+                <tr>
+                  <th>证书档案</th>
+                  <th>制造商</th>
+                  <th>法律主体</th>
+                  <th>适用范围</th>
+                  <th>服务器配置</th>
+                  <th>RDW 登记</th>
+                  <th>操作</th>
+                </tr>
+              </thead>
+              <tbody id="certificateProfilesBody"></tbody>
+            </table>
+          </div>
+        </div>
+        <div class="settings-subsection">
+          <div class="settings-subsection-title">
+            <h3>车型路由</h3>
+            <span>只有唯一且适用的厂家证书才会自动选择；多张候选必须明确绑定。</span>
+          </div>
         <div class="model-setting-form">
           <label>车型<input id="settingModelType" placeholder="例如 SY14" /></label>
           <label>Approval Number<input id="settingModelWvta" placeholder="例如 e6*2018/858*00264*01" /></label>
-          <label>签章 API<select id="settingModelSigning"></select></label>
+          <label>签章证书<select id="settingModelSigningCertificate"></select></label>
           <label>上传 API<select id="settingModelUpload"></select></label>
           <label>COC 校验范本<input id="settingModelTemplate" type="file" accept=".docx,.xlsx,.xml,.csv,application/vnd.openxmlformats-officedocument.wordprocessingml.document,application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,text/csv,application/xml" /></label>
           <button id="addModelSettingButton" type="button">加入列表</button>
@@ -95,7 +144,7 @@
               <tr>
                 <th>车型</th>
                 <th>Approval Number</th>
-                <th>签章 API</th>
+                <th>签章证书</th>
                 <th>上传 API</th>
                 <th>COC 校验范本</th>
                 <th>eCoC 数据提示</th>
@@ -104,6 +153,7 @@
             </thead>
             <tbody id="modelSettingsBody"></tbody>
           </table>
+        </div>
         </div>
       </section>
 

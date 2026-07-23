@@ -38,7 +38,8 @@ body {
 }
 
 h1,
-h2 {
+h2,
+h3 {
   margin: 0;
   letter-spacing: 0;
 }
@@ -53,6 +54,11 @@ h2 {
   font-weight: 650;
 }
 
+h3 {
+  font-size: 14px;
+  font-weight: 700;
+}
+
 p {
   margin: 4px 0 0;
   color: var(--muted);
@@ -65,7 +71,9 @@ p {
   padding: 6px 10px;
   color: var(--muted);
   background: #f9fafb;
-  white-space: nowrap;
+  max-width: 100%;
+  white-space: normal;
+  overflow-wrap: anywhere;
 }
 
 .layout {
@@ -73,6 +81,11 @@ p {
   margin: 18px auto 40px;
   display: grid;
   gap: 16px;
+}
+
+.layout > *,
+.panel {
+  min-width: 0;
 }
 
 .dashboard-panel {
@@ -558,6 +571,104 @@ tr:last-child td {
   margin-bottom: 12px;
 }
 
+.settings-subsection {
+  margin-top: 18px;
+}
+
+.settings-subsection + .settings-subsection {
+  border-top: 1px solid var(--line);
+  padding-top: 18px;
+}
+
+.settings-subsection-title {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 10px;
+}
+
+.settings-subsection-title span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.infocert-connection {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  border: 1px solid var(--line);
+  border-left: 3px solid var(--accent);
+  padding: 11px 12px;
+  background: #f8fbfa;
+}
+
+.infocert-connection > div {
+  display: grid;
+  gap: 2px;
+}
+
+.infocert-connection > div span {
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.connection-good,
+.connection-warn,
+.connection-bad {
+  white-space: nowrap;
+  font-size: 12px;
+  font-weight: 700;
+}
+
+.connection-good {
+  color: var(--good);
+}
+
+.connection-warn {
+  color: var(--warn);
+}
+
+.connection-bad {
+  color: var(--bad);
+}
+
+.certificate-profile-form {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(150px, 1fr));
+  gap: 10px;
+  align-items: end;
+  margin-bottom: 12px;
+}
+
+.certificate-profile-form label {
+  display: grid;
+  gap: 6px;
+  color: var(--muted);
+  font-size: 13px;
+}
+
+.certificate-profile-form input,
+.certificate-profile-form select {
+  width: 100%;
+  min-height: 34px;
+  border: 1px solid var(--line);
+  border-radius: 6px;
+  background: #fff;
+  color: var(--text);
+  padding: 7px 9px;
+  font: inherit;
+}
+
+.certificate-profile-form button {
+  justify-self: start;
+}
+
+.certificate-profiles-table {
+  min-width: 1120px;
+}
+
 .model-setting-form label {
   display: grid;
   gap: 6px;
@@ -683,7 +794,14 @@ tr:last-child td {
   .metrics,
   .split,
   .model-setting-form,
+  .certificate-profile-form,
   .routing-grid {
     grid-template-columns: 1fr;
+  }
+
+  .infocert-connection,
+  .settings-subsection-title {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }

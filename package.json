@@ -6,7 +6,10 @@
   "description": "eCoC/IVI2 workbench for manufacturer-side CoC intake, validation, signing orchestration, and NAP upload workflow prototyping.",
   "scripts": {
     "start": "node src/server.js",
-    "smoke": "node scripts/smoke-test.js"
+    "smoke": "node scripts/smoke-test.js",
+    "test:infocert-contract": "node scripts/test-infocert-stage-contract.js",
+    "test:infocert-profiles": "node scripts/test-infocert-certificate-profiles.js",
+    "test": "npm run test:infocert-contract && npm run test:infocert-profiles && npm run smoke"
   },
   "engines": {
     "node": ">=18"

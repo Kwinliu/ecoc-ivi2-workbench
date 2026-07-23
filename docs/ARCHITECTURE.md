@@ -1,6 +1,6 @@
 # eCoC / IVI2 Workbench Architecture
 
-更新时间：2026-05-15
+更新时间：2026-07-23
 
 本文只描述当前公开代码仓中的系统实现，不包含商务申请路径、内部论证材料或本地运行数据。
 
@@ -12,11 +12,11 @@
 2. 抽取 VIN、Approval Number、Type、Variant、Version 等字段。
 3. 生成 IVI2 XML 草稿。
 4. 按车型设定中的 COC 校验范本比对上传 CoC。
-5. 按车型设定选择签章 API，并生成签章流程记录。
+5. 通过单一 Safehomo InfoCert 连接，按制造商和车型范围选择证书并生成 XAdES/XMLDSig。
 6. 按车型设定或 Approval Number e-code 选择上传 API。
 7. 保存提交历史，支持检索和追溯。
 
-当前 D-Trust、RDW、KBA、VCA 连接器为本地 mock。生产环境需要替换为真实 endpoint、API Key、证书、mTLS、XMLDSig 和错误码映射。
+当前 InfoCert STAGE 签章适配包含真实请求契约与 XAdES/XMLDSig 处理，凭据齐备时才会调用外部服务；本地测试可显式启用 mock。RDW、KBA、VCA 上传连接器仍为本地 mock。
 
 ## 2. 页面模块
 
@@ -28,7 +28,7 @@
 - CoC 草稿批量上传：支持 Word、Excel、IVI XML、CSV，用于导入并创建草稿。
 - 上传列表：以表格展示车辆草稿，支持勾选和批量处理。
 - 校验区：点击校验后显示被选车辆的问题表格。
-- 车型设定区：维护 Type、Approval Number、签章 API、上传 API 和 CoC 校验范本。
+- 签章证书与车型设定：维护厂家证书档案、证书适用范围、Type、Approval Number、上传 API 和 CoC 校验范本。
 - 提交历史：显示 NAP 上传结果，并支持关键词检索。
 
 ## 3. 后端模块
@@ -44,7 +44,9 @@
 - 基于车型 COC 校验范本的比对校验。
 - eCoC / 电子 CoC 结构化数据完整性提示。
 - 车型设定保存与匹配。
-- D-Trust mock 签章。
+- InfoCert STAGE OAuth、证书查询和 HashSign 调用。
+- XAdES/XMLDSig 组装与返回签章值本地验签。
+- 单一平台连接下的多厂家证书档案和严格路由。
 - RDW/KBA/VCA mock 上传。
 - 提交历史和审计记录。
 
@@ -70,13 +72,15 @@
 
 ## 5. 签章和上传边界
 
-签章目标流程：
+签章实现边界：
 
 1. 系统生成待签 IVI2 XML。
-2. 系统对待签 XML 生成 hash / digest / signing payload。
-3. 系统把签章请求发送给 D-Trust。
-4. D-Trust 返回签章结果。
-5. 系统把签章结果合入 IVI/eCoC XML 包。
+2. 后端按制造商精确匹配证书，并用车型、WVTA、市场范围进一步收窄；多个候选会阻断。
+3. 系统以 Safehomo 的单一 InfoCert OAuth 客户端获取访问令牌，再用厂家证书的 `X-signer-id`、Certificate ID、PIN 和 SAT 调用 HashSign。
+4. 系统把返回签章值合入 XAdES/XMLDSig，并用返回证书在本地验签。
+5. 系统保存 request ID、correlation ID、证书档案 ID 和签章证据。
+
+平台 client secret、证书 ID、PIN、SAT 和 PEM 路径只从环境变量读取。设置接口只保存环境变量名的前缀，不保存或返回密钥值。
 
 上传目标流程：
 
@@ -86,7 +90,7 @@
 4. 系统上传签章 XML 包。
 5. 系统保存 Message ID、状态和回执。
 
-当前代码只实现 mock 回执，不能代表真实 NAP 已接受。
+当前 NAP 代码只实现 mock 回执，不能代表真实 NAP 已接受。
 
 ## 6. eCoC 数据提示
 
@@ -118,5 +122,5 @@ node --check scripts/smoke-test.js
 Smoke test：
 
 ```bash
-npm run smoke
+npm test
 ```

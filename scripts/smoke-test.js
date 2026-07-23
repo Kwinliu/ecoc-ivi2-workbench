@@ -135,7 +135,18 @@ async function createSampleXlsx() {
 async function main() {
   const server = spawn(process.execPath, ["src/server.js"], {
     cwd: process.cwd(),
-    env: { ...process.env, PORT: String(PORT), DATA_DIR: path.join(os.tmpdir(), `ecoc-smoke-${Date.now()}`) },
+    env: {
+      ...process.env,
+      PORT: String(PORT),
+      DATA_DIR: path.join(os.tmpdir(), `ecoc-smoke-${Date.now()}`),
+      INFOCERT_STAGE_MOCK: "true",
+      INFOCERT_STAGE_CLIENT_ID: "smoke-client-id",
+      INFOCERT_STAGE_CLIENT_SECRET: "smoke-client-secret",
+      INFOCERT_CERT_DEMO_OEM_SIGNER_ID: "smoke-signer-id",
+      INFOCERT_CERT_DEMO_OEM_CERTIFICATE_ID: "smoke-certificate-id",
+      INFOCERT_CERT_DEMO_OEM_PIN: "smoke-pin",
+      INFOCERT_CERT_DEMO_OEM_SAT: "smoke-sat",
+    },
     stdio: ["ignore", "pipe", "pipe"],
   });
 
@@ -163,11 +174,24 @@ async function main() {
       method: "POST",
       body: JSON.stringify({
         settings: {
+          signingCertificateProfiles: [
+            {
+              id: "demo-oem",
+              label: "Demo OEM STAGE",
+              manufacturerName: "Demo OEM Ltd.",
+              organizationName: "Demo OEM Ltd.",
+              role: "oem",
+              secretRefPrefix: "INFOCERT_CERT_DEMO_OEM",
+              pin: "must-not-be-stored",
+              sat: "must-not-be-stored",
+            },
+          ],
           modelSettings: [
             {
               modelType: "T1",
               wvtaNumber: "e1*2018/858*00001*00",
-              signingApiKeyId: "signing-eu-rep-1",
+              signingApiKeyId: "signing-infocert-stage",
+              signingCertificateProfileId: "demo-oem",
               uploadApiKeyId: "upload-rdw",
               templateFileName: "coc-template-eu.csv",
               templateBase64: euTemplateBase64,
@@ -175,7 +199,8 @@ async function main() {
             {
               modelType: "T2",
               wvtaNumber: "g11*2018/858*00002*00",
-              signingApiKeyId: "signing-gb-rep",
+              signingApiKeyId: "signing-infocert-stage",
+              signingCertificateProfileId: "demo-oem",
               uploadApiKeyId: "upload-vca",
               templateFileName: "coc-template-gb.csv",
               templateBase64: gbTemplateBase64,
@@ -189,6 +214,10 @@ async function main() {
     assert.equal(result.data.settings.modelSettings[0].templateAudit.status, "notice");
     assert.ok(result.data.settings.modelSettings[0].templateAudit.missing.length > 0);
     assert.equal(result.data.settings.modelSettings[1].templateAudit.blocking, false);
+    assert.equal(result.data.settings.signingCertificateProfiles[0].configured, true);
+    assert.equal(result.data.settings.signingCertificateProfiles[0].apiKeyId, "signing-infocert-stage");
+    assert.equal(Object.prototype.hasOwnProperty.call(result.data.settings.signingCertificateProfiles[0], "pin"), false);
+    assert.equal(Object.prototype.hasOwnProperty.call(result.data.settings.signingCertificateProfiles[0], "sat"), false);
 
     result = await request("/api/drafts", { method: "POST", body: JSON.stringify({}) });
     assert.equal(result.response.status, 201);
@@ -217,7 +246,8 @@ async function main() {
     result = await request("/api/api-keys");
     assert.equal(result.response.status, 200);
     assert.ok(result.data.keys.some((item) => item.kind === "signing" && item.keyDisplay.includes("...")));
-    assert.ok(result.data.keys.some((item) => item.id === "signing-eu-rep-1"));
+    assert.ok(result.data.keys.some((item) => item.id === "signing-infocert-stage"));
+    assert.ok(!result.data.keys.some((item) => item.id.startsWith("signing-eu-rep")));
     assert.ok(result.data.keys.some((item) => item.id === "upload-kba"));
     assert.ok(result.data.keys.some((item) => item.id === "upload-vca"));
 
@@ -227,8 +257,18 @@ async function main() {
     });
     assert.equal(result.response.status, 200);
     assert.equal(result.data.status, "signed");
-    assert.ok(result.data.receipt.id.startsWith("DTRUST-"));
-    assert.equal(result.data.apiKey.id, "signing-eu-rep-1");
+    assert.ok(result.data.receipt.id.startsWith("INFOCERT-"));
+    assert.equal(result.data.apiKey.id, "signing-infocert-stage");
+    assert.equal(result.data.certificateProfile.id, "demo-oem");
+    assert.equal(result.data.receipt.certificateProfileId, "demo-oem");
+
+    result = await request(`/api/drafts/${draftId}/sign`, {
+      method: "POST",
+      body: JSON.stringify({}),
+    });
+    assert.equal(result.response.status, 409);
+    assert.equal(result.data.status, "blocked");
+    assert.match(result.data.error, /不会重复签章/);
 
     result = await request(`/api/drafts/${draftId}/upload-rdw`, {
       method: "POST",
