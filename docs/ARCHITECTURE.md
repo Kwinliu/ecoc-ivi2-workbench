@@ -50,7 +50,7 @@
 - RDW/KBA/VCA mock 上传。
 - 提交历史和审计记录。
 
-本地运行数据写入 `data/`，该目录已在 `.gitignore` 中排除，不会进入公开仓库。
+`src/workbench-store.js` 在存储 seam 后提供 PostgreSQL 与 JSON 两个适配。日常本地开发和客户部署默认使用 PostgreSQL；JSON 适配仅用于快速测试和旧数据兼容。证据文件写入 `data/evidence/`，该目录已在 `.gitignore` 中排除。
 
 ## 4. 数据和配置
 
@@ -62,10 +62,12 @@
 - 官方样本和资料缓存：`ecoc_eucaris_download/`
 - 公开参考资料：`references/`
 - 环境变量模板：`.env.example`
+- PostgreSQL schema：`db/postgres/`
+- 本地 PostgreSQL Compose：`compose.yaml`
 
 公开仓库不包含：
 
-- 本地数据库和证据文件：`data/`
+- PostgreSQL 数据卷和本地证据文件
 - 真实 API Key、证书、私钥或密码
 - 下载的 NAP 工具包二进制文件
 - 内部商务、申请路径、托管模式或项目论证文档

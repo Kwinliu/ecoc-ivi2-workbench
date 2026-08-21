@@ -139,6 +139,7 @@ async function main() {
       ...process.env,
       PORT: String(PORT),
       DATA_DIR: path.join(os.tmpdir(), `ecoc-smoke-${Date.now()}`),
+      WORKBENCH_STORE: process.env.WORKBENCH_STORE || "json",
       INFOCERT_STAGE_MOCK: "true",
       INFOCERT_STAGE_CLIENT_ID: "smoke-client-id",
       INFOCERT_STAGE_CLIENT_SECRET: "smoke-client-secret",

@@ -5,11 +5,19 @@
   "license": "MIT",
   "description": "eCoC/IVI2 workbench for manufacturer-side CoC intake, validation, signing orchestration, and NAP upload workflow prototyping.",
   "scripts": {
-    "start": "node src/server.js",
+    "start": "npm run db:up && node src/server.js",
+    "start:server": "node src/server.js",
+    "db:up": "docker compose up -d --wait postgres",
+    "db:down": "docker compose down",
     "smoke": "node scripts/smoke-test.js",
     "test:infocert-contract": "node scripts/test-infocert-stage-contract.js",
     "test:infocert-profiles": "node scripts/test-infocert-certificate-profiles.js",
-    "test": "npm run test:infocert-contract && npm run test:infocert-profiles && npm run smoke"
+    "test:store": "node scripts/test-workbench-store.js",
+    "test:postgres": "node scripts/test-postgres-store.js",
+    "test": "npm run test:infocert-contract && npm run test:infocert-profiles && npm run test:store && npm run smoke"
+  },
+  "dependencies": {
+    "pg": "^8.22.0"
   },
   "engines": {
     "node": ">=18"

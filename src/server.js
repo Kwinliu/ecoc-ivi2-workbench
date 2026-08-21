@@ -20,13 +20,14 @@ const {
   selectSigningCertificateProfile,
   signingCertificateProfileAvailability,
 } = require("./infocert-certificate-profiles");
+const { createWorkbenchStore } = require("./workbench-store");
 
 const ROOT = path.resolve(__dirname, "..");
 const WEB_DIR = path.join(ROOT, "web");
 const DATA_DIR = process.env.DATA_DIR ? path.resolve(process.env.DATA_DIR) : path.join(ROOT, "data");
 const EVIDENCE_DIR = path.join(DATA_DIR, "evidence");
-const DB_PATH = path.join(DATA_DIR, "db.json");
 const PORT = Number(process.env.PORT || 4173);
+const workbenchStore = createWorkbenchStore({ env: process.env, dataDir: DATA_DIR });
 const OFFICIAL_EXAMPLE_DIR = path.join(ROOT, "ecoc_eucaris_download", "documentation", "IVI 2.0 Example files");
 
 const IVI2_SCHEMA_PATH = path.join(
@@ -39,6 +40,7 @@ const IVI2_SCHEMA_PATH = path.join(
 const OFFICIAL_SCHEMA_STATUS = fssync.existsSync(IVI2_SCHEMA_PATH)
   ? "official_ivi2_xsd_loaded_unsigned_signature_pending"
   : "official_ivi2_xsd_not_loaded";
+let storeInitialization = null;
 
 const MIME = {
   ".html": "text/html; charset=utf-8",
@@ -52,11 +54,13 @@ const MIME = {
 };
 
 async function ensureStore() {
-  await fs.mkdir(DATA_DIR, { recursive: true });
-  await fs.mkdir(EVIDENCE_DIR, { recursive: true });
-  if (!fssync.existsSync(DB_PATH)) {
-    await writeDb(defaultDb());
+  if (!storeInitialization) {
+    storeInitialization = (async () => {
+      await fs.mkdir(EVIDENCE_DIR, { recursive: true });
+      await workbenchStore.ensure(defaultDb);
+    })();
   }
+  return storeInitialization;
 }
 
 function defaultDb() {
@@ -198,7 +202,7 @@ const ECOC_DATA_REQUIREMENTS = {
 
 async function readDb() {
   await ensureStore();
-  const db = JSON.parse(await fs.readFile(DB_PATH, "utf8"));
+  const db = await workbenchStore.read();
   let changed = false;
   const catalog = defaultApiKeys();
   const catalogIds = new Set(catalog.map((item) => item.id));
@@ -228,7 +232,7 @@ async function readDb() {
 }
 
 async function writeDb(db) {
-  await fs.writeFile(DB_PATH, JSON.stringify(db, null, 2));
+  await workbenchStore.write(db);
 }
 
 function now() {

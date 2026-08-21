@@ -16,15 +16,16 @@
 - CoC 校验只基于车型设定中上传的 COC 校验范本进行；未上传或未匹配范本时无法完成校验，不加入额外后台判定。
 - 车型 COC 校验范本上传时会按 eCoC / 电子 CoC 数据与交换要求做结构化数据完整性提示；提示不阻塞流程。
 - 当前代码包含 InfoCert STAGE OAuth、证书查询、HashSign、XAdES/XMLDSig 组装和本地验签适配；真实调用仅在服务器完整配置平台连接和厂家证书环境变量后启用。RDW/KBA/VCA 上传仍为本地 mock connector。
-- 真实 API Key、证书、私钥、本地数据库和证据文件不进入公开仓库。`data/`、`.env` 已在 `.gitignore` 中排除。
+- 运行状态默认存入 PostgreSQL，证据文件存入 `data/evidence/`；真实 API Key、证书、私钥、数据库数据和证据文件不进入公开仓库。
 
 ## 本地运行
 
 ```bash
+npm install
 npm start
 ```
 
-浏览器访问 `http://localhost:4173`。
+`npm start` 会通过 Docker Compose 启动本地 PostgreSQL，再启动工作台。浏览器访问 `http://localhost:4173`。仅运行已经配置好数据库的服务端时可使用 `npm run start:server`。
 
 ## 测试
 

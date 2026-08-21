@@ -65,7 +65,7 @@
 
 公开仓库排除：
 
-- 本地数据库和证据：`data/`
+- PostgreSQL 数据卷和本地证据：`data/`
 - 旧编号内部文档：`docs/01-*.md` 到 `docs/10-*.md`
 - NAP 工具包：`ecoc_eucaris_download/tools/`
 
