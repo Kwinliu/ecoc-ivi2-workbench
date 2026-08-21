@@ -1,6 +1,6 @@
 # eCoC / IVI2 工作台使用说明
 
-本文面向实际操作人员，说明如何使用本地 eCoC Workbench 完成 CoC 文件批量导入、厂家证书与车型设定、CoC 内容校验、IVI2 XML 生成、InfoCert 签章、NAP 上传和提交记录检索。
+本文面向实际操作人员，说明如何使用本地 eCoC 基线完成 CoC 文件批量导入、厂家证书与车型设定、CoC 内容校验、IVI2 XML 生成、InfoCert 签章、NAP 上传和提交记录检索。
 
 当前系统是本地原型工作台：InfoCert STAGE 签章已具备 OAuth、证书查询、HashSign、XAdES/XMLDSig 组装和本地验签适配；只有服务器配置完整平台凭据与厂家证书后才会真实调用。RDW/KBA/VCA 上传 API 目前使用本地模拟回执。
 

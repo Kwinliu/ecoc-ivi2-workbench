@@ -1,4 +1,4 @@
-name: kwin-public-dev
+name: ecoc-baseline-dev
 
 services:
   postgres:

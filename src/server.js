@@ -2603,7 +2603,7 @@ async function handle(req, res) {
 ensureStore()
   .then(() => {
     http.createServer(handle).listen(PORT, () => {
-      console.log(`eCoC / IVI2 Workbench running at http://localhost:${PORT}`);
+      console.log(`eCoC 基线 running at http://localhost:${PORT}`);
     });
   })
   .catch((error) => {

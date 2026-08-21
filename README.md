@@ -1,4 +1,4 @@
-# eCoC / IVI2 Workbench
+# eCoC 基线
 
 本项目是制造商侧 eCoC（Electronic Certificate of Conformity）/ IVI2 工作台原型，用于批量导入 CoC 文件、生成 IVI2 XML 草稿、基于车型 COC 校验范本比对 CoC 内容、编排 InfoCert XAdES 签章和 RDW/KBA/VCA 上传流程。
 

@@ -1,4 +1,4 @@
-# eCoC / IVI2 Workbench Architecture
+# eCoC 基线架构
 
 更新时间：2026-07-23
 
